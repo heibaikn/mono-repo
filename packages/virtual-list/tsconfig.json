@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "jsx": "preserve",
+    "lib": [ "ES2019","dom","ESNext"],
+    "declaration": true,
+    "baseUrl": ".",
+    "declarationDir": "./types",
+    "strict": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types/", "./typeing"],
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "include": ["./src/","index.ts","build", "package.json"]
+}

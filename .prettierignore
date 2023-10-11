@@ -1,0 +1,20 @@
+**/dist/*
+**/public/*
+**/node_modules/*
+docs/*
+config/node/*
+# packages/gmaster
+# packages/gaming-services
+packages/marketplace
+packages/cloud-build
+packages/components
+packages/common
+
+# !docs/src
+# /*
+# !/packages/**/src/
+**/*.svg
+**/*.sh
+**/*.json
+**/*.yaml
+# .*.*

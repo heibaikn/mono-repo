@@ -1,0 +1,11 @@
+<template>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 2v11h3v9l7-12h-4l4-8H7z" style="fill: #ffab00" />
+  </svg>
+</template>
+<script lang="ts">
+import type { DefineComponent } from 'vue'
+export default {
+  name: 'Vite',
+} as DefineComponent
+</script>
