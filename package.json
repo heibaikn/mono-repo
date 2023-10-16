@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "a:dev":"concurrently \"pnpm -C www/main dev\" \"pnpm -C www/design dev\" ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
