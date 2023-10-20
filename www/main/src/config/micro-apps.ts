@@ -6,6 +6,12 @@ const apps = [
     container: '#subapp',
     activeRule: '/design',
   },
+  {
+    name: 'react',
+    entry: GmConfig.getHostBase(Project.React, import.meta.env.MODE),
+    container: '#subapp',
+    activeRule: '/react',
+  },
 ]
 
 export default apps 

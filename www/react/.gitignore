@@ -1,4 +1,3 @@
-
 # Logs
 logs
 *.log
@@ -9,10 +8,9 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+dist
 dist-ssr
 *.local
-
-packages/main/*
 
 # Editor directories and files
 .vscode/*
@@ -24,5 +22,3 @@ packages/main/*
 *.njsproj
 *.sln
 *.sw?
-
-dist/*

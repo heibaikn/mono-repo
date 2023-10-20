@@ -11,7 +11,7 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-console.log(microApps,"microApps");
+console.log(microApps, "microApps");
 registerMicroApps(microApps,
   {
     beforeLoad: (app) => {
@@ -34,12 +34,22 @@ registerMicroApps(microApps,
       console.log('beforeUnmount', app.name)
       return Promise.resolve()
     },
-    // beforeMount: [(app) => console.log('before mount', app.name)],
   },
 )
 const startQianKun = () => {
   console.log('Vue应用程序成功挂载到DOM元素#app上了！');
-  // setDefaultMountApp('/vue3');
+
+  const { onGlobalStateChange, setGlobalState } = initGlobalState({
+    name: 'main',
+  });
+  // setGlobalState({
+  //   ignore: 'master',
+  //   user: {
+  //     name: 'master',
+  //   },
+  // });
+  onGlobalStateChange((value, prev) => console.log('[onGlobalStateChange - master]:', value, prev));
+
   start({
     prefetch: false,
     sandbox: {

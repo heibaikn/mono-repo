@@ -2,7 +2,7 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { createRouter, createWebHashHistory,createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import routes from './router'
 import { renderWithQiankun, qiankunWindow } from "vite-plugin-qiankun/dist/helper";
@@ -31,10 +31,25 @@ function render(props: any) {
     : document.getElementById("app")
   instance.mount(c)
 }
+function storeTest(props: any) {
+  // props.onGlobalStateChange &&
+  //   props.onGlobalStateChange(
+  //     (value, prev) => console.log(`[onGlobalStateChange - ${props.name}]:`, value, prev),
+  //     true,
+  //   );
+  props.setGlobalState &&
+    props.setGlobalState({
+      ignore: props.name,
+      user: {
+        name: props.name,
+      },
+    });
+}
 
 renderWithQiankun({
   mount(props) {
     console.log("vue3sub mount");
+    storeTest(props);
     render(props);
   },
   bootstrap() {
