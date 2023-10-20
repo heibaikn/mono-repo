@@ -15,6 +15,10 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
+  base: '/',
+  build: {
+    outDir: '../../dist/main' // 设置打包输出目录
+  },
   server: {
     host: '0.0.0.0',
     port: 7001,

@@ -2,7 +2,7 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
+import microApps from './config/micro-apps';
 import App from './App.vue'
 import router from './router'
 import { registerMicroApps, start, initGlobalState, setDefaultMountApp } from 'qiankun';
@@ -11,15 +11,8 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-
-registerMicroApps([
-  {
-    name: 'design',
-    entry: '//localhost:7202',
-    container: '#subapp',
-    activeRule: '/design',
-  },
-],
+console.log(microApps,"microApps");
+registerMicroApps(microApps,
   {
     beforeLoad: (app) => {
       console.log('before load', app.name)
@@ -46,7 +39,7 @@ registerMicroApps([
 )
 const startQianKun = () => {
   console.log('Vue应用程序成功挂载到DOM元素#app上了！');
-  setDefaultMountApp('/vue3');
+  // setDefaultMountApp('/vue3');
   start({
     prefetch: false,
     sandbox: {
@@ -55,9 +48,14 @@ const startQianKun = () => {
     }
   })
 }
-await app.mount('#app')
+const init = async () => {
+  await app.mount('#app')
+  startQianKun()
+}
+init()
 
-startQianKun()
+
+
 
 
 

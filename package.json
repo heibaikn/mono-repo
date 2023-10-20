@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "a:dev":"concurrently \"pnpm -C www/main dev\" \"pnpm -C www/design dev\" ",
+    "a:build":"concurrently \"pnpm -C www/main build\" \"pnpm -C www/design build\" ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

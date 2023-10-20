@@ -22,5 +22,9 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 7202,
     cors: true
-  }
+  },
+  base: '/child/design',
+  build: {
+    outDir: '../../dist/child/design' // 设置打包输出目录
+  },
 })

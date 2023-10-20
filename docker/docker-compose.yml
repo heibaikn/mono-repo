@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - "7002:7002"
+    volumes:
+      -  ../dist:/home/www/dist
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+  # mono:
+  #   build:
+  #     context: ../
+  #     dockerfile: ./docker/Dockerfile
+  #     args:
+  #       DOCKER_BUILD_ARGS: --progress=plain
+  #   image: example/mono:latest
+  #   restart: always
+  #   ports:
+  #     - "7002:7002"
+   

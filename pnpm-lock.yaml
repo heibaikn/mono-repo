@@ -22,6 +22,8 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2
 
+  config: {}
+
   packages/editor:
     dependencies:
       '@monaco-editor/loader':
@@ -377,6 +379,9 @@ importers:
 
   www/main:
     dependencies:
+      '@mono/config':
+        specifier: workspace:^
+        version: link:../../config
       pinia:
         specifier: ^2.1.6
         version: 2.1.6(typescript@5.2.2)(vue@3.3.4)
