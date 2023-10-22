@@ -10,7 +10,11 @@ export const useGlobalStore = defineStore('global', () => {
     userInfo: {},
     markup: ""
   }) as any
-
+  const testVal = ref("")
+  const isMain = computed(() => {
+    console.log(globalState.env, globalState.env == 'main');
+    return globalState.env == 'main'
+  })
   const onGlobalChange = onGlobalStateChange
   const changeData = (key: string, value: any) => {
     if (typeof globalState[key] === "object") {
@@ -21,5 +25,5 @@ export const useGlobalStore = defineStore('global', () => {
     setGlobalState({ [key]: value })
   }
 
-  return { globalState, changeData, onGlobalChange }
+  return { globalState, changeData, onGlobalChange, isMain, testVal }
 })

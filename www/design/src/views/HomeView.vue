@@ -4,6 +4,6 @@ import TheWelcome from '../components/TheWelcome.vue'
 
 <template>
   <main>
-    form main
+    this's home page in micro app : design
   </main>
 </template>

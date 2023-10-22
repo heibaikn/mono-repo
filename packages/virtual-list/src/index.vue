@@ -237,7 +237,8 @@ defineExpose({
 .vue3-virtual-list-container {
   width: 100%;
   height: 100%;
-  min-width: 100px;
+  height: 100vh;
+  min-width: 1000px;
   min-height: 100px;
   background-color: rgb(51, 51, 51);
   color: #f5f5f5;

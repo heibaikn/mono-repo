@@ -12,6 +12,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@mono/config": "workspace:^",
+    "@mono/virtual-list": "workspace:^",
     "pinia": "^2.1.6",
     "vite-plugin-qiankun": "^1.0.15",
     "vue": "^3.3.4",

@@ -7,10 +7,9 @@ import HelloWorld from './components/HelloWorld.vue'
   <header>
     <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/virtual-list">虚拟列表</RouterLink>
       </nav>
   </header>
-
   <RouterView />
 </template>
 

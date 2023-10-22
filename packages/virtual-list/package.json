@@ -1,12 +1,12 @@
 {
-  "name": "@gtc/virtual-list",
+  "name": "@mono/virtual-list",
   "version": "1.0.0",
   "description": "",
-  "type":"module",
+  "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "dev":"vite glup start --watch path",
-    "build":"vite" 
+    "dev": "vite glup start --watch path",
+    "build": "vite"
   },
   "devDependencies": {
     "vue": "*",
@@ -14,5 +14,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "ansi-to-html": "^0.7.2"
+  }
 }

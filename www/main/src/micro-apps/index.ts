@@ -5,7 +5,7 @@ import appsConfig from "./config";
 const startQianKun = () => {
   console.log('Vue应用程序成功挂载到DOM元素#app上了！');
   console.log("microConfig", appsConfig);
-  const { globalState, changeData, onGlobalChange } = useGlobalStore()
+  const {  changeData, onGlobalChange } = useGlobalStore()
   appsConfig.map(item => {
     item.props = {
       useGlobalStore
@@ -16,12 +16,10 @@ const startQianKun = () => {
     {
       beforeLoad: (app) => {
         console.log('before load', app.name)
-
         return Promise.resolve()
       },
       beforeMount: (app) => {
         console.log('beforeMount', app.name)
-
         return Promise.resolve()
       },
       afterMount: (app) => {
@@ -42,7 +40,7 @@ const startQianKun = () => {
     },
   )
   onGlobalChange((value, prev) => {
-    console.log('[onGlobalStateChange - master]:', value.markup, '\n prev:', prev.markup)
+    console.log('[onGlobalStateChange - master]:', value, '\n prev:', prev)
   
   });
   changeData('env', 'main')

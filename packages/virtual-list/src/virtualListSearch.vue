@@ -1,10 +1,10 @@
 <template>
   <div class="search" v-show="_self.show">
     <div class="ctrl-wrap" v-if="options.searchIgnoreCase">
-      <div class="opear" :class="_self.ignoreCase ? '' : 'case-sensitive'"
+      <div class="opear svg-icon" :class="_self.ignoreCase ? '' : 'case-sensitive'"
            @click="ignoreCase">
-        <svg-icon name="ignore-case">
-        </svg-icon>
+        <svg-ignore></svg-ignore>
+
       </div>
     </div>
     <div class="input-wrap">
@@ -18,13 +18,19 @@
     </div>
     <div class="right">
       <span @click="prev" title="上一个(Shift+Enter)">
-        <svg-icon name="arrow-upward"></svg-icon>
+        <div class="svg-icon">
+          <svg-up></svg-up>
+        </div>
       </span>
       <span @click="next" title="下一个(Enter)">
-        <svg-icon name="arrow-downward"></svg-icon>
+        <div class="svg-icon">
+          <svg-down></svg-down>
+        </div>
       </span>
       <span @click="close" title="关闭(Escape)">
-        <svg-icon name="search-close"></svg-icon>
+        <div class="svg-icon">
+          <svg-close></svg-close>
+        </div>
       </span>
     </div>
   </div>
@@ -34,7 +40,12 @@
 import { reactive, watch, ref } from 'vue';
 import vSearch from './directiveSearch';
 import { NOT_IGNORE_CASE_GLAGS, IGNORE_CASE_FLAGS } from './constant';
+import SvgClose from './icon/close.vue';
+import SvgDown from './icon/arrow-downward.vue';
+import SvgUp from './icon/arrow-upward.vue';
+import SvgIgnore from './icon/ignore-case.vue';
 const emit = defineEmits(['prev', 'next', 'close', 'scrollTo', 'searchWord', 'ignoreCase'])
+
 const props = defineProps({
   data: {
     type: Array,
@@ -57,10 +68,11 @@ const _self = reactive({
   ignoreCase: true
 })
 const checkKeyboardKey = (str: string, e: any) => {
+  console.log(str, "~~~~~", e);
   switch (str) {
     case "ctrlF":
       // return e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70) || (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70) || (e.metaKey && e.keyCode === 70))
-      return e.ctrlKey && e.key === 'f'
+      return (e.ctrlKey || e.metaKey) && e.key === 'f'
     case "Esc":
       return e.key === 'Escape'
     case "enter":
@@ -68,7 +80,7 @@ const checkKeyboardKey = (str: string, e: any) => {
     case "shiftEnter":
       return e.shiftKey && e.key === 'Enter'
     case "ctrlA":
-      return e.ctrlKey && e.key === 'a'
+      return (e.ctrlKey || e.metaKey) && e.key === 'a'
   }
 }
 const handleKeydown = (e: KeyboardEvent) => {
@@ -164,7 +176,20 @@ watch(() => _self.word, () => {
   padding: 5px 5px 5px 5px;
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.22), 0 0 3px 0 rgba(0, 0, 0, 0.04);
 
+  .svg-icon {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+    font-size: 14px;
+    vertical-align: middle;
 
+    :deep() {
+      svg {
+        width: 1em;
+        height: 1em;
+      }
+    }
+  }
 
   .ctrl-wrap {
     width: 24px;
@@ -175,11 +200,10 @@ watch(() => _self.word, () => {
       width: 20px;
       height: 24px;
       line-height: 24px;
-      top: 0px;
+      top: 5px;
       padding: 0px 3px;
       border-radius: 4px;
       cursor: pointer;
-
       &:hover {
         background-color: rgba(255, 255, 255, 0.1);
       }
@@ -210,7 +234,7 @@ watch(() => _self.word, () => {
     .ret-info {
       position: absolute;
       right: 5px;
-      top: 0px;
+      top: 5px;
       padding: 0px 8px;
       background-color: rgb(105, 105, 105);
     }
@@ -234,6 +258,17 @@ watch(() => _self.word, () => {
     margin-left: 12px;
 
     span {
+      // position: relative;
+      // width: 20px;
+      // height: 24px;
+      // line-height: 24px;
+      // top: 5px;
+      // padding: 0px 3px;
+      // border-radius: 4px;
+      // cursor: pointer;
+      // &:hover {
+      //   background-color: rgba(255, 255, 255, 0.1);
+      // }
       cursor: pointer;
       padding: 3px;
       margin-right: 4px;
@@ -243,10 +278,6 @@ watch(() => _self.word, () => {
       &:hover {
         background-color: rgba(255, 255, 255, 0.1);
       }
-    }
-
-    .svg-icon {
-      font-size: 18px;
     }
   }
 

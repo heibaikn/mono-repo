@@ -16,22 +16,28 @@
         </li>
       </ul>
     </div>
-    <div id="subapp"></div>
-    <div class="main">
+    <div class="main" :class="globalState.env !== 'main' && 'hidden'">
       <RouterView />
     </div>
+    <div id="subapp" :class="globalState.env === 'main' && 'hidden'"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {reactive} from 'vue';
+import { reactive } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
+
 import HelloWorld from './components/HelloWorld.vue'
+import { useGlobalStore } from '@/stores/global';
 
+const { isMain, globalState, changeData } = useGlobalStore()
+console.log(isMain, "isMain", globalState);
 const self = reactive({
-  
-})
 
+})
+setTimeout(() => {
+  changeData('markup', 11)
+}, 3000)
 
 </script>
 
@@ -39,9 +45,19 @@ const self = reactive({
 .wrap {
   display: flex;
   padding: 16px;
+  height: 100vh;
 
   .sidebar {
     width: 200px;
+  }
+
+  .main,
+  #subapp {
+    flex: 1;
+  }
+
+  .hidden {
+    display: none;
   }
 }
 </style>
