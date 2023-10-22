@@ -1,10 +1,12 @@
 import GmConfig, { Project } from '@mono/config';
-const apps = [
+import type { RegistrableApp } from 'qiankun';
+const appsConfig = [
   {
     name: 'design',
     entry: GmConfig.getHostBase(Project.Design, import.meta.env.MODE),
     container: '#subapp',
     activeRule: '/design',
+    
   },
   {
     name: 'react',
@@ -12,6 +14,6 @@ const apps = [
     container: '#subapp',
     activeRule: '/react',
   },
-]
+] as any[]
 
-export default apps 
+export default appsConfig 

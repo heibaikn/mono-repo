@@ -1,12 +1,26 @@
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
+import { initGlobalState } from 'qiankun';
+import { merge } from 'lodash';
+const { onGlobalStateChange, setGlobalState } = initGlobalState({});
 
-export const useCounterStore = defineStore('global', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+export const useGlobalStore = defineStore('global', () => {
+  const globalState = reactive({
+    env: '',
+    userInfo: {},
+    markup: ""
+  }) as any
+
+  const onGlobalChange = onGlobalStateChange
+  const changeData = (key: string, value: any) => {
+    let realValue
+    if (globalState[key]) {
+      globalState[key] = merge(globalState[key], value)
+    } else {
+      globalState[key] = value
+    }
+    setGlobalState({ [key]: globalState[key] })
   }
 
-  return { count, doubleCount, increment }
+  return { globalState, changeData, onGlobalChange }
 })

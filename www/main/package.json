@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@mono/config": "workspace:^",
+    "lodash": "^4.17.21",
     "pinia": "^2.1.6",
     "qiankun": "^2.10.13",
     "vue": "^3.3.4",

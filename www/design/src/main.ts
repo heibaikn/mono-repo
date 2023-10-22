@@ -37,13 +37,13 @@ function storeTest(props: any) {
   //     (value, prev) => console.log(`[onGlobalStateChange - ${props.name}]:`, value, prev),
   //     true,
   //   );
-  props.setGlobalState &&
-    props.setGlobalState({
-      ignore: props.name,
-      user: {
-        name: props.name,
-      },
-    });
+  const { globalState, changeData } = props.useGlobalStore()
+  changeData('markup', 123)
+  changeData('userInfo', { name: 'kn' })
+  setTimeout(() => {
+    console.log("test start", props);
+    console.log(globalState);
+  }, 100)
 }
 
 renderWithQiankun({
