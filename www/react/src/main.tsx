@@ -23,9 +23,25 @@ function render(props: any) {
   );
 }
 
+function storeTest(props: any) {
+  // props.onGlobalStateChange &&
+  //   props.onGlobalStateChange(
+  //     (value, prev) => console.log(`[onGlobalStateChange - ${props.name}]:`, value, prev),
+  //     true,
+  //   );
+  const { globalState, changeData } = props.useGlobalStore()
+  changeData('markup', 22)
+  changeData('userInfo', { name: 'kn1234' })
+  setTimeout(() => {
+    console.log("test start", props);
+    console.log(globalState);
+  }, 100)
+}
+
 renderWithQiankun({
   mount(props) {
     console.log("react18 mount");
+    storeTest(props);
     render(props);
   },
   bootstrap() {

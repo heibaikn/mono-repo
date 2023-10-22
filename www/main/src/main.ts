@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
-
+// import { PiniaDevtools } from '@pinia/devtools'
 import startQianKun from './micro-apps'
 
 const app = createApp(App)

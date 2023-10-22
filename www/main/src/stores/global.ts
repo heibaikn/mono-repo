@@ -13,13 +13,12 @@ export const useGlobalStore = defineStore('global', () => {
 
   const onGlobalChange = onGlobalStateChange
   const changeData = (key: string, value: any) => {
-    let realValue
-    if (globalState[key]) {
+    if (typeof globalState[key] === "object") {
       globalState[key] = merge(globalState[key], value)
     } else {
       globalState[key] = value
     }
-    setGlobalState({ [key]: globalState[key] })
+    setGlobalState({ [key]: value })
   }
 
   return { globalState, changeData, onGlobalChange }

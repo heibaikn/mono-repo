@@ -25,9 +25,7 @@ const startQianKun = () => {
         return Promise.resolve()
       },
       afterMount: (app) => {
-
-        // changeData('env', app.name)
-        console.log(globalState);
+        changeData('env', app.name)
         console.log('afterMount', app.name)
         return Promise.resolve()
       },
@@ -44,19 +42,8 @@ const startQianKun = () => {
     },
   )
   onGlobalChange((value, prev) => {
-    console.log('[onGlobalStateChange - master]:', value, '\n prev:', prev)
-    console.log(value, prev);
-    // for (const key in value) {
-    //   if (value[key] !== prev[key]) {
-    //     changeData(key, value[key]);
-    //   }
-    // }
-    // Object.entries(value).forEach((k, v) => {
-    //   console.log(k,v);
-    //   // if (prev[k] !== v) {
-    //   //   
-    //   // }
-    // })
+    console.log('[onGlobalStateChange - master]:', value.markup, '\n prev:', prev.markup)
+  
   });
   changeData('env', 'main')
   changeData('userInfo', {
