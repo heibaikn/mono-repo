@@ -1,16 +1,12 @@
 import './assets/main.css'
-
+import 'element-plus/dist/index.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import ElementPlus from 'element-plus'
+import { renderWithQiankun, qiankunWindow } from "vite-plugin-qiankun/dist/helper";
 import App from './App.vue'
 import routes from './router'
-import { renderWithQiankun, qiankunWindow } from "vite-plugin-qiankun/dist/helper";
-
-// const app = createApp(App)
-
-// app.mount('#app')
-
 
 let instance: any;
 let router: any;
@@ -26,24 +22,19 @@ function render(props: any) {
     routes,
   });
   instance.use(router)
+  instance.use(ElementPlus)
   const c = container
     ? container.querySelector("#app")
     : document.getElementById("app")
   instance.mount(c)
 }
 function storeTest(props: any) {
-  // props.onGlobalStateChange &&
-  //   props.onGlobalStateChange(
-  //     (value, prev) => console.log(`[onGlobalStateChange - ${props.name}]:`, value, prev),
-  //     true,
-  //   );
   const { globalState, changeData } = props.useGlobalStore()
-  changeData('markup', 123)
-  changeData('userInfo', { name: 'kn' })
-  setTimeout(() => {
-    console.log("test start", props);
-    console.log(globalState);
-  }, 100)
+  changeData('markup', 1)
+  // changeData('userInfo', { name: 'kn' })
+  // setTimeout(() => {
+    // console.log(globalState);
+  // }, 100)
 }
 
 renderWithQiankun({

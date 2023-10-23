@@ -1,4 +1,4 @@
-class GtcUtils {
+class MonoUtils {
   throttle(fn: Function, timeout: number) {
     let timer: number | NodeJS.Timeout = 0;
     return (...args: any) => {
@@ -17,6 +17,9 @@ class GtcUtils {
       timer = setTimeout(() => { fn.apply(this, args); }, timeout);
     };
   }
+  random(n = 4){
+    return new Array(n).fill(0).map(v => (Math.ceil(Math.random() * 36)).toString(36)).join()
+  }
 }
 
-export default new GtcUtils()
+export default new MonoUtils()

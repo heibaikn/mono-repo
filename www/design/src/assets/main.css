@@ -1,5 +1,11 @@
 @import './base.css';
 
+.micro-app-design{
+  display: flex;
+  flex-direction: column;
+  /* height: auto; */
+  height: 100%;
+}
 
 
 /* 通用样式 */

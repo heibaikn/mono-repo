@@ -1,0 +1,142 @@
+<template>
+  <div class="flow-design-container">
+    <el-scrollbar class="flow-design-scrollbar">
+      <section class="flow-design">
+        <div class="zoom-btns">
+          <el-button
+                     :disabled="scale <= scaleRange.min"
+                     @click="clickScale(ScaleType.Minus)"
+                     :icon="Minus"></el-button>
+          <span class="scale-text">{{ scale }}%</span>
+          <el-button
+                     :disabled="scale >= scaleRange.max"
+                     @click="clickScale(ScaleType.Plus)"
+                     :icon="Plus"></el-button>
+        </div>
+        <div class="box-scale-box vue-flow-wrap">
+          <VueFlow
+                   v-if="draft.flow"
+                   ref="flowRef"
+                   :nodes="draft.flow.nodes"
+                   @scaleChange="scaleChange"
+                   @flowEvent="flowEvent"></VueFlow>
+        </div>
+      </section>
+    </el-scrollbar>
+  </div>
+
+</template>
+<script lang="ts" setup>
+import { ElNotification, ElMessage } from 'element-plus'
+import { useRoute } from 'vue-router'
+import VueFlow from './components/vue-flow.vue'
+import { ref, reactive, computed, provide, onMounted, nextTick } from 'vue'
+import { Minus, Plus } from '@element-plus/icons-vue'
+import _ from 'lodash'
+import flowUtils from './components/vue-flow-utils'
+// import { ViewParams } from '@/api/model/viewModel'
+// import { VisualEditorBlockData } from '@/visual-editor/visual-editor.utils'
+// import { FormTypeEnum } from '@/enums/formTypeEnum'
+import { EventName, type FlowEvent, type FlowItem, type LineEvent, NodeType } from './flow'
+import { NodeStatus, NodeTypeEnum, ScaleType } from './flow';
+const route = useRoute()
+const flowRef = ref()
+const scale = ref<any>(100)
+// const props = defineProps(['transmitDraft'])
+const transmitDraft = reactive({
+
+})
+const scaleRange = reactive<Record<string, number>>({
+  min: 10,
+  max: 100
+})
+const draft = reactive({
+  flow: {
+    nodes: [
+      {
+        id: 'temp0',
+        name: '申请人',
+        userInfo: { user: '用户1' },
+        type: NodeTypeEnum.APPLICANT,
+        status: NodeStatus.Pending,
+        audit: {
+          field_permissions: {},
+          table_permissions: {}
+        }
+      },
+      {
+        id: 'temp2',
+        name: '结束',
+        type: NodeTypeEnum.END,
+        status: NodeStatus.Pending
+      }
+    ]
+  },
+  value: ""
+})
+const self = reactive({
+  drawerVisible: {
+    visible: false
+  },
+  activeNode: {} as FlowItem
+})
+
+const flowEvent = (evt: FlowEvent) => {
+  if (
+    [
+      EventName.Add,
+      EventName.Detele,
+      EventName.Replace,
+      EventName.Copy,
+      EventName.ModifyNode,
+      EventName.ModifyDrawer
+    ].includes(evt.event)
+  ) {
+    updateNode(evt)
+  } else {
+    self.activeNode = evt.data
+    setTimeout(() => {
+      self.drawerVisible.visible = true
+    }, 50)
+  }
+}
+const updateNode = async (evt: FlowEvent) => {
+
+  // 模拟api 请求
+  setTimeout(() => {
+    draft.flow.nodes = evt.data
+  }, 500)
+}
+
+const clickScale = async (type: ScaleType) => {
+  if (type === ScaleType.Plus) {
+    scale.value += 10
+  } else {
+    scale.value -= 10
+  }
+  if (scale.value < scaleRange.min) {
+    scale.value = 10
+  }
+  if (scale.value > scaleRange.max) {
+    scale.value = 100
+  }
+  await nextTick()
+  flowRef.value.setZoom(scale.value)
+}
+const scaleChange = (num: number) => {
+  scale.value = num
+}
+</script>
+<style lang="scss">
+@import '@vue-flow/core/dist/style.css';
+@import '@vue-flow/core/dist/theme-default.css';
+
+@import '@vue-flow/controls/dist/style.css';
+@import '@vue-flow/minimap/dist/style.css';
+@import './style.scss';
+
+.vue-flow-wrap {
+  width: 100% !important;
+  height: calc(100vh - 100px) !important;
+}
+</style>

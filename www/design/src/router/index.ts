@@ -10,10 +10,12 @@ export default [
   {
     path: '/virtual-list',
     name: 'virtualList',
-    // route level code-splitting
-    // this generates a separate chunk (About.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import('../views/virtual-list/index.vue')
+  },
+  {
+    path: '/workflow',
+    name: 'workflow',
+    component: () => import('../views/workflow/index.vue')
   },
   {
     path: '/about',

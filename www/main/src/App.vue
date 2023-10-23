@@ -56,6 +56,16 @@ setTimeout(() => {
     flex: 1;
   }
 
+  :deep(#subapp) {
+    >div {
+      height: 100%;
+      // position: relative;
+      // top: 0;
+      // bottom: 0;
+    }
+  }
+
+
   .hidden {
     display: none;
   }

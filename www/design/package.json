@@ -13,10 +13,17 @@
   },
   "dependencies": {
     "@mono/config": "workspace:^",
+    "@mono/helper": "workspace:^",
     "@mono/virtual-list": "workspace:^",
+    "@vue-flow/background": "^1.2.0",
+    "@vue-flow/controls": "^1.1.0",
+    "@vue-flow/core": "^1.23.0",
+    "@vue-flow/minimap": "^1.2.0",
+    "element-plus": "^2.4.1",
     "pinia": "^2.1.6",
     "vite-plugin-qiankun": "^1.0.15",
     "vue": "^3.3.4",
+    "vue-flow": "^0.3.0",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {

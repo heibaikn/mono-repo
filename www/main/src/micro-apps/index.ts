@@ -40,7 +40,7 @@ const startQianKun = () => {
     },
   )
   onGlobalChange((value, prev) => {
-    console.log('[onGlobalStateChange - master]:', value, '\n prev:', prev)
+    // console.log('[onGlobalStateChange - master]:', value, '\n prev:', prev)
   
   });
   changeData('env', 'main')
