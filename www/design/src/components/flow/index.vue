@@ -1,28 +1,27 @@
 <template>
   <div class="flow-design-container">
-    <el-scrollbar class="flow-design-scrollbar">
-      <section class="flow-design">
-        <div class="zoom-btns">
-          <el-button
-                     :disabled="scale <= scaleRange.min"
-                     @click="clickScale(ScaleType.Minus)"
-                     :icon="Minus"></el-button>
-          <span class="scale-text">{{ scale }}%</span>
-          <el-button
-                     :disabled="scale >= scaleRange.max"
-                     @click="clickScale(ScaleType.Plus)"
-                     :icon="Plus"></el-button>
-        </div>
-        <div class="box-scale-box vue-flow-wrap">
-          <VueFlow
-                   v-if="draft.flow"
-                   ref="flowRef"
-                   :nodes="draft.flow.nodes"
-                   @scaleChange="scaleChange"
-                   @flowEvent="flowEvent"></VueFlow>
-        </div>
-      </section>
-    </el-scrollbar>
+    <div class="zoom-btns">
+      <el-button
+                 :disabled="scale <= scaleRange.min"
+                 @click="clickScale(ScaleType.Minus)"
+                 :icon="Minus"></el-button>
+      <span class="scale-text">{{ scale }}%</span>
+      <el-button
+                 :disabled="scale >= scaleRange.max"
+                 @click="clickScale(ScaleType.Plus)"
+                 :icon="Plus"></el-button>
+      <el-button @click="exportPng">导出</el-button>
+    </div>
+    <section class="flow-design">
+      <div class="box-scale-box vue-flow-wrap" ref="wrapRef">
+        <VueFlow
+                 v-if="draft.flow"
+                 ref="flowRef"
+                 :nodes="draft.flow.nodes"
+                 @scaleChange="scaleChange"
+                 @flowEvent="flowEvent"></VueFlow>
+      </div>
+    </section>
   </div>
 
 </template>
@@ -33,19 +32,13 @@ import VueFlow from './components/vue-flow.vue'
 import { ref, reactive, computed, provide, onMounted, nextTick } from 'vue'
 import { Minus, Plus } from '@element-plus/icons-vue'
 import _ from 'lodash'
-import flowUtils from './components/vue-flow-utils'
-// import { ViewParams } from '@/api/model/viewModel'
-// import { VisualEditorBlockData } from '@/visual-editor/visual-editor.utils'
-// import { FormTypeEnum } from '@/enums/formTypeEnum'
+import html2canvas from 'html2canvas';
 import { EventName, type FlowEvent, type FlowItem, type LineEvent, NodeType } from './flow'
 import { NodeStatus, NodeTypeEnum, ScaleType } from './flow';
 const route = useRoute()
 const flowRef = ref()
+const wrapRef = ref()
 const scale = ref<any>(100)
-// const props = defineProps(['transmitDraft'])
-const transmitDraft = reactive({
-
-})
 const scaleRange = reactive<Record<string, number>>({
   min: 10,
   max: 100
@@ -81,6 +74,22 @@ const self = reactive({
   activeNode: {} as FlowItem
 })
 
+const exportPng = async () => {
+  const el = flowRef.value.getEl()
+  const canvas = await html2canvas(el)
+  canvas.toBlob((blob) => {
+    // 创建一个临时的URL对象
+    const url = URL.createObjectURL(blob!);
+    // 创建一个虚拟的下载链接
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'screenshot.png'; // 可以指定下载的文件名
+    // 触发下载链接的点击事件
+    a.click();
+    // 释放URL对象，防止内存泄漏
+    URL.revokeObjectURL(url);
+  })
+}
 const flowEvent = (evt: FlowEvent) => {
   if (
     [
@@ -135,8 +144,7 @@ const scaleChange = (num: number) => {
 @import '@vue-flow/minimap/dist/style.css';
 @import './style.scss';
 
-.vue-flow-wrap {
-  width: 100% !important;
-  height: calc(100vh - 100px) !important;
-}
+// .vue-flow-wrap {
+
+// }
 </style>

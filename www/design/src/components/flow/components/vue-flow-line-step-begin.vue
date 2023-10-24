@@ -11,7 +11,7 @@ import {
 } from '@vue-flow/core'
 import { computed } from 'vue'
 import addNode from '@/components/flow/components/vue-flow-add.vue'
-import { PropsLine, LineType, EventName, NodeType, FlowItem } from '../flow'
+import { PropsLine, LineType, EventName, NodeType, type FlowItem } from '../flow'
 const props = defineProps(PropsLine)
 const emits = defineEmits(['lineEvent'])
 const path = computed(() => getSmoothStepPath(props))
@@ -25,11 +25,14 @@ const click = (node: FlowItem) => {
     data: [targetId, node]
   })
 }
+const random = (n = 6) => {
+  return new Array(n).fill(0).map(v => (Math.ceil(Math.random() * 36)).toString(36)).join('')
+}
 const branchItem = () => {
   return {
     nodes: [
       {
-        id: '',
+        id: random(),
         name: '未命名筛选节点',
         type: NodeType.Condition
       }
@@ -57,25 +60,26 @@ export default {
 
 <template>
   <!-- You can use the `BaseEdge` component to create your own custom edge more easily -->
-  <SmoothStepEdge type="step" :id="id" :style="style" :path="path[0]" :marker-end="markerEnd" />
+  <SmoothStepEdge type="step" :id="id" :style="style" :path="path[0]"
+                  :marker-end="markerEnd" />
   <!-- Use the `EdgeLabelRenderer` to escape the SVG world of edges and render your own custom label in a `<div>` ctx -->
   <EdgeLabelRenderer>
     <div
-      :style="{
-        pointerEvents: 'all',
-        position: 'absolute',
-        transform: `translate(-50%, 20%) translate(${props.sourceX}px,${props.sourceY}px)`
-      }"
-      class="nodrag nopan">
+         :style="{
+           pointerEvents: 'all',
+           position: 'absolute',
+           transform: `translate(-50%, 20%) translate(${props.sourceX}px,${props.sourceY}px)`
+         }"
+         class="nodrag nopan">
       <addNode @add-node="click" :branch="false"></addNode>
     </div>
     <div
-      :style="{
-        pointerEvents: 'all',
-        position: 'absolute',
-        transform: `translate(-50%, 180%) translate(${props.sourceX}px,${props.sourceY}px)`
-      }"
-      class="nodrag nopan">
+         :style="{
+           pointerEvents: 'all',
+           position: 'absolute',
+           transform: `translate(-50%, 180%) translate(${props.sourceX}px,${props.sourceY}px)`
+         }"
+         class="nodrag nopan">
       <button class="edge-button" @click="addBranch()">+</button>
     </div>
   </EdgeLabelRenderer>
@@ -106,6 +110,5 @@ export default {
   }
 }
 
-.branch-button {
-}
+.branch-button {}
 </style>

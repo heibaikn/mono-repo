@@ -39,6 +39,7 @@
 
 <script lang="ts" setup>
 import { type Elements, VueFlow, isEdge, useVueFlow } from '@vue-flow/core'
+// import { Controls } from '@vue-flow/controls'
 import { onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import NodeStart from './vue-flow-node-applicant.vue'
 import NodeWebhook from './vue-flow-node-webhook.vue'
@@ -88,6 +89,7 @@ const nodeEvent = (evt: FlowEvent) => {
   emits('flowEvent', evt)
 }
 const lineEvent = (evt: LineEvent) => {
+  console.log(self.flowTools);
   let ret = [] as any
   if (evt.event === EventName.Replace) {
     ret = self.flowTools.replaceNode(evt.data[0], evt.data[1])
@@ -121,6 +123,14 @@ const paneScroll = debounceWheel((e: WheelEvent) => {
   let pane = getTransform()
   emits('scaleChange', Math.floor((pane.zoom / maxZoom) * 100))
 }, 300)
+const getEl = () => {
+  const el = flowRef.value.$el.querySelector(".vue-flow__transformationpane") || flowRef.value.$el
+  const flowInfo = self.flowTools.getFlowSize()
+  el.style.width = `${flowInfo.w}px`
+  el.style.height = `${flowInfo.h}px`
+  console.log(el, flowInfo);
+  return el
+}
 
 onMounted(() => {
   init()
@@ -141,7 +151,10 @@ const setZoom = (percent: number) => {
   // console.log(maxZoom * percent / 100);
   zoomTo((maxZoom * percent) / 100)
 }
-defineExpose({ setZoom, setNode: nodeEvent })
+defineExpose({ setZoom, setNode: nodeEvent, getEl })
+// return {
+//   el: flowRef
+// }
 </script>
 <style lang="scss">
 .gmaster-flow-setting {

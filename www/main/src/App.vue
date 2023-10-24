@@ -44,7 +44,7 @@ setTimeout(() => {
 <style scoped lang="scss">
 .wrap {
   display: flex;
-  padding: 16px;
+  padding: 16px 0 16px 16px;
   height: 100vh;
 
   .sidebar {

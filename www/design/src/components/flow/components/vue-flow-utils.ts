@@ -143,6 +143,7 @@ class Utils {
       })
     }
   }
+
   calcCenter(items: number[]): number {
     let sum = 0
     let len = Math.floor((items.length + 1) / 2)
@@ -344,6 +345,18 @@ class Utils {
       parentNode.branches.splice(sourceNode.branchIndex, 1)
     }
     return this.source
+  }
+  getFlowSize() {
+    let maxLevel = [1, 1]
+    this.nodeMap.forEach(item => {
+      let [x, y] = maxLevel
+      maxLevel[0] = item.position.x > x ? item.position.x : x;
+      maxLevel[1] = item.position.y > y ? item.position.y : y;
+    })
+    return {
+      w: (maxLevel[0] + 2) * this.xGap,
+      h: (maxLevel[1] + 1) * this.yGap,
+    }
   }
   init(source: FlowItem[]) {
     this.reset()
