@@ -7,8 +7,7 @@ async function run() {
   // myToken: ${{ secrets.GITHUB_TOKEN }}
   // https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token#about-the-github_token-secret
   const myToken = core.getInput('GITHUB_TOKEN');
-
-  const octokit = github.getOctokit(myToken)
+  console.log(myToken);
 
   // You can also pass in additional options as a second parameter to getOctokit
   // const octokit = github.getOctokit(myToken, {userAgent: "MyActionVersion1"});
@@ -26,8 +25,10 @@ async function run() {
   const body = core.getInput('body', { required: false }) || ''
   const draft = core.getInput('draft', { required: false }) === 'true'
   const prerelease = /\d-[a-z]/.test(tag)
-
+  
   const commitSha = process.env.GITHUB_SHA;
+  
+  const octokit = github.getOctokit(myToken)
 
   const tagResponse = await octokit.rest.git.createTag({
     owner: owner,
