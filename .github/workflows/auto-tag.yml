@@ -14,8 +14,13 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+    
+    - name: Use pnpm
+      uses: pnpm/action-setup@v2
 
     - name: Execute Tag Creation Script
-      run: pnpm run create:tag
+      run: |
+       pnpm i
+       pnpm run create:tag
       env:
         VERSION: ${{ github.ref }}
