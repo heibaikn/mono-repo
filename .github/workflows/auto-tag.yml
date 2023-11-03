@@ -1,13 +1,16 @@
-name: Create Release Tag
+name: auto_tag
 on:
   push:
     branches:
       - 'release_v_*' # 仅在以 'release_v_' 开头的分支推送时触发
+  workflow_dispatch:
+    inputs:
+      workflow_name:
+        description: 'auto_tag'
 
 jobs:
   create_tag:
-    # runs-on: ubuntu-latest
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
