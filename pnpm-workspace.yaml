@@ -1,5 +1,6 @@
 packages:
   - packages/*
+  - action 
   - play
   - config
   - www/*

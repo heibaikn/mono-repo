@@ -16,9 +16,6 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Execute Tag Creation Script
-      run: |
-        if [[ $GITHUB_REF == refs/heads/release_v_* ]]; then
-          ./create_tag.sh
-        fi
+      run: pnpm run create:tag
       env:
         VERSION: ${{ github.ref }}
