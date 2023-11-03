@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MonoConfig, { Project } from "@mono/config";
+import MonoConfig, { Project } from "@heibaimono/config";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";

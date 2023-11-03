@@ -1,10 +1,18 @@
 {
-  "name": "@mono/helper",
-  "version": "1.0.0",
+  "private": false,
+  "name": "@heibaimono/helper",
+  "version": "1.1.2",
   "description": "",
   "type": "module",
-  "main": "lib/index.js",
+  "main": "index.ts",
   "types": "lib/index.d.ts",
+  "publishConfig": {
+    "main": "lib/index.js",
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rollup -c rollup.config.js"
   },

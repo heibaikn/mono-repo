@@ -1,5 +1,6 @@
 {
-  "name": "@gtc/widget",
+  "private": true,
+  "name": "@heibaimono/widget",
   "version": "1.0.1",
   "description": "",
   "main": "index.ts",

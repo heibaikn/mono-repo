@@ -18,7 +18,7 @@ class MonoUtils {
     };
   }
   random(n = 4){
-    return new Array(n).fill(0).map(v => (Math.ceil(Math.random() * 36)).toString(36)).join()
+    return new Array(n).fill(0).map(v => (Math.ceil(Math.random() * 36)).toString(36)).join('')
   }
 }
 

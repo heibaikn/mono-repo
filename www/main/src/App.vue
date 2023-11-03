@@ -19,6 +19,7 @@
     <div class="main" :class="globalState.env !== 'main' && 'hidden'">
       <RouterView />
     </div>
+    
     <div id="subapp" :class="globalState.env === 'main' && 'hidden'"></div>
   </div>
 </template>

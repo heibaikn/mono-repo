@@ -1,6 +1,6 @@
 {
   "name": "design",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -12,9 +12,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@mono/config": "workspace:^",
-    "@mono/helper": "workspace:^",
-    "@mono/virtual-list": "workspace:^",
+    "@heibaimono/config": "workspace:^",
+    "@heibaimono/helper": "workspace:^",
+    "@heibaimono/virtual-list": "workspace:^",
     "@vue-flow/background": "^1.2.0",
     "@vue-flow/controls": "^1.1.0",
     "@vue-flow/core": "^1.23.0",

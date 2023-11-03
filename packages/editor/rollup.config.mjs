@@ -36,7 +36,7 @@ export default [
     // external,
     output: {
       exports: 'named',
-      dir: 'lib/es/',
+      dir: 'dist/',
       format: 'esm',
     },
     plugins: [...commonPlugins,terser()],
@@ -45,7 +45,7 @@ export default [
   {
     input: 'src/index.ts',
     output: {
-      file: 'lib/index.d.ts',
+      file: 'dist/index.d.ts',
       format: 'es',
     },
     plugins: [

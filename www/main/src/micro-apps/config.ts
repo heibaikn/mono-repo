@@ -1,4 +1,4 @@
-import GmConfig, { Project } from '@mono/config';
+import GmConfig, { Project } from '@heibaimono/config';
 import type { RegistrableApp } from 'qiankun';
 const appsConfig = [
   {

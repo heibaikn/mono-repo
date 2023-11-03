@@ -16,10 +16,10 @@
 </template>
 
 <script setup lang="ts">
-import VirtualList from '@mono/virtual-list'
+import VirtualList from '@heibaimono/virtual-list'
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import MonoConfig, { Project } from "@mono/config";
+import MonoConfig, { Project } from "@heibaimono/config";
 const host = MonoConfig.getHostBase(Project.Design, import.meta.env.MODE);
 // import logsStr from './a.txt';
 // console.log(logsStr);

@@ -4,13 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev":"concurrently \"pnpm -C www/main dev\" \"pnpm -C www/design dev\" \"pnpm -C www/react dev\"",
-    "a:build":"concurrently \"pnpm -C www/main build\" \"pnpm -C www/design build\" \"pnpm -C www/react build\"",
+    "dev": "concurrently \"pnpm -C www/main dev\" \"pnpm -C www/design dev\" \"pnpm -C www/react dev\"",
+    "build": "concurrently \"pnpm -C www/main build\" \"pnpm -C www/design build\" \"pnpm -C www/react build\"",
+    "changeset:add": "changeset add",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish --access=public",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "release": "pnpm run build && pnpm run changeset:add && pnpm run changeset:version && pnpm run changeset:publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "devDependencies": {
+    "@changesets/cli": "^2.26.2",
     "concurrently": "^8.2.0",
+    "conventional-changelog-cli": "^4.1.0",
     "rimraf": "^4.1.2"
   },
   "dependencies": {

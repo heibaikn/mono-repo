@@ -8,7 +8,7 @@ import esbuild from 'rollup-plugin-esbuild'
 export default [{
   input: 'index.ts', // 入口文件的路径
   output: {
-    file: 'lib/index.js', // 打包后的输出文件路径
+    file: 'dist/index.js', // 打包后的输出文件路径
     format: 'esm', // 输出格式为 ES Module (ESM)
   },
   plugins: [
@@ -27,7 +27,7 @@ export default [{
 {
   input: 'index.ts',
   output: {
-    file: 'lib/index.d.ts',
+    file: 'dist/index.d.ts',
     format: 'es',
   },
   plugins: [

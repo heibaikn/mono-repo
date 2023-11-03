@@ -1,10 +1,15 @@
 {
-  "name": "@gtc/file-icon",
-  "version": "1.0.0",
+  "private": false,
+  "name": "@heibaimono/file-icon",
+  "version": "1.0.1",
   "description": "",
   "type": "module",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "publishConfig": {
+    "main": "lib/index.js",
+    "access": "public"
+  },
   "scripts": {
     "build": "rimraf lib &&rollup -c rollup.config.js",
     "build1": "pnpm run build:vue && run-p build:types",

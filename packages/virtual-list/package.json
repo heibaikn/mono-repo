@@ -1,5 +1,6 @@
 {
-  "name": "@mono/virtual-list",
+  "private": true,
+  "name": "@heibaimono/virtual-list",
   "version": "1.0.0",
   "description": "",
   "type": "module",

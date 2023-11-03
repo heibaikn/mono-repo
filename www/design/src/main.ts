@@ -7,7 +7,8 @@ import ElementPlus from 'element-plus'
 import { renderWithQiankun, qiankunWindow } from "vite-plugin-qiankun/dist/helper";
 import App from './App.vue'
 import routes from './router'
-
+import { Utils } from '@heibaimono/helper';
+console.log(Utils.random());
 let instance: any;
 let router: any;
 let history: any;
@@ -33,7 +34,7 @@ function storeTest(props: any) {
   changeData('markup', 1)
   // changeData('userInfo', { name: 'kn' })
   // setTimeout(() => {
-    // console.log(globalState);
+  // console.log(globalState);
   // }, 100)
 }
 
