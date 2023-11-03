@@ -25,4 +25,5 @@ jobs:
        pnpm i
        pnpm run create:tag
       env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         VERSION: ${{ github.ref }}

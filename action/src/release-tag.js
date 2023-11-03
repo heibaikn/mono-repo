@@ -6,7 +6,7 @@ async function run() {
   // The YML workflow will need to set myToken with the GitHub Secret Token
   // myToken: ${{ secrets.GITHUB_TOKEN }}
   // https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token#about-the-github_token-secret
-  const myToken = core.getInput('my_token');
+  const myToken = core.getInput('GITHUB_TOKEN');
 
   const octokit = github.getOctokit(myToken)
 
@@ -17,7 +17,7 @@ async function run() {
   const { owner, repo } = context.repo
 
   // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
-  const tagName = core.getInput('tag_name', { required: true })
+  const tagName = core.getInput('VERSION', { required: true })
 
   // This removes the 'refs/tags' portion of the string, i.e. from 'refs/tags/v1.10.15' to 'v1.10.15'
   const tag = tagName.replace('refs/tags/', '')
