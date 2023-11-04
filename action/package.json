@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "create:tag":"node ./src/release-tag.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
