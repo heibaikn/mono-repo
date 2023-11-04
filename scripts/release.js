@@ -143,9 +143,16 @@ async function main() {
     step('\nCommitting changes...')
     await runIfNotDry('git', ['add', '-A'])
     await runIfNotDry('git', ['commit', '-m', `release: v${targetVersion}`])
+
+    step('\nPushing to GitHub...')
+    await runIfNotDry('git', ['tag', `v${targetVersion}`])
+    await runIfNotDry('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
+    await runIfNotDry('git', ['push'])
+    
   } else {
     console.log('No changes to commit.')
   }
+
 
 }
 
