@@ -148,7 +148,7 @@ async function main() {
     await runIfNotDry('git', ['tag', `v${targetVersion}`])
     await runIfNotDry('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
     await runIfNotDry('git', ['push'])
-    
+
   } else {
     console.log('No changes to commit.')
   }
@@ -156,20 +156,6 @@ async function main() {
 
 }
 
-async function getCIResult() {
-  try {
-    const sha = await getSha()
-    const res = await fetch(
-      `https://api.github.com/repos/vuejs/core/actions/runs?head_sha=${sha}` +
-      `&status=success&exclude_pull_requests=true`
-    )
-    const data = await res.json()
-    return data.workflow_runs.length > 0
-  } catch (e) {
-    console.error('Failed to get CI status for current commit.')
-    return false
-  }
-}
 
 async function isInSyncWithRemote() {
   try {
