@@ -24,4 +24,4 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           body: |
-            Please refer to changelog for details.
+            Please refer to [CHANGELOG.md](https://github.com/heibaikn/mono-repo/blob/main/CHANGELOG.md) for details.
