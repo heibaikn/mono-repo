@@ -1,0 +1,15 @@
+{
+  "name": "@tooling/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "main": "index.js",
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.38.6",
+    "eslint": "^8.40.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-config-turbo": "^1.9.6",
+    "prettier": "^2.8.8"
+  }
+}

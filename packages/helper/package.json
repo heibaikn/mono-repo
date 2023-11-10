@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.4",
+    "@types/luxon": "^3.3.4",
     "rollup": "^3.17.2",
     "rollup-plugin-dts": "^5.2.0",
     "rollup-plugin-esbuild": "^5.0.0",

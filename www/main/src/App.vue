@@ -19,7 +19,7 @@
     <div class="main" :class="globalState.env !== 'main' && 'hidden'">
       <RouterView />
     </div>
-    
+
     <div id="subapp" :class="globalState.env === 'main' && 'hidden'"></div>
   </div>
 </template>
@@ -30,9 +30,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 import HelloWorld from './components/HelloWorld.vue'
 import { useGlobalStore } from '@/stores/global';
-
 const { isMain, globalState, changeData } = useGlobalStore()
-console.log(isMain, "isMain", globalState);
 const self = reactive({
 
 })
