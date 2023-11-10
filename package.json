@@ -17,6 +17,7 @@
     "release1": "pnpm run build && pnpm run changeset:add && pnpm run changeset:version && pnpm run changeset:publish",
     "check": "tsc --incremental --noEmit",
     "msg:check": "node scripts/verifyCommit.js",
+    "format": "prettier --write ",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "simple-git-hooks",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -30,7 +31,11 @@
       "prettier --write"
     ],
     "*.ts?(x)": [
+      "eslint",
       "prettier --parser=typescript --write"
+    ],
+    "*.vue":[
+      "prettier --write"
     ]
   },
   "keywords": [],

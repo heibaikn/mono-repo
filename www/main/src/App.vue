@@ -25,19 +25,21 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 
 import HelloWorld from './components/HelloWorld.vue'
-import { useGlobalStore } from '@/stores/global';
+import { useGlobalStore } from '@/stores/global'
 const { isMain, globalState, changeData } = useGlobalStore()
-const self = reactive({
-
-})
+const self = reactive({})
 setTimeout(() => {
   changeData('markup', 11)
 }, 3000)
 
+const aa = {
+  a: 1
+}
+console.log('object', aa)
 </script>
 
 <style scoped lang="scss">
@@ -56,14 +58,13 @@ setTimeout(() => {
   }
 
   :deep(#subapp) {
-    >div {
+    > div {
       height: 100%;
       // position: relative;
       // top: 0;
       // bottom: 0;
     }
   }
-
 
   .hidden {
     display: none;
