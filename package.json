@@ -1,9 +1,12 @@
 {
-  "private": true,
-  "type": "module",
   "name": "mono-repo",
   "version": "1.0.1",
+  "private": true,
   "description": "",
+  "type": "module",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"pnpm -C www/main dev\" \"pnpm -C www/design dev\" \"pnpm -C www/react dev\"",
@@ -18,8 +21,8 @@
     "check": "tsc --incremental --noEmit",
     "msg:check": "node scripts/verifyCommit.js",
     "format": "prettier --write ",
-    "lint1": "eslint . --ext  .vue,.js,.ts,.jsx,.tsx,.md,.json  --max-warnings 0 --cache --quiet",
-    "lint": "eslint . --ext .vue,.ts,.js --cache --quiet",
+    "lint1": "eslint . --ext  .vue,.js,.ts,.jsx,.tsx --max-warnings 0 --cache --quiet",
+    "lint": "eslint . --ext .vue,.ts,.js,.jsx,.tsx --cache --quiet",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "simple-git-hooks",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,16 +31,11 @@
     "pre-commit": "pnpm lint-staged",
     "commit-msg": "node scripts/verifyCommit.js"
   },
-  "lint-staged": {
-    "*.{vue,js,json}": [
-      "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "eslint",
-      "prettier --parser=typescript --write"
-    ]
+  "dependencies": {
+    "eslint-define-config": "^1.5.1",
+    "typesense-docsearch-css": "^0.4.0",
+    "vue": "^3.3.4"
   },
-  "keywords": [],
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
     "@heibaimono/eslint-config": "workspace:^",
@@ -49,11 +47,14 @@
     "simple-git-hooks": "^2.9.0",
     "typescript": "^5.2.2"
   },
-  "dependencies": {
-    "eslint-define-config": "^1.5.1",
-    "typesense-docsearch-css": "^0.4.0",
-    "vue": "^3.3.4"
-  },
-  "author": "",
-  "license": "ISC"
+  "lint-staged": {
+    "*.{vue,js,json}": [
+      "eslint",
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "eslint",
+      "prettier --parser=typescript --write"
+    ]
+  }
 }

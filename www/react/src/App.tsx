@@ -1,21 +1,21 @@
-import { useState } from "react";
-import MonoConfig, { Project } from "@heibaimono/config";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { useState } from 'react'
+import MonoConfig, { Project } from '@heibaimono/config'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0);
-  const getHost = ()=>{
-    if(import.meta.env.MODE ==='development'){
-      return MonoConfig.getHostBase(Project.React, import.meta.env.MODE);
-    }else{
+  const [count, setCount] = useState(0)
+  const getHost = () => {
+    if (import.meta.env.MODE === 'development') {
+      return MonoConfig.getHostBase(Project.React, import.meta.env.MODE)
+    } else {
       return import.meta.url
     }
   }
-  const host = getHost() 
-  const img1 = new URL(reactLogo, host).href;
-  const img2 = new URL(viteLogo, host).href;
+  const host = getHost()
+  const img1 = new URL(reactLogo, host).href
+  const img2 = new URL(viteLogo, host).href
   return (
     <>
       <div>
@@ -28,18 +28,14 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
     </>
-  );
+  )
 }
 
-export default App;
+export default App

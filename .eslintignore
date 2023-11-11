@@ -1,4 +1,4 @@
-
+.vscode/*
 pnpm-lock.yaml
 CHANGELOG.md
 coverage

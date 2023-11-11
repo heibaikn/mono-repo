@@ -1,24 +1,24 @@
 {
-  "private": false,
   "name": "@heibaimono/helper",
   "version": "1.0.1",
+  "private": false,
   "description": "",
   "type": "module",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "files": [
+    "dist"
+  ],
   "main": "index.ts",
   "types": "lib/index.d.ts",
   "publishConfig": {
     "main": "lib/index.js",
     "access": "public"
   },
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "rollup -c rollup.config.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "luxon": "^3.0.4",
     "node-html-parser": "^6.1.5"

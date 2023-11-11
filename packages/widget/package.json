@@ -1,16 +1,19 @@
 {
-  "private": true,
   "name": "@heibaimono/widget",
   "version": "1.0.1",
+  "private": true,
   "description": "",
-  "main": "index.ts",
   "type": "module",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "main": "index.ts",
   "scripts": {
     "build": "rollup -c rollup.config.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "peerDependencies": {
+    "vue": "1.0.1"
+  },
   "dependencies": {
     "vuedraggable": "^4.1.0"
   },
@@ -23,8 +26,5 @@
     "rollup-plugin-vue": "^6.0.0",
     "typescript": "^5.2.2",
     "vue": "^3.3.4"
-  },
-  "peerDependencies": {
-    "vue": "1.0.1"
   }
 }
