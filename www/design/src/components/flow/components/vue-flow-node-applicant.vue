@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { computed, type CSSProperties, onMounted, reactive, watch } from 'vue'
-import type { Connection, Edge, NodeProps } from '@vue-flow/core'
+import { type CSSProperties, computed, onMounted, reactive, watch } from 'vue'
 import { Handle, Position } from '@vue-flow/core'
 import { EventName, NodeType } from '../flow'
+import type { Connection, Edge, NodeProps } from '@vue-flow/core'
 const props = defineProps(['id', 'data'])
 const emits = defineEmits(['itemEvent'])
 const targetHandleStyle: CSSProperties = { background: '#555' }

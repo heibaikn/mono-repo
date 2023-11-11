@@ -5,13 +5,12 @@
       color="#000000"
       fill="#ea80fc"
       stroke-width=".18819"
-      style="-inkscape-stroke: none"
-    />
+      style="-inkscape-stroke: none" />
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Gleam',
+  name: 'Gleam'
 } as DefineComponent
 </script>

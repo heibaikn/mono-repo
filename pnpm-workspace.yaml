@@ -1,7 +1,7 @@
 packages:
   - packages/*
   - action 
-  - play
+  - tooling/* 
   - config
   - www/*
 

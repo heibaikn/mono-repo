@@ -3,13 +3,14 @@
     <div class="add-node-btn">
       <!-- :visible="self.visible" -->
       <el-popover
-                  placement="right-start"
-                  :width="popoverWidth"
-                  trigger="click"
-                  @show="showEvent"
-                  @hide="hideEvent"
-                  popper-class="add-node-popover"
-                  ref="popverRef">
+        ref="popverRef"
+        placement="right-start"
+        :width="popoverWidth"
+        trigger="click"
+        popper-class="add-node-popover"
+        @show="showEvent"
+        @hide="hideEvent"
+      >
         <template #reference>
           <span type="text" class="add-bar" @click="showPopover">
             <el-icon>
@@ -19,7 +20,7 @@
         </template>
         <ul v-if="self.step === StepName.Select" class="step-select">
           <li @click="showCreator(NodeType.Audit)">
-            <svg-icon name="user" color="#c8c8c8"></svg-icon>
+            <svg-icon name="user" color="#c8c8c8" />
             审批节点
           </li>
           <li @click="showCreator(NodeType.Request)">
@@ -30,26 +31,22 @@
             <svg-icon name="time" />
             定时放行节点
           </li>
-          <li @click="nodeBranchCreate()" v-if="branch">
+          <li v-if="branch" @click="nodeBranchCreate()">
             <svg-icon name="branch" />
             添加分支节点
           </li>
         </ul>
-        <create-node
-                     v-else
-                     :type="self.type"
-                     @cancel="nodeCancel"
-                     @submit="nodeCreate"></create-node>
+        <create-node v-else :type="self.type" @cancel="nodeCancel" @submit="nodeCreate" />
       </el-popover>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { computed, inject, reactive, ref } from 'vue'
+import { rand } from '@vueuse/shared'
 import { Plus } from '@element-plus/icons-vue'
-import CreateNode from './vue-flow-add-node.vue'
 import { EventName, NodeType } from '../flow'
-import { rand } from '@vueuse/shared';
+import CreateNode from './vue-flow-add-node.vue'
 const popverRef = ref()
 const props = defineProps({
   branch: {
@@ -78,7 +75,9 @@ const showCreator = (type: NodeType) => {
   self.type = type
 }
 const random = (n = 6) => {
-  return new Array(n).fill(0).map(v => (Math.ceil(Math.random() * 36)).toString(36)).join('')
+  return Array.from({ length: n }, () => '')
+    .map((v) => Math.ceil(Math.random() * 36).toString(36))
+    .join('')
 }
 const nodeCancel = () => {
   popverRef.value.hide()
@@ -89,7 +88,7 @@ const nodeCreate = (data: any) => {
   popverRef.value.hide()
 }
 const nodeBranchCreate = () => {
-  let data = {
+  const data = {
     id: random(),
     name: '分支节点',
     type: NodeType.Branch,
@@ -170,7 +169,7 @@ const showEvent = () => {
     outline: none;
     padding: 10px;
 
-    >li {
+    > li {
       border-radius: 4px;
       height: 32px;
       line-height: 32px;

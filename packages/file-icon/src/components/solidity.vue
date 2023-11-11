@@ -9,6 +9,6 @@
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Solidity',
+  name: 'Solidity'
 } as DefineComponent
 </script>

@@ -3,13 +3,12 @@
     <path
       d="M151.48 27.937v120.54H30.94v117.58h238.12V27.927z"
       style="fill: #4caf50; paint-order: fill markers stroke"
-      transform="translate(0 3)"
-    />
+      transform="translate(0 3)" />
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Wallaby',
+  name: 'Wallaby'
 } as DefineComponent
 </script>

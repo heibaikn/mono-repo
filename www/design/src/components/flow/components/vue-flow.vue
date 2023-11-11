@@ -1,10 +1,11 @@
 <template>
   <VueFlow
-           class="gmaster-flow-setting"
-           v-model="elements"
-           ref="flowRef"
-           @viewport-change="paneScroll"
-           :style="{ backgroundColor: bgColor }">
+    ref="flowRef"
+    v-model="elements"
+    class="gmaster-flow-setting"
+    :style="{ backgroundColor: bgColor }"
+    @viewport-change="paneScroll"
+  >
     <template #node-APPLICANT="props">
       <NodeStart v-bind="props" @item-event="nodeEvent" />
     </template>
@@ -38,9 +39,10 @@
 </template>
 
 <script lang="ts" setup>
+import { onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import { type Elements, VueFlow, isEdge, useVueFlow } from '@vue-flow/core'
 // import { Controls } from '@vue-flow/controls'
-import { onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+import { EventName, type FlowEvent, type LineEvent, LineType, NodeType } from '../flow'
 import NodeStart from './vue-flow-node-applicant.vue'
 import NodeWebhook from './vue-flow-node-webhook.vue'
 import NodeTimeGate from './vue-flow-node-timegate.vue'
@@ -51,7 +53,6 @@ import LineBase from './vue-flow-line-base.vue'
 import LineStepBegin from './vue-flow-line-step-begin.vue'
 import LineStepEnd from './vue-flow-line-step-end.vue'
 import flowUtils from './vue-flow-utils'
-import { EventName, type FlowEvent, type LineEvent, LineType, NodeType } from '../flow'
 const flowRef = ref()
 const elements = ref<Elements>([])
 const bgColor = ref('#fff')
@@ -89,7 +90,7 @@ const nodeEvent = (evt: FlowEvent) => {
   emits('flowEvent', evt)
 }
 const lineEvent = (evt: LineEvent) => {
-  console.log(self.flowTools);
+  console.log(self.flowTools)
   let ret = [] as any
   if (evt.event === EventName.Replace) {
     ret = self.flowTools.replaceNode(evt.data[0], evt.data[1])
@@ -109,7 +110,7 @@ const init = () => {
   elements.value = data
 }
 
-const debounceWheel = (fn: Function, timeout: number) => {
+const debounceWheel = (fn: () => void, timeout: number) => {
   let timer = 0
   return (...args: any) => {
     clearTimeout(timer)
@@ -120,22 +121,21 @@ const debounceWheel = (fn: Function, timeout: number) => {
 }
 
 const paneScroll = debounceWheel((e: WheelEvent) => {
-  let pane = getTransform()
+  const pane = getTransform()
   emits('scaleChange', Math.floor((pane.zoom / maxZoom) * 100))
 }, 300)
 const getEl = () => {
-  const el = flowRef.value.$el.querySelector(".vue-flow__transformationpane") || flowRef.value.$el
+  const el = flowRef.value.$el.querySelector('.vue-flow__transformationpane') || flowRef.value.$el
   const flowInfo = self.flowTools.getFlowSize()
   el.style.width = `${flowInfo.w}px`
   el.style.height = `${flowInfo.h}px`
-  console.log(el, flowInfo);
+  console.log(el, flowInfo)
   return el
 }
 
 onMounted(() => {
   init()
 })
-onUnmounted(() => { })
 watch(
   () => props.nodes,
   () => {

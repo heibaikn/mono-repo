@@ -9,15 +9,8 @@
       letter-spacing="0"
       stroke-width="1.796"
       word-spacing="0"
-      style="line-height: 1.25"
-    >
-      <tspan
-        x="3.667"
-        y="21.362"
-        font-family="Roboto"
-        font-style="italic"
-        font-weight="bold"
-      >
+      style="line-height: 1.25">
+      <tspan x="3.667" y="21.362" font-family="Roboto" font-style="italic" font-weight="bold">
         P
       </tspan>
     </text>
@@ -26,6 +19,6 @@
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Pascal',
+  name: 'Pascal'
 } as DefineComponent
 </script>

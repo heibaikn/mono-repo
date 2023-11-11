@@ -6,35 +6,31 @@
         cx="37.18"
         cy="-256.97"
         rx="110.14"
-        ry="139.47"
-      />
+        ry="139.47" />
       <ellipse
         transform="matrix(-.3005 .95378 -.96071 -.27755 0 0)"
         cx="38.835"
         cy="-197.03"
         rx="110.14"
-        ry="139.47"
-      />
+        ry="139.47" />
       <ellipse
         transform="matrix(-.95378 -.3005 .27755 -.96071 0 0)"
         cx="-224.78"
         cy="-5.066"
         rx="110.14"
-        ry="139.47"
-      />
+        ry="139.47" />
       <ellipse
         transform="matrix(-.95378 -.3005 .27755 -.96071 0 0)"
         cx="-228.55"
         cy="-60.291"
         rx="110.14"
-        ry="139.47"
-      />
+        ry="139.47" />
     </g>
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Dotjs',
+  name: 'Dotjs'
 } as DefineComponent
 </script>

@@ -1,0 +1,9 @@
+
+pnpm-lock.yaml
+CHANGELOG.md
+coverage
+node_modules/
+dist/
+!.*
+!node_modules/*
+!dist/*

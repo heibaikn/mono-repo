@@ -1,26 +1,27 @@
 <template>
   <div class="virtual-list">
     <virtual-list
-                  class="list-container"
-                  ref="virtualTable"
-                  :options="_self.options"
-                  :data="_self.logData">
-      <template v-slot="{ item, ansi, className }">
+      ref="virtualTable"
+      class="list-container"
+      :options="_self.options"
+      :data="_self.logData"
+    >
+      <template #default="{ item, ansi, className }">
         <div class="log-no" :class="className.index">
           <span>{{ item.idx + 1 }}</span>
         </div>
-        <div :class="className.log" :title="item.txt" v-html="ansi(item.txt)"></div>
+        <div :class="className.log" :title="item.txt" v-html="ansi(item.txt)" />
       </template>
     </virtual-list>
   </div>
 </template>
 
 <script setup lang="ts">
+import { onMounted, reactive, ref } from 'vue'
 import VirtualList from '@heibaimono/virtual-list'
-import { onMounted, reactive, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import MonoConfig, { Project } from "@heibaimono/config";
-const host = MonoConfig.getHostBase(Project.Design, import.meta.env.MODE);
+import { useRoute } from 'vue-router'
+import MonoConfig, { Project } from '@heibaimono/config'
+const host = MonoConfig.getHostBase(Project.Design, import.meta.env.MODE)
 // import logsStr from './a.txt';
 // console.log(logsStr);
 const route = useRoute()
@@ -39,8 +40,8 @@ const _self = reactive<any>({
 const virtualTable = ref<any>()
 const scrollToLine = () => {
   _self.options.highlightLine = false
-  if (!!route.query.line) {
-    let line = route.query.line as string
+  if (route.query.line) {
+    const line = route.query.line as string
     _self.options.highlightLine = +line - 1
     _self.options.highlightString = decodeURIComponent(route.query.searchStr as string)
     // realOption.highlightString
@@ -50,12 +51,10 @@ const scrollToLine = () => {
   }
 }
 const fetchApiCiLogs = async () => {
-  // let res = new Array(10000).fill(1).join('\n')
-  let res = await fetch(`${host}a.txt`)
-  let txt = await res.text()
-  console.log(txt);
+  const res = await fetch(`${host}a.txt`)
+  const txt = await res.text()
   const lines = 0
-  let handleTexts = txt.split(/\r\n|\r|\n/g).map((log: string, idx: number) => {
+  const handleTexts = txt.split(/\r\n|\r|\n/g).map((log: string, idx: number) => {
     return {
       idx: lines + idx,
       txt: log
@@ -75,7 +74,6 @@ const fetchApiCiLogs = async () => {
 onMounted(() => {
   fetchApiCiLogs()
 })
-
 </script>
 
 <style lang="scss" scoped>

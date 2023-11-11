@@ -2,39 +2,49 @@
   <div class="flow-design-container">
     <div class="zoom-btns">
       <el-button
-                 :disabled="scale <= scaleRange.min"
-                 @click="clickScale(ScaleType.Minus)"
-                 :icon="Minus"></el-button>
+        :disabled="scale <= scaleRange.min"
+        :icon="Minus"
+        @click="clickScale(ScaleType.Minus)"
+      />
       <span class="scale-text">{{ scale }}%</span>
       <el-button
-                 :disabled="scale >= scaleRange.max"
-                 @click="clickScale(ScaleType.Plus)"
-                 :icon="Plus"></el-button>
+        :disabled="scale >= scaleRange.max"
+        :icon="Plus"
+        @click="clickScale(ScaleType.Plus)"
+      />
       <el-button @click="exportPng">导出</el-button>
     </div>
     <section class="flow-design">
-      <div class="box-scale-box vue-flow-wrap" ref="wrapRef">
+      <div ref="wrapRef" class="box-scale-box vue-flow-wrap">
         <VueFlow
-                 v-if="draft.flow"
-                 ref="flowRef"
-                 :nodes="draft.flow.nodes"
-                 @scaleChange="scaleChange"
-                 @flowEvent="flowEvent"></VueFlow>
+          v-if="draft.flow"
+          ref="flowRef"
+          :nodes="draft.flow.nodes"
+          @scale-change="scaleChange"
+          @flow-event="flowEvent"
+        />
       </div>
     </section>
   </div>
-
 </template>
 <script lang="ts" setup>
-import { ElNotification, ElMessage } from 'element-plus'
+import { computed, nextTick, onMounted, provide, reactive, ref } from 'vue'
+import { ElMessage, ElNotification } from 'element-plus'
 import { useRoute } from 'vue-router'
-import VueFlow from './components/vue-flow.vue'
-import { ref, reactive, computed, provide, onMounted, nextTick } from 'vue'
-import { Minus, Plus } from '@element-plus/icons-vue'
 import _ from 'lodash'
-import html2canvas from 'html2canvas';
-import { EventName, type FlowEvent, type FlowItem, type LineEvent, NodeType } from './flow'
-import { NodeStatus, NodeTypeEnum, ScaleType } from './flow';
+import html2canvas from 'html2canvas'
+import { Minus, Plus } from '@element-plus/icons-vue'
+import VueFlow from './components/vue-flow.vue'
+import {
+  EventName,
+  type FlowEvent,
+  type FlowItem,
+  type LineEvent,
+  NodeStatus,
+  NodeType,
+  NodeTypeEnum,
+  ScaleType
+} from './flow'
 const route = useRoute()
 const flowRef = ref()
 const wrapRef = ref()
@@ -65,7 +75,7 @@ const draft = reactive({
       }
     ]
   },
-  value: ""
+  value: ''
 })
 const self = reactive({
   drawerVisible: {
@@ -79,15 +89,15 @@ const exportPng = async () => {
   const canvas = await html2canvas(el)
   canvas.toBlob((blob) => {
     // 创建一个临时的URL对象
-    const url = URL.createObjectURL(blob!);
+    const url = URL.createObjectURL(blob!)
     // 创建一个虚拟的下载链接
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'screenshot.png'; // 可以指定下载的文件名
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'screenshot.png' // 可以指定下载的文件名
     // 触发下载链接的点击事件
-    a.click();
+    a.click()
     // 释放URL对象，防止内存泄漏
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(url)
   })
 }
 const flowEvent = (evt: FlowEvent) => {
@@ -110,7 +120,6 @@ const flowEvent = (evt: FlowEvent) => {
   }
 }
 const updateNode = async (evt: FlowEvent) => {
-
   // 模拟api 请求
   setTimeout(() => {
     draft.flow.nodes = evt.data

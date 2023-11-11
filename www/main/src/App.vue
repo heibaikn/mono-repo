@@ -25,13 +25,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+// import { reactive } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
 import { useGlobalStore } from '@/stores/global'
-const { isMain, globalState, changeData } = useGlobalStore()
-const self = reactive({})
+const { globalState, changeData } = useGlobalStore()
+// const self = reactive({})
 setTimeout(() => {
   changeData('markup', 11)
 }, 3000)

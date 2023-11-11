@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { type CSSProperties, onMounted, reactive, watch } from 'vue';
-import type { Connection, Edge, NodeProps } from '@vue-flow/core'
-import Close from '../icon/close.vue';
+import { type CSSProperties, onMounted, reactive, watch } from 'vue'
 import { Handle, Position } from '@vue-flow/core'
+import Close from '../icon/close.vue'
 import { EventName, NodeType } from '../flow'
+import type { Connection, Edge, NodeProps } from '@vue-flow/core'
 const props = defineProps(['id', 'data'])
 const emits = defineEmits(['itemEvent'])
 
@@ -49,12 +49,13 @@ export default {
         <span>{{ data.name }}</span>
         <div @click.stop>
           <el-popconfirm
-                         trigger="hover"
-                         confirmButtonText="删除"
-                         cancel-button-text="取消"
-                         @confirm="detele"
-                         width="290px"
-                         title="是否删除该节点">
+            trigger="hover"
+            confirm-button-text="删除"
+            cancel-button-text="取消"
+            width="290px"
+            title="是否删除该节点"
+            @confirm="detele"
+          >
             <template #reference>
               <div title="删除" class="node-operation-img node-operation-close">
                 <Close />
@@ -65,7 +66,9 @@ export default {
       </div>
       <div class="content">
         <ul class="selected-list">
-          {{ data.audit.users.join('，') }}
+          {{
+            data.audit.users.join('，')
+          }}
         </ul>
       </div>
     </div>

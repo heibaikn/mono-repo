@@ -1,35 +1,35 @@
 <template>
-  <div class="search" v-show="_self.show">
-    <div class="ctrl-wrap" v-if="options.searchIgnoreCase">
-      <div class="opear svg-icon" :class="_self.ignoreCase ? '' : 'case-sensitive'"
-           @click="ignoreCase">
-        <svg-ignore></svg-ignore>
-
+  <div v-show="_self.show" class="search">
+    <div v-if="options.searchIgnoreCase" class="ctrl-wrap">
+      <div
+        class="opear svg-icon"
+        :class="_self.ignoreCase ? '' : 'case-sensitive'"
+        @click="ignoreCase">
+        <svg-ignore />
       </div>
     </div>
     <div class="input-wrap">
-      <input ref="domInput" v-model="_self.word" v-search:func="handleKeydown"
-             type="text">
-      <div class="search-float ret-info" v-show="_self.word">
-        <span>{{ _self.filterData.length && _self.filterIndex + 1 }}</span>/<span>{{
-            _self.filterData.length
-        }}</span>
+      <input ref="domInput" v-model="_self.word" v-search:func="handleKeydown" type="text" />
+      <div v-show="_self.word" class="search-float ret-info">
+        <span>{{ _self.filterData.length && _self.filterIndex + 1 }}</span>
+        /
+        <span>{{ _self.filterData.length }}</span>
       </div>
     </div>
     <div class="right">
-      <span @click="prev" title="上一个(Shift+Enter)">
+      <span title="上一个(Shift+Enter)" @click="prev">
         <div class="svg-icon">
-          <svg-up></svg-up>
+          <svg-up />
         </div>
       </span>
-      <span @click="next" title="下一个(Enter)">
+      <span title="下一个(Enter)" @click="next">
         <div class="svg-icon">
-          <svg-down></svg-down>
+          <svg-down />
         </div>
       </span>
-      <span @click="close" title="关闭(Escape)">
+      <span title="关闭(Escape)" @click="close">
         <div class="svg-icon">
-          <svg-close></svg-close>
+          <svg-close />
         </div>
       </span>
     </div>
@@ -37,13 +37,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, ref } from 'vue';
-import vSearch from './directiveSearch';
-import { NOT_IGNORE_CASE_GLAGS, IGNORE_CASE_FLAGS } from './constant';
-import SvgClose from './icon/close.vue';
-import SvgDown from './icon/arrow-downward.vue';
-import SvgUp from './icon/arrow-upward.vue';
-import SvgIgnore from './icon/ignore-case.vue';
+import { reactive, ref, watch } from 'vue'
+import vSearch from './directiveSearch'
+import { IGNORE_CASE_FLAGS, NOT_IGNORE_CASE_GLAGS } from './constant'
+import SvgClose from './icon/close.vue'
+import SvgDown from './icon/arrow-downward.vue'
+import SvgUp from './icon/arrow-upward.vue'
+import SvgIgnore from './icon/ignore-case.vue'
 const emit = defineEmits(['prev', 'next', 'close', 'scrollTo', 'searchWord', 'ignoreCase'])
 
 const props = defineProps({
@@ -53,7 +53,9 @@ const props = defineProps({
   },
   options: {
     type: Object,
-    default: {}
+    default: () => {
+      return {}
+    }
   }
 })
 const domInput = ref()
@@ -68,66 +70,70 @@ const _self = reactive({
   ignoreCase: true
 })
 const checkKeyboardKey = (str: string, e: any) => {
-  console.log(str, "~~~~~", e);
+  console.log(str, '~~~~~', e)
   switch (str) {
-    case "ctrlF":
+    case 'ctrlF':
       // return e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70) || (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70) || (e.metaKey && e.keyCode === 70))
       return (e.ctrlKey || e.metaKey) && e.key === 'f'
-    case "Esc":
+    case 'Esc':
       return e.key === 'Escape'
-    case "enter":
-      return (e.shiftKey === false) && e.key === 'Enter'
-    case "shiftEnter":
+    case 'enter':
+      return e.shiftKey === false && e.key === 'Enter'
+    case 'shiftEnter':
       return e.shiftKey && e.key === 'Enter'
-    case "ctrlA":
+    case 'ctrlA':
       return (e.ctrlKey || e.metaKey) && e.key === 'a'
   }
 }
 const handleKeydown = (e: KeyboardEvent) => {
   if (checkKeyboardKey('ctrlF', e)) {
-    _self.show = true;
+    _self.show = true
     setTimeout(() => {
       domInput.value.focus()
     }, 20)
-    e.preventDefault();
-    emit("searchWord", _self.word.trim())
+    e.preventDefault()
+    emit('searchWord', _self.word.trim())
   }
-  if (!_self.show) return;
-  if (checkKeyboardKey("Esc", e)) {
+  if (!_self.show) return
+  if (checkKeyboardKey('Esc', e)) {
     close()
   }
-  if (checkKeyboardKey("enter", e)) {
+  if (checkKeyboardKey('enter', e)) {
     next()
   }
-  if (checkKeyboardKey("shiftEnter", e)) {
+  if (checkKeyboardKey('shiftEnter', e)) {
     prev()
   }
 }
 
 const searchFunc = () => {
   if (!_self.word) {
-    return;
+    return
   }
-  const flags = _self.ignoreCase ? IGNORE_CASE_FLAGS : NOT_IGNORE_CASE_GLAGS;
-  let searched = _self.word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+  const flags = _self.ignoreCase ? IGNORE_CASE_FLAGS : NOT_IGNORE_CASE_GLAGS
+  /* eslint-disable */
+  const searched = _self.word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '$&')
+  /* eslint-enable */
   const regex = new RegExp(searched, flags)
-  _self.filterData = props.data.filter((item: any) => {
-    return regex.test(item.txt)
-  }).map((item: any) => item.idx) as any;
+  _self.filterData = props.data
+    .filter((item: any) => {
+      return regex.test(item.txt)
+    })
+    .map((item: any) => item.idx) as any
   _self.filterIndex = 0
   if (_self.filterData.length) {
     _self.startIdx = _self.filterData[0]
-    emit("scrollTo", _self.startIdx)
+    emit('scrollTo', _self.startIdx)
   }
 }
 
 const ignoreCase = () => {
-  _self.ignoreCase = !_self.ignoreCase;
-  emit("ignoreCase", _self.ignoreCase)
+  _self.ignoreCase = !_self.ignoreCase
+  emit('ignoreCase', _self.ignoreCase)
   searchFunc()
 }
 
-const debounce = (func: Function, delay: number) => {
+const debounce = (func: () => void, delay: number) => {
   let time: number
   return () => {
     time && clearTimeout(time)
@@ -138,30 +144,32 @@ const debounce = (func: Function, delay: number) => {
 const searchFuncDebounce = debounce(searchFunc, 200)
 
 const prev = () => {
-  if (!_self.word) return;
+  if (!_self.word) return
   _self.filterIndex--
   if (_self.filterIndex < 0) {
-    _self.filterIndex = _self.filterData.length - 1;
+    _self.filterIndex = _self.filterData.length - 1
   }
-  emit("scrollTo", _self.filterData[_self.filterIndex])
+  emit('scrollTo', _self.filterData[_self.filterIndex])
 }
 const next = () => {
-  if (!_self.word) return;
+  if (!_self.word) return
   _self.filterIndex++
   if (_self.filterIndex > _self.filterData.length - 1) {
-    _self.filterIndex = 0;
+    _self.filterIndex = 0
   }
-  emit("scrollTo", _self.filterData[_self.filterIndex])
+  emit('scrollTo', _self.filterData[_self.filterIndex])
 }
 const close = () => {
-  _self.show = false;
-  emit("searchWord", '')
+  _self.show = false
+  emit('searchWord', '')
 }
-watch(() => _self.word, () => {
-  searchFuncDebounce()
-  emit("searchWord", _self.word.trim())
-})
-
+watch(
+  () => _self.word,
+  () => {
+    searchFuncDebounce()
+    emit('searchWord', _self.word.trim())
+  }
+)
 </script>
 
 <style scoped lang="scss">
@@ -204,6 +212,7 @@ watch(() => _self.word, () => {
       padding: 0px 3px;
       border-radius: 4px;
       cursor: pointer;
+
       &:hover {
         background-color: rgba(255, 255, 255, 0.1);
       }
@@ -238,15 +247,12 @@ watch(() => _self.word, () => {
       padding: 0px 8px;
       background-color: rgb(105, 105, 105);
     }
-
-
   }
 
   .search-float {
     height: 24px;
     line-height: 24px;
     color: white;
-
   }
 
   .right {
@@ -280,6 +286,5 @@ watch(() => _self.word, () => {
       }
     }
   }
-
 }
 </style>

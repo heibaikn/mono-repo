@@ -10,17 +10,14 @@
       stroke-width="1.665"
       word-spacing="0"
       style="line-height: 1.25"
-      xml:space="preserve"
-    >
-      <tspan x="2.91" y="20.739" font-family="Arial" font-weight="bold">
-        D
-      </tspan>
+      xml:space="preserve">
+      <tspan x="2.91" y="20.739" font-family="Arial" font-weight="bold">D</tspan>
     </text>
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Denizenscript',
+  name: 'Denizenscript'
 } as DefineComponent
 </script>

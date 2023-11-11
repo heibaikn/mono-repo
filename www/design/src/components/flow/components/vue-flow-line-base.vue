@@ -1,14 +1,15 @@
 <script lang="ts" setup>
-import { BaseEdge, EdgeLabelRenderer, getBezierPath, useVueFlow } from '@vue-flow/core'
 import { computed } from 'vue'
+import { BaseEdge, EdgeLabelRenderer, getBezierPath, useVueFlow } from '@vue-flow/core'
+import { EventName, LineType, NodeType, PropsLine } from '../flow'
+import type { FlowItem } from '../flow'
 import addNode from '@/components/flow/components/vue-flow-add.vue'
-import { PropsLine, LineType, EventName, NodeType, FlowItem } from '../flow'
 const props = defineProps(PropsLine)
 const emits = defineEmits(['lineEvent'])
 // const { removeEdges } = useVueFlow()
 const path = computed(() => getBezierPath(props))
 const click = (node: FlowItem) => {
-  let nextId = props.id?.split('-')[1]
+  const nextId = props.id?.split('-')[1]
   emits('lineEvent', {
     type: LineType.Base,
     event: EventName.Add,
@@ -36,8 +37,9 @@ export default {
         position: 'absolute',
         transform: `translate(-50%, -50%) translate(${props.sourceX}px,${path[2]}px)`
       }"
-      class="nodrag nopan">
-      <addNode @add-node="click"></addNode>
+      class="nodrag nopan"
+    >
+      <addNode @add-node="click" />
     </div>
   </EdgeLabelRenderer>
 </template>

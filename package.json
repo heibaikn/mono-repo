@@ -18,6 +18,8 @@
     "check": "tsc --incremental --noEmit",
     "msg:check": "node scripts/verifyCommit.js",
     "format": "prettier --write ",
+    "lint1": "eslint . --ext .vue --max-warnings 0 --cache --quiet",
+    "lint": "eslint . --ext .vue --max-warnings 0 --cache --quiet",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "simple-git-hooks",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -31,25 +33,28 @@
       "prettier --write"
     ],
     "*.ts?(x)": [
+      "eslint",
       "prettier --parser=typescript --write"
     ],
-    "*.vue":[
+    "*.vue": [
       "prettier --write"
     ]
   },
   "keywords": [],
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
+    "@heibaimono/eslint-config": "workspace:^",
+    "@pvtnbr/eslint-config": "^0.37.1",
     "concurrently": "^8.2.0",
     "conventional-changelog-cli": "^4.1.0",
     "execa": "^8.0.1",
     "lint-staged": "^15.0.2",
+    "rimraf": "^4.1.2",
     "simple-git-hooks": "^2.9.0",
-    "typescript": "^5.2.2",
-    "rimraf": "^4.1.2"
+    "typescript": "^5.2.2"
   },
   "dependencies": {
-  
+    "eslint-define-config": "^1.5.1",
     "typesense-docsearch-css": "^0.4.0",
     "vue": "^3.3.4"
   },

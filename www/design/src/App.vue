@@ -24,7 +24,6 @@ header {
   flex: 1;
 }
 
-
 nav {
   width: 100%;
   font-size: 12px;

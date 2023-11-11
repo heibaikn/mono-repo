@@ -5,13 +5,12 @@
       clip-rule="evenodd"
       fill="#ff6d00"
       fill-rule="evenodd"
-      style="stroke-width: 0.93414"
-    />
+      style="stroke-width: 0.93414" />
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Astro',
+  name: 'Astro'
 } as DefineComponent
 </script>

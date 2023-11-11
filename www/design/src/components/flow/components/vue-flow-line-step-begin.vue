@@ -1,23 +1,23 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import {
   BaseEdge,
-  StepEdge,
-  SmoothStepEdge,
   EdgeLabelRenderer,
-  getSmoothStepPath,
+  SmoothStepEdge,
+  type SmoothStepEdgeProps,
+  StepEdge,
   getBezierPath,
-  useVueFlow,
-  type SmoothStepEdgeProps
+  getSmoothStepPath,
+  useVueFlow
 } from '@vue-flow/core'
-import { computed } from 'vue'
+import { EventName, type FlowItem, LineType, NodeType, PropsLine } from '../flow'
 import addNode from '@/components/flow/components/vue-flow-add.vue'
-import { PropsLine, LineType, EventName, NodeType, type FlowItem } from '../flow'
 const props = defineProps(PropsLine)
 const emits = defineEmits(['lineEvent'])
 const path = computed(() => getSmoothStepPath(props))
 // console.log(path, props);
 const click = (node: FlowItem) => {
-  let targetId = props.id?.split('-')[1]
+  const targetId = props.id?.split('-')[1]
   emits('lineEvent', {
     type: LineType.StepBegin,
     event: EventName.Add,
@@ -26,7 +26,9 @@ const click = (node: FlowItem) => {
   })
 }
 const random = (n = 6) => {
-  return new Array(n).fill(0).map(v => (Math.ceil(Math.random() * 36)).toString(36)).join('')
+  return Array.from({ length: n }, () => '')
+    .map((v) => Math.ceil(Math.random() * 36).toString(36))
+    .join('')
 }
 const branchItem = () => {
   return {
@@ -40,9 +42,9 @@ const branchItem = () => {
   }
 }
 const addBranch = () => {
-  let data = JSON.parse(JSON.stringify(props.data))
+  const data = JSON.parse(JSON.stringify(props.data))
   data.branches.push(branchItem())
-  let targetId = props.id?.split('-')[1]
+  const targetId = props.id?.split('-')[1]
   emits('lineEvent', {
     type: LineType.StepBegin,
     event: EventName.Replace,
@@ -60,26 +62,27 @@ export default {
 
 <template>
   <!-- You can use the `BaseEdge` component to create your own custom edge more easily -->
-  <SmoothStepEdge type="step" :id="id" :style="style" :path="path[0]"
-                  :marker-end="markerEnd" />
+  <SmoothStepEdge :id="id" type="step" :style="style" :path="path[0]" :marker-end="markerEnd" />
   <!-- Use the `EdgeLabelRenderer` to escape the SVG world of edges and render your own custom label in a `<div>` ctx -->
   <EdgeLabelRenderer>
     <div
-         :style="{
-           pointerEvents: 'all',
-           position: 'absolute',
-           transform: `translate(-50%, 20%) translate(${props.sourceX}px,${props.sourceY}px)`
-         }"
-         class="nodrag nopan">
-      <addNode @add-node="click" :branch="false"></addNode>
+      :style="{
+        pointerEvents: 'all',
+        position: 'absolute',
+        transform: `translate(-50%, 20%) translate(${props.sourceX}px,${props.sourceY}px)`
+      }"
+      class="nodrag nopan"
+    >
+      <addNode :branch="false" @add-node="click" />
     </div>
     <div
-         :style="{
-           pointerEvents: 'all',
-           position: 'absolute',
-           transform: `translate(-50%, 180%) translate(${props.sourceX}px,${props.sourceY}px)`
-         }"
-         class="nodrag nopan">
+      :style="{
+        pointerEvents: 'all',
+        position: 'absolute',
+        transform: `translate(-50%, 180%) translate(${props.sourceX}px,${props.sourceY}px)`
+      }"
+      class="nodrag nopan"
+    >
       <button class="edge-button" @click="addBranch()">+</button>
     </div>
   </EdgeLabelRenderer>
@@ -110,5 +113,6 @@ export default {
   }
 }
 
-.branch-button {}
+.branch-button {
+}
 </style>

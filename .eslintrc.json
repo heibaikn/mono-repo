@@ -1,0 +1,13 @@
+{
+  "root": true,
+ 
+  "extends": ["@heibaimono/eslint-config"],
+  "rules": {
+    "vue/multi-word-component-names": "off",
+    "no-warning-comments": 1,
+    "no-console": "off",
+    "no-unused-vars": "off",
+    "eslint-comments/no-unlimited-disable":"off",
+    "@typescript-eslint/no-unused-vars": "off"
+  }
+}

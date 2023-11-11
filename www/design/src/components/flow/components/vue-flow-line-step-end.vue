@@ -1,16 +1,17 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import {
   BaseEdge,
-  StepEdge,
-  SmoothStepEdge,
   EdgeLabelRenderer,
-  getSmoothStepPath,
+  SmoothStepEdge,
+  StepEdge,
   getBezierPath,
+  getSmoothStepPath,
   useVueFlow
 } from '@vue-flow/core'
-import { computed } from 'vue'
+import { EventName, LineType, NodeType, PropsLine } from '../flow'
+import type { FlowItem } from '../flow'
 import addNode from '@/components/flow/components/vue-flow-add.vue'
-import { PropsLine, LineType, EventName, NodeType, FlowItem } from '../flow'
 const props = defineProps(PropsLine)
 const emits = defineEmits(['lineEvent'])
 
@@ -18,7 +19,7 @@ const path = computed(() =>
   getSmoothStepPath(Object.assign({ centerY: props.targetY - 60 }, props))
 )
 const click = (node: FlowItem) => {
-  let targetId = props.id?.split('-')[1]
+  const targetId = props.id?.split('-')[1]
   emits('lineEvent', {
     type: LineType.Base,
     event: EventName.Add,
@@ -28,8 +29,8 @@ const click = (node: FlowItem) => {
 }
 
 const clickEnd = (node: FlowItem) => {
-  let data = JSON.parse(JSON.stringify(props.data))
-  console.log('line click ', data)
+  const data = JSON.parse(JSON.stringify(props.data))
+  console.log('line click', data)
   // let targetId = props.id?.split('-')[1];
   emits('lineEvent', {
     type: LineType.StepEnd,
@@ -47,7 +48,7 @@ export default {
 </script>
 
 <template>
-  <SmoothStepEdge type="step" :id="id" :style="style" :path="path[0]" :marker-end="markerEnd" />
+  <SmoothStepEdge :id="id" type="step" :style="style" :path="path[0]" :marker-end="markerEnd" />
   <EdgeLabelRenderer>
     <div
       :style="{
@@ -55,8 +56,9 @@ export default {
         position: 'absolute',
         transform: `translate(-50%, 30%) translate(${props.sourceX}px,${props.sourceY}px)`
       }"
-      class="nodrag nopan">
-      <addNode @add-node="click"></addNode>
+      class="nodrag nopan"
+    >
+      <addNode @add-node="click" />
     </div>
     <div
       :style="{
@@ -64,8 +66,9 @@ export default {
         position: 'absolute',
         transform: `translate(-50%, -130%) translate(${props.targetX}px,${props.targetY}px)`
       }"
-      class="nodrag nopan">
-      <addNode @add-node="clickEnd" :branch="false"></addNode>
+      class="nodrag nopan"
+    >
+      <addNode :branch="false" @add-node="clickEnd" />
     </div>
   </EdgeLabelRenderer>
 </template>

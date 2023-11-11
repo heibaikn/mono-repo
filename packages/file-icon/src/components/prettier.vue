@@ -30,6 +30,6 @@
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Prettier',
+  name: 'Prettier'
 } as DefineComponent
 </script>

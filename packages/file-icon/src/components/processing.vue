@@ -1,25 +1,10 @@
 <template>
-  <svg
-    fill="none"
-    version="1.1"
-    viewBox="0 0 800 800"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg fill="none" version="1.1" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
     <g>
       <g transform="translate(33.541 65)" stroke="#536dfe">
-        <path
-          d="m400 500c300 0 300-400 0-400"
-          fill="none"
-          stroke="#536dfe"
-          stroke-width="150"
-        />
+        <path d="m400 500c300 0 300-400 0-400" fill="none" stroke="#536dfe" stroke-width="150" />
       </g>
-      <path
-        d="m433.54 265-300 400"
-        fill="none"
-        stroke="#673ab7"
-        stroke-width="150"
-      />
+      <path d="m433.54 265-300 400" fill="none" stroke="#673ab7" stroke-width="150" />
       <path d="m133.54 365 100 200" stroke="#82b1ff" stroke-width="150" />
     </g>
   </svg>
@@ -27,6 +12,6 @@
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Processing',
+  name: 'Processing'
 } as DefineComponent
 </script>

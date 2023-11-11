@@ -1,10 +1,21 @@
 <script lang="ts" setup>
-import type { CSSProperties } from 'vue'
-import type { Connection, Edge, NodeProps } from '@vue-flow/core'
-import Close from '../icon/close.vue';
 import { Handle, Position } from '@vue-flow/core'
+import Close from '../icon/close.vue'
 import { EventName, NodeType } from '../flow'
-const props = defineProps(['id', 'data'])
+import type { CSSProperties, PropType } from 'vue'
+import type { Connection, Edge, NodeProps } from '@vue-flow/core'
+const props = defineProps({
+  id: {
+    type: String,
+    default: ''
+  },
+  data: {
+    type: Object as PropType<Record<string, any>>,
+    default: () => {
+      return {}
+    }
+  }
+})
 const emits = defineEmits(['itemEvent'])
 const targetHandleStyle: CSSProperties = { background: '#555' }
 const itemClick = () => {
@@ -40,12 +51,13 @@ export default {
         <span>{{ data.name }}</span>
         <div @click.stop>
           <el-popconfirm
-                         trigger="hover"
-                         confirmButtonText="删除"
-                         cancel-button-text="取消"
-                         @confirm="detele"
-                         width="290px"
-                         title="是否删除该节点">
+            trigger="hover"
+            confirm-button-text="删除"
+            cancel-button-text="取消"
+            width="290px"
+            title="是否删除该节点"
+            @confirm="detele"
+          >
             <template #reference>
               <div title="删除" class="node-operation-img node-operation-close">
                 <Close />

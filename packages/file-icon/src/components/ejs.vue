@@ -1,9 +1,6 @@
 <template>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <path
-      d="M8.046 4.862.908 12l7.138 7.138 2.71-2.691L6.308 12l4.446-4.447z"
-      fill="#ffca28"
-    />
+    <path d="M8.046 4.862.908 12l7.138 7.138 2.71-2.691L6.308 12l4.446-4.447z" fill="#ffca28" />
     <ellipse
       cx="14.543"
       cy="7.812"
@@ -11,8 +8,7 @@
       ry="2.798"
       fill="none"
       stroke="#ffca28"
-      stroke-width="1.455"
-    />
+      stroke-width="1.455" />
     <path fill="#ffca28" d="m20.616 4.152 1.47.69-7.783 15.005-1.47-.69z" />
     <ellipse
       cx="20.35"
@@ -21,13 +17,12 @@
       ry="2.798"
       fill="none"
       stroke="#ffca28"
-      stroke-width="1.455"
-    />
+      stroke-width="1.455" />
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Ejs',
+  name: 'Ejs'
 } as DefineComponent
 </script>

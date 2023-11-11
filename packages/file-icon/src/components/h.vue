@@ -3,13 +3,12 @@
     <path
       d="M16.745 19.818h-3.007v-5.882q0-2.381-1.736-2.381-.869 0-1.438.663-.56.662-.56 1.718v5.882H6.988V4.533h3.016v6.508h.037q1.186-1.802 3.193-1.802 3.511 0 3.511 4.239z"
       fill="#0277bd"
-      aria-label="h"
-    />
+      aria-label="h" />
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'H',
+  name: 'H'
 } as DefineComponent
 </script>

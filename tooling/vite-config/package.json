@@ -1,13 +1,13 @@
 {
-  "name": "@tooling/vite-config",
+  "name": "@heibaimono/vite-config",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "devDependencies": {
-    "@tooling/eslint-config": "workspace:*",
-    "@tooling/tsconfig": "workspace:*",
+    "@heibaimono/eslint-config": "workspace:*",
+    "@heibaimono/tsconfig": "workspace:*",
     "@vitejs/plugin-vue": "^4.2.3",
     "defu": "^6.1.2",
     "unplugin-vue-macros": "1.8.2",

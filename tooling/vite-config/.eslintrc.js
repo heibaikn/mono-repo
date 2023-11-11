@@ -1,4 +1,4 @@
 module.exports = {
-  extends: ['@tooling/eslint-config'],
+  extends: ['@heibaimono/eslint-config'],
   ignorePatterns: '!**/*'
 }
