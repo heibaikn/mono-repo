@@ -1,7 +1,7 @@
 // @ts-check
-import pico from 'picocolors'
 import { readFileSync } from 'fs'
 import path from 'path'
+import pico from 'picocolors'
 
 const msgPath = path.resolve('.git/COMMIT_EDITMSG')
 const msg = readFileSync(msgPath, 'utf-8').trim()
@@ -13,13 +13,12 @@ if (!commitRE.test(msg)) {
   console.error(
     `  ${pico.white(pico.bgRed(' ERROR '))} ${pico.red(
       `${msg} is invalid commit message format.`
-    )}\n\n` +
-      pico.red(
-        `  Proper commit message format is required for automated changelog generation. Examples:\n\n`
-      ) +
-      `    ${pico.green(`feat(compiler): add 'comments' option`)}\n` +
-      `    ${pico.green(`fix(v-model): handle events on blur (close #28)`)}\n\n` +
-      pico.red(`  See .github/commit-convention.md for more details.\n`)
+    )}\n\n${pico.red(
+      `  Proper commit message format is required for automated changelog generation. Examples:\n\n`
+    )}    ${pico.green(`feat(compiler): add 'comments' option`)}\n` +
+      `    ${pico.green(`fix(v-model): handle events on blur (close #28)`)}\n\n${pico.red(
+        `  See .github/commit-convention.md for more details.\n`
+      )}`
   )
   process.exit(1)
 }

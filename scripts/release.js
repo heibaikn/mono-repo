@@ -1,13 +1,13 @@
 // @ts-check
-import minimist from 'minimist'
 import fs from 'node:fs'
 import path from 'node:path'
+import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
+import minimist from 'minimist'
 import pico from 'picocolors'
 import semver from 'semver'
 import enquirer from 'enquirer'
 import { execa } from 'execa'
-import { createRequire } from 'node:module'
-import { fileURLToPath } from 'node:url'
 
 let versionUpdated = false
 
@@ -32,11 +32,9 @@ const skipPrompts = args.skipPrompts || args.canary
 const skipGit = args.skipGit || args.canary
 const updateTypeArr = ['major', 'premajor', 'minor', 'preminor', 'patch', 'prepatch', 'prerelease']
 
-const updateType = updateTypeArr
-  .filter((type) => {
-    return args[type] && type
-  })
-  .shift()
+const updateType = updateTypeArr.find((type) => {
+  return args[type] && type
+})
 console.log(updateType)
 const packages = fs
   .readdirSync(path.resolve(__dirname, '../packages'))
@@ -44,8 +42,8 @@ const packages = fs
 const proPackages = fs
   .readdirSync(path.resolve(__dirname, '../www'))
   .filter((p) => !p.endsWith('.ts') && !p.startsWith('.'))
-const getPkgRoot = (pkg) => path.resolve(__dirname, '../packages/' + pkg)
-const getProRoot = (pkg) => path.resolve(__dirname, '../www/' + pkg)
+const getPkgRoot = (pkg) => path.resolve(__dirname, `../packages/${pkg}`)
+const getProRoot = (pkg) => path.resolve(__dirname, `../www/${pkg}`)
 
 const isCorePackage = (pkgName) => {
   if (!pkgName) return
@@ -140,7 +138,7 @@ async function isInSyncWithRemote() {
     const res = await fetch(`https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`)
     const data = await res.json()
     return data.sha === (await getSha())
-  } catch (e) {
+  } catch {
     console.error('Failed to check whether local HEAD is up-to-date with remote.')
     return false
   }
@@ -182,7 +180,7 @@ function updatePackage(pkgRoot, version, getNewPackageName) {
   pkg.version = version
   updateDeps(pkg, 'dependencies', version, getNewPackageName)
   updateDeps(pkg, 'peerDependencies', version, getNewPackageName)
-  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
+  fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
 }
 
 function updateDeps(pkg, depType, version, getNewPackageName) {

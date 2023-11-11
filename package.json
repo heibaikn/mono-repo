@@ -18,8 +18,8 @@
     "check": "tsc --incremental --noEmit",
     "msg:check": "node scripts/verifyCommit.js",
     "format": "prettier --write ",
-    "lint1": "eslint . --ext .vue --max-warnings 0 --cache --quiet",
-    "lint": "eslint . --ext .vue --max-warnings 0 --cache --quiet",
+    "lint1": "eslint . --ext  .vue,.js,.ts,.jsx,.tsx,.md,.json  --max-warnings 0 --cache --quiet",
+    "lint": "eslint . --ext .vue,.ts,.js --max-warnings 0 --cache --quiet",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "simple-git-hooks",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -44,7 +44,6 @@
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
     "@heibaimono/eslint-config": "workspace:^",
-    "@pvtnbr/eslint-config": "^0.37.1",
     "concurrently": "^8.2.0",
     "conventional-changelog-cli": "^4.1.0",
     "execa": "^8.0.1",

@@ -1,13 +1,13 @@
 // @ts-check
-import minimist from 'minimist'
 import fs from 'node:fs'
 import path from 'node:path'
+import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
+import minimist from 'minimist'
 import pico from 'picocolors'
 import semver from 'semver'
 import enquirer from 'enquirer'
 import { execa } from 'execa'
-import { createRequire } from 'node:module'
-import { fileURLToPath } from 'node:url'
 
 let versionUpdated = false
 
@@ -73,7 +73,7 @@ const run = (bin, args, opts = {}) => execa(bin, args, { stdio: 'inherit', ...op
 const dryRun = (bin, args, opts = {}) =>
   console.log(pico.blue(`[dryrun] ${bin} ${args.join(' ')}`), opts)
 const runIfNotDry = isDryRun ? dryRun : run
-const getPkgRoot = (pkg) => path.resolve(__dirname, '../packages/' + pkg)
+const getPkgRoot = (pkg) => path.resolve(__dirname, `../packages/${pkg}`)
 const step = (msg) => console.log(pico.cyan(msg))
 
 async function main() {
@@ -302,7 +302,7 @@ async function getCIResult() {
     )
     const data = await res.json()
     return data.workflow_runs.length > 0
-  } catch (e) {
+  } catch {
     console.error('Failed to get CI status for current commit.')
     return false
   }
@@ -316,7 +316,7 @@ async function isInSyncWithRemote() {
     const res = await fetch(`https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`)
     const data = await res.json()
     return data.sha === sha
-  } catch (e) {
+  } catch {
     console.error('Failed to check whether local HEAD is up-to-date with remote.')
     return false
   }
@@ -336,7 +336,7 @@ function updatePackage(pkgRoot, version, getNewPackageName) {
   pkg.version = version
   updateDeps(pkg, 'dependencies', version, getNewPackageName)
   updateDeps(pkg, 'peerDependencies', version, getNewPackageName)
-  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
+  fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
 }
 
 function updateDeps(pkg, depType, version, getNewPackageName) {
