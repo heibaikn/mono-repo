@@ -1,6 +1,6 @@
 {
   "name": "main",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -16,7 +16,7 @@
     "lodash": "^4.17.21",
     "pinia": "^2.1.6",
     "qiankun": "^2.10.13",
-    "vue": "^3.3.4",
+    "vue": "*",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {

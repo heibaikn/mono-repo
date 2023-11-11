@@ -1,6 +1,8 @@
 {
+  "private": true,
+  "type": "module",
   "name": "mono-repo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,20 +12,46 @@
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish --access=public",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "create:tag":"pnpm -F action create:tag",
-    "release": "pnpm run build && pnpm run changeset:add && pnpm run changeset:version && pnpm run changeset:publish",
+    "create:tag": "pnpm -F action create:tag",
+    "release": "node scripts/release.js",
+    "release1": "pnpm run build && pnpm run changeset:add && pnpm run changeset:version && pnpm run changeset:publish",
+    "check": "tsc --incremental --noEmit",
+    "msg:check": "node scripts/verifyCommit.js",
+    "format": "prettier --write ",
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "simple-git-hooks",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged",
+    "commit-msg": "node scripts/verifyCommit.js"
+  },
+  "lint-staged": {
+    "*.{js,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ],
+    "*.vue":[
+      "prettier --write"
+    ]
   },
   "keywords": [],
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
     "concurrently": "^8.2.0",
     "conventional-changelog-cli": "^4.1.0",
+    "execa": "^8.0.1",
+    "lint-staged": "^15.0.2",
+    "simple-git-hooks": "^2.9.0",
+    "typescript": "^5.2.2",
     "rimraf": "^4.1.2"
   },
   "dependencies": {
+  
     "typesense-docsearch-css": "^0.4.0",
-    "vue": "3.3.4"
+    "vue": "^3.3.4"
   },
   "author": "",
   "license": "ISC"
