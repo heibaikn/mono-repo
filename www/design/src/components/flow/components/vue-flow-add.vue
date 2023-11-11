@@ -75,7 +75,7 @@ const showCreator = (type: NodeType) => {
   self.type = type
 }
 const random = (n = 6) => {
-  return Array.from({ length: n }, () => '')
+  return Array.from({ length: n }, () => 0)
     .map((v) => Math.ceil(Math.random() * 36).toString(36))
     .join('')
 }

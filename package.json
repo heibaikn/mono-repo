@@ -19,7 +19,7 @@
     "msg:check": "node scripts/verifyCommit.js",
     "format": "prettier --write ",
     "lint1": "eslint . --ext  .vue,.js,.ts,.jsx,.tsx,.md,.json  --max-warnings 0 --cache --quiet",
-    "lint": "eslint . --ext .vue,.ts,.js --max-warnings 0 --cache --quiet",
+    "lint": "eslint . --ext .vue,.ts,.js --cache --quiet",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "simple-git-hooks",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -29,15 +29,12 @@
     "commit-msg": "node scripts/verifyCommit.js"
   },
   "lint-staged": {
-    "*.{js,json}": [
+    "*.{vue,js,json}": [
       "prettier --write"
     ],
     "*.ts?(x)": [
       "eslint",
       "prettier --parser=typescript --write"
-    ],
-    "*.vue": [
-      "prettier --write"
     ]
   },
   "keywords": [],

@@ -12,24 +12,21 @@ import type { BuildOptions, Format } from 'esbuild'
 const buildBundle = async () => {
   const getBuildOptions = (format: Format) => {
     const options: BuildOptions = {
-      entryPoints: [
-        path.resolve(pathSrc, 'index.ts'),
-        path.resolve(pathSrc, 'global.ts'),
-      ],
+      entryPoints: [path.resolve(pathSrc, 'index.ts'), path.resolve(pathSrc, 'global.ts')],
       target: 'es2018',
       platform: 'neutral',
       plugins: [
         vue({
-          isProduction: true,
-        }),
+          isProduction: true
+        })
       ],
       bundle: true,
       format,
       minifySyntax: true,
       banner: {
-        js: `/*! Element Plus Icons Vue v${version} */\n`,
+        js: `/*! Element Plus Icons Vue v${version} */\n`
       },
-      outdir: pathOutput,
+      outdir: pathOutput
     }
     options.external = ['vue']
     // if (format === 'iife') {
@@ -40,7 +37,7 @@ const buildBundle = async () => {
     //   )
     //   options.globalName = 'ElementPlusIconsVue'
     // } else {
-    
+
     // }
 
     return options
@@ -50,9 +47,9 @@ const buildBundle = async () => {
       build({
         ...getBuildOptions('esm'),
         entryNames: `[name]${minify ? '.min' : ''}`,
-        minify,
+        minify
         // sourcemap: minify,
-      }),
+      })
       // build({
       //   ...getBuildOptions('iife'),
       //   entryNames: `[name].iife${minify ? '.min' : ''}`,

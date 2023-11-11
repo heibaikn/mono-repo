@@ -1,6 +1,6 @@
-import type { Nullable, MonacoEditor } from '../types'
 import { shallowRef } from 'vue-demi'
 import loader from '@monaco-editor/loader'
+import type { Nullable, MonacoEditor } from '../types'
 export function useMonaco() {
   const monacoRef = shallowRef<Nullable<MonacoEditor>>(null)
   loader.config({

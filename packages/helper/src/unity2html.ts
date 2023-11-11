@@ -2,39 +2,39 @@ import { parse } from 'node-html-parser'
 class UnityToHtml {
   rgbToHex(rgbStr: string) {
     //十六进制颜色值的正则表达式
-    let reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+    let reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
     // 如果是rgb颜色表示
     if (/^(rgb|RGB)/.test(rgbStr)) {
-      let aColor = rgbStr.replace(/(?:\(|\)|rgb|RGB)*/g, "").split(",");
-      let strHex = "#";
-      for (let i = 0; i < aColor.length; i++) {
-        let hex = Number(aColor[i]).toString(16);
-        if (hex === "0") {
-          hex += hex;
+      let aColor = rgbStr.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',')
+      let strHex = '#'
+      for (const element of aColor) {
+        let hex = Number(element).toString(16)
+        if (hex === '0') {
+          hex += hex
         }
-        strHex += hex;
+        strHex += hex
       }
       if (strHex.length !== 7) {
-        strHex = rgbStr;
+        strHex = rgbStr
       }
-      return strHex;
+      return strHex
     } else if (reg.test(rgbStr)) {
-      let aNum = rgbStr.replace(/#/, "").split("");
+      let aNum = rgbStr.replace(/#/, '').split('')
       if (aNum.length === 6) {
-        return rgbStr;
+        return rgbStr
       } else if (aNum.length === 3) {
-        let numHex = "#";
-        for (let i = 0; i < aNum.length; i += 1) {
-          numHex += (aNum[i] + aNum[i]);
+        let numHex = '#'
+        for (const element of aNum) {
+          numHex += element + element
         }
-        return numHex;
+        return numHex
       }
     }
-    return rgbStr;
+    return rgbStr
   }
   replaceEscapedChars(text: string) {
     //定义需要替换的字符实体映射表
-    const map: Record<string,string> = {
+    const map: Record<string, string> = {
       '&amp;': '&',
       '&middot;': '.',
       '&lt;': '<',
@@ -88,11 +88,11 @@ class UnityToHtml {
     return str
   }
   replaceNestedNTags(str: string) {
-    const regex = /(.*?)\\n/g; // 匹配换行符前的所有字符
+    const regex = /(.*?)\\n/g // 匹配换行符前的所有字符
     if (!str.match(/\\n/g)) {
       return str
     }
-    str = str.replace(regex, "<p>$1</p>")
+    str = str.replace(regex, '<p>$1</p>')
     return str
   }
   convertUnityToHtml(ansiText: string): string | undefined {

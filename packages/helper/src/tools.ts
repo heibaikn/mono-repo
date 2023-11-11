@@ -1,4 +1,3 @@
-
 // export const pickInfoFromRoute = (route: any) => {
 //   let data = {} as any;
 //   data.project_id = route.params.project_id;
@@ -8,11 +7,11 @@
 //   return data;
 // }
 
-export const obtainNotificationStyle = (msg: string, type = "success") => {
+export const obtainNotificationStyle = (msg: string, type = 'success') => {
   return {
     title: '温馨提示',
     message: msg,
     position: 'bottom-left',
-    type: type
+    type
   }
 }

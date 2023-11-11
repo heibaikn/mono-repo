@@ -1,22 +1,18 @@
 export default {
   DEV: {
-    ApiGamingService: "http://127.0.0.1:8000",
-
+    ApiGamingService: 'http://127.0.0.1:8000'
   },
   UAT: {
-    ApiGamingService: "",
-
+    ApiGamingService: ''
   },
   PROD: {
-    ApiGamingService: "",
-
+    ApiGamingService: ''
   },
   GCLOUD: {
-    ApiGamingService: "",
-
+    ApiGamingService: ''
   },
   BASE: {
-    Design: "/child/design",
-    React: "/child/react",
-  },
-};
+    Design: '/child/design',
+    React: '/child/react'
+  }
+}

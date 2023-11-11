@@ -8,5 +8,5 @@ export enum IconPack {
   React = 'react',
   Redux = 'react_redux',
   Vue = 'vue',
-  Vuex = 'vue_vuex',
+  Vuex = 'vue_vuex'
 }

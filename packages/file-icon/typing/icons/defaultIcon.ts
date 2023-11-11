@@ -2,15 +2,15 @@ export interface DefaultIcon {
   /**
    * Name of the icon, e.g. 'src'
    */
-  name: string;
+  name: string
 
   /**
    * Define if there is a light icon available.
    */
-  light?: boolean;
+  light?: boolean
 
   /**
    * Define if there is a high contrast icon available.
    */
-  highContrast?: boolean;
+  highContrast?: boolean
 }
