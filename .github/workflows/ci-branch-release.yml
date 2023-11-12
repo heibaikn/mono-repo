@@ -14,6 +14,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.ref }}
     
     - name: Use pnpm
       uses: pnpm/action-setup@v2

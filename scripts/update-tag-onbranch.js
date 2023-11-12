@@ -22,7 +22,10 @@ async function isInSyncWithRemote() {
     const branch = await getBranch()
     const res = await fetch(`https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`)
     const data = await res.json()
-    return data.sha === (await getSha())
+    console.log('data.sha', data.sha)
+    const sha = await getSha()
+    console.log('sha', sha)
+    return data.sha === sha
   } catch {
     console.error('Failed to check whether local HEAD is up-to-date with remote.')
     return false
