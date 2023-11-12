@@ -22,7 +22,7 @@ jobs:
 
     - name: Execute Tag Creation Script
       run: |
-       pnpm run release --patch --git  
+       pnpm run ci:branch-release --patch --git  
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         VERSION: ${{ github.ref }}
