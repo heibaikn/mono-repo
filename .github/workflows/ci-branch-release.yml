@@ -1,0 +1,28 @@
+name: ci-branch-release
+on:
+  push:
+    branches:
+      - release_v_*
+  workflow_dispatch:
+    inputs:
+      workflow_name:
+        description: 'ci-branch-release'
+
+jobs:
+  create_tag:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Use pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
+    - name: Execute Tag Creation Script
+      run: |
+       pnpm run release --patch --git  
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        VERSION: ${{ github.ref }}

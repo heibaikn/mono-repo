@@ -74,47 +74,8 @@ async function main() {
   }
 
   let targetVersion = args._[0]
-  if (updateType) {
-    // @ts-ignore
-    const newVersion = semver.inc(currentVersion, updateType)
-    // @ts-ignore
-    targetVersion = newVersion
-  } else if (isCanary) {
-    // The canary version string format is `3.yyyyMMdd.0` (or `3.yyyyMMdd.0-minor.0` for minor)
-    // Use UTC date so that it's consistent across CI and maintainers' machines
-    const datestamp = getDatestamp()
-    const major = semver.major(currentVersion)
-    let canaryVersion
-    canaryVersion = `${major}.${datestamp}.0`
-    if (args.tag && args.tag !== 'latest') {
-      canaryVersion = `${major}.${datestamp}.0-${args.tag}.0`
-    }
-    targetVersion = canaryVersion
-  }
-
-  step(
-    isCanary ? `Releasing canary version v${targetVersion}...` : `Releasing v${targetVersion}...`
-  )
-
-  // update all package versions and inter-dependencies
-  step('\nUpdating cross dependencies...')
-  // updateVersions(targetVersion, keepThePackageName)
-  versionUpdated = true
-
-  // build all packages with types
-  // step('\nBuilding all packages...')
 
   if (isGit) {
-    // generate changelog
-    step('\nGenerating changelog...')
-    await run(`pnpm`, ['run', 'changelog'])
-
-    const { stdout } = await run('git', ['diff'], { stdio: 'pipe' })
-    if (!stdout) {
-      console.log('No changes to commit.')
-      return
-    }
-
     const tagName = await getTagName()
     if (tagName) {
       step('\n delete tag...')
@@ -262,7 +223,7 @@ async function publishPackage(pkgName, version, additionalFlags) {
 main().catch((err) => {
   if (versionUpdated) {
     // revert to current version on failed releases
-    updateVersions(currentVersion)
+    // updateVersions(currentVersion)
   }
   console.error(err)
   process.exit(1)
