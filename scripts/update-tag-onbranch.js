@@ -64,9 +64,11 @@ async function main() {
   if (hasTag) {
     step(`\n delete tag:${tagName}`)
     await runIfNotDry('git', ['tag', '-d', tagName])
+    await runIfNotDry('git', ['push', 'origin', '-d', tagName])
   }
   step(`\n add tag:${tagName}`)
   await runIfNotDry('git', ['tag', tagName])
+  await runIfNotDry('git', ['push', 'origin', tagName])
 }
 main().catch((err) => {
   console.error(err)
