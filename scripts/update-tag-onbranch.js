@@ -18,8 +18,11 @@ const step = (msg) => console.log(pico.cyan(msg))
 
 async function isInSyncWithRemote() {
   try {
+    console.log('start')
     const repoName = await getRepoName()
+    console.log('repoName', repoName)
     const branch = await getBranch()
+    console.log('branch', branch)
     const res = await fetch(`https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`)
     const data = await res.json()
     console.log('data.sha', data.sha)
