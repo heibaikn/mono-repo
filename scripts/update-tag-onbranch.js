@@ -51,6 +51,7 @@ async function getTagNameByBranch() {
 }
 async function getRepoName() {
   const { stdout: url } = await execa('git', ['config', '--get', 'remote.origin.url'])
+  console.log('url', url)
   const regex = /:(.*?)\.git/
   // @ts-ignore
   return url.match(regex)[1]

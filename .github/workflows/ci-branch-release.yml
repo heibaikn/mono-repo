@@ -27,6 +27,8 @@ jobs:
       with:
         registry-url: 'https://registry.npmjs.org'
         cache: 'pnpm'
+        node-version: 'lts/hydrogen'
+
     - run: pnpm install 
     - run: |
        pnpm run ci:branch-release
