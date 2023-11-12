@@ -18,24 +18,23 @@ const args = minimist(process.argv.slice(2), {
   alias: {
     skipBuild: 'skip-build',
     skipTests: 'skip-tests',
-    skipGit: 'skip-git',
+    isGit: 'git',
     skipPrompts: 'skip-prompts'
   }
 })
 
+const updateTypeArr = ['major', 'premajor', 'minor', 'preminor', 'patch', 'prepatch', 'prerelease']
+const updateType = updateTypeArr.find((type) => {
+  return args[type] && type
+})
+console.log(pico.blue(`updateType:${updateType}`))
 const preId = args.preid || semver.prerelease(currentVersion)?.[0]
 const isDryRun = args.dry
 let skipTests = args.skipTests
 const skipBuild = args.skipBuild
-const isCanary = args.canary
-const skipPrompts = args.skipPrompts || args.canary
-const skipGit = args.skipGit || args.canary
-const updateTypeArr = ['major', 'premajor', 'minor', 'preminor', 'patch', 'prepatch', 'prerelease']
-
-const updateType = updateTypeArr.find((type) => {
-  return args[type] && type
-})
-console.log(updateType)
+const skipPrompts = args.skipPrompts
+const isCanary = args.canary || !updateType
+const isGit = args.isGit
 const packages = fs
   .readdirSync(path.resolve(__dirname, '../packages'))
   .filter((p) => !p.endsWith('.ts') && !p.startsWith('.'))
@@ -48,11 +47,9 @@ const getProRoot = (pkg) => path.resolve(__dirname, `../www/${pkg}`)
 const isCorePackage = (pkgName) => {
   if (!pkgName) return
 
-  if (pkgName === 'vue' || pkgName === '@vue/compat') {
-    return true
-  }
-
-  return pkgName.startsWith('@vue') && packages.includes(pkgName.replace(/^@vue\//, ''))
+  return (
+    pkgName.startsWith('@heibaimono') && packages.includes(pkgName.replace(/^@heibaimono\//, ''))
+  )
 }
 
 const keepThePackageName = (pkgName) => pkgName
@@ -99,7 +96,7 @@ async function main() {
 
   // update all package versions and inter-dependencies
   step('\nUpdating cross dependencies...')
-  updateVersions(targetVersion, isCanary ? keepThePackageName : keepThePackageName)
+  updateVersions(targetVersion, keepThePackageName)
   versionUpdated = true
 
   // build all packages with types
@@ -111,23 +108,24 @@ async function main() {
   // } else {
   console.log(`(skipped)`)
   // }
+  if (!isGit) {
+    // generate changelog
+    step('\nGenerating changelog...')
+    await run(`pnpm`, ['run', 'changelog'])
 
-  // generate changelog
-  step('\nGenerating changelog...')
-  await run(`pnpm`, ['run', 'changelog'])
+    const { stdout } = await run('git', ['diff'], { stdio: 'pipe' })
+    if (stdout) {
+      step('\nCommitting changes...')
+      await runIfNotDry('git', ['add', '-A'])
+      await runIfNotDry('git', ['commit', '-m', `release: v${targetVersion}`])
 
-  const { stdout } = await run('git', ['diff'], { stdio: 'pipe' })
-  if (stdout) {
-    step('\nCommitting changes...')
-    await runIfNotDry('git', ['add', '-A'])
-    await runIfNotDry('git', ['commit', '-m', `release: v${targetVersion}`])
-
-    step('\nPushing to GitHub...')
-    await runIfNotDry('git', ['tag', `v${targetVersion}`])
-    await runIfNotDry('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
-    await runIfNotDry('git', ['push'])
-  } else {
-    console.log('No changes to commit.')
+      step('\nPushing to GitHub...')
+      await runIfNotDry('git', ['tag', `v${targetVersion}`])
+      await runIfNotDry('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
+      await runIfNotDry('git', ['push'])
+    } else {
+      console.log('No changes to commit.')
+    }
   }
 }
 
@@ -178,6 +176,7 @@ function updatePackage(pkgRoot, version, getNewPackageName) {
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
   pkg.name = getNewPackageName(pkg.name)
   pkg.version = version
+  console.log(pkgPath)
   updateDeps(pkg, 'dependencies', version, getNewPackageName)
   updateDeps(pkg, 'peerDependencies', version, getNewPackageName)
   fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
@@ -190,6 +189,10 @@ function updateDeps(pkg, depType, version, getNewPackageName) {
     if (deps[dep] === 'workspace:*') {
       return
     }
+    if (deps[dep] === '*') {
+      return
+    }
+
     if (isCorePackage(dep)) {
       const newName = getNewPackageName(dep)
       const newVersion = newName === dep ? version : `npm:${newName}@${version}`

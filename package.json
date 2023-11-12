@@ -1,6 +1,6 @@
 {
   "name": "mono-repo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "",
   "type": "module",
@@ -34,7 +34,7 @@
   "dependencies": {
     "eslint-define-config": "^1.5.1",
     "typesense-docsearch-css": "^0.4.0",
-    "vue": "^3.3.4"
+    "vue": "1.0.1"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
@@ -48,13 +48,13 @@
     "typescript": "^5.2.2"
   },
   "lint-staged": {
-    "*.{vue,js,json}": [
-      "eslint",
-      "prettier --write"
+    "*.{vue,js,jsx}": [
+      "prettier --write",
+      "eslint"
     ],
     "*.ts?(x)": [
-      "eslint",
-      "prettier --parser=typescript --write"
+      "prettier --parser=typescript --write",
+      "eslint"
     ]
   }
 }
