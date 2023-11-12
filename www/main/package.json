@@ -16,7 +16,7 @@
     "lodash": "^4.17.21",
     "pinia": "^2.1.6",
     "qiankun": "^2.10.13",
-    "vue": "1.0.1",
+    "vue": "*",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
