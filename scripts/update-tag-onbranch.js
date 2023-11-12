@@ -29,7 +29,8 @@ async function isInSyncWithRemote() {
     const sha = await getSha()
     console.log('sha', sha)
     return data.sha === sha
-  } catch {
+  } catch (e) {
+    console.log(e)
     console.error('Failed to check whether local HEAD is up-to-date with remote.')
     return false
   }
