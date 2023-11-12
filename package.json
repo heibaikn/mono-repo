@@ -40,6 +40,7 @@
     "@changesets/cli": "^2.26.2",
     "@heibaimono/eslint-config": "workspace:^",
     "concurrently": "^8.2.0",
+    "minimist": "^1.2.8",
     "conventional-changelog-cli": "^4.1.0",
     "execa": "^8.0.1",
     "lint-staged": "^15.0.2",

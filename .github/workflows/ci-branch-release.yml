@@ -9,7 +9,7 @@ on:
         description: 'ci-branch-release'
 
 jobs:
-  create_tag:
+  update_tag:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -22,7 +22,8 @@ jobs:
 
     - name: Execute Tag Creation Script
       run: |
-       pnpm run ci:branch-release --patch --git  
+       pnpm i
+       pnpm run ci:branch-release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         VERSION: ${{ github.ref }}
