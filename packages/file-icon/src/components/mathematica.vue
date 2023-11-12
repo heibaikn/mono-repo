@@ -6,13 +6,12 @@
       fill-rule="evenodd"
       stroke="#f44336"
       stroke-linejoin="round"
-      stroke-width=".775"
-    />
+      stroke-width=".775" />
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Mathematica',
+  name: 'Mathematica'
 } as DefineComponent
 </script>

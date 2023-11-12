@@ -5,9 +5,9 @@
         {{ props.tips }}
       </div>
     </template>
-    <a  href="javascript:;">
-      <slot v-if="$slots.label" name="label"></slot>
-      <svg-icon v-else class="question-icon" name="help"></svg-icon>
+    <a href="javascript:;">
+      <slot v-if="$slots.label" name="label" />
+      <svg-icon v-else class="question-icon" name="help" />
     </a>
   </el-tooltip>
 </template>

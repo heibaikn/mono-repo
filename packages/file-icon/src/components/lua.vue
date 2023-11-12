@@ -5,22 +5,14 @@
       <path
         d="M12.33 5.746a6.483 6.381 0 0 0-6.482 6.381 6.483 6.381 0 0 0 6.482 6.38 6.483 6.381 0 0 0 6.484-6.38 6.483 6.381 0 0 0-6.484-6.38zm1.86 1.916a2.329 2.292 0 0 1 2.33 2.293 2.329 2.292 0 0 1-2.33 2.291 2.329 2.292 0 0 1-2.329-2.29 2.329 2.292 0 0 1 2.328-2.294z"
         fill="#42a5f5"
-        fill-rule="evenodd"
-      />
-      <ellipse
-        cx="19.631"
-        cy="4.615"
-        rx="2.329"
-        ry="2.292"
-        fill="#42a5f5"
-        fill-rule="evenodd"
-      />
+        fill-rule="evenodd" />
+      <ellipse cx="19.631" cy="4.615" rx="2.329" ry="2.292" fill="#42a5f5" fill-rule="evenodd" />
     </g>
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Lua',
+  name: 'Lua'
 } as DefineComponent
 </script>

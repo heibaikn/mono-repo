@@ -1,37 +1,40 @@
 <template>
   <div class="com-main" :class="options.showPage && 'has-page'">
     <el-row class="com-header">
-      <el-col v-for="col in options.fields" :span="col.span" class="col">
+      <el-col v-for="(col, key) in options.fields" :key="key" :span="col.span" class="col">
         {{ col.label }}
       </el-col>
     </el-row>
     <div class="com-list">
       <template v-for="(item, index) in options.data" :key="index">
-        <slot :element="item" :index="index"></slot>
+        <slot :element="item" :index="index" />
       </template>
     </div>
-    <div class="com-pagination" v-if="options.showPage">
-      <el-pagination v-bind="pageInfo"
-                     v-model:current-page="self.pageNum"
-                     v-model:page-size="self.pageSize"
-                     @size-change="handleSizeChange"
-                     @current-change="handleCurrentChange" />
+    <div v-if="options.showPage" class="com-pagination">
+      <el-pagination
+        v-bind="pageInfo"
+        v-model:current-page="self.pageNum"
+        v-model:page-size="self.pageSize"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, reactive } from 'vue';
+import { computed, reactive } from 'vue'
 
 const emits = defineEmits(['pageEvent'])
 const props = defineProps({
   options: {
     type: Object,
-    default: {
-      fields: [],
-      data: [],
-      showPage: false,
-      pagination: {}
+    default: () => {
+      return {
+        fields: [],
+        data: [],
+        showPage: false,
+        pagination: {}
+      }
     }
   }
 })
@@ -40,20 +43,25 @@ const self = reactive({
   pageSize: 50
 })
 const pageInfo = computed(() => {
-  return Object.assign({
-    hideOnSinglePage: false,
-    defaultPageSize: 50,
-    background: true,
-    layout: 'total, prev, pager, next',
-    total: 0
-  }, props.options.pagination)
+  return Object.assign(
+    {
+      hideOnSinglePage: false,
+      defaultPageSize: 50,
+      background: true,
+      layout: 'total, prev, pager, next',
+      total: 0
+    },
+    props.options.pagination
+  )
 })
-const debounce = (fn: Function, timeout: number) => {
-  let timer: any = 0;
+const debounce = (fn: () => void, timeout: number) => {
+  let timer: any = 0
   return (...args: any) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => { fn.apply(this, args); }, timeout);
-  };
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      fn.apply(this, args)
+    }, timeout)
+  }
 }
 const debouncePageChange = debounce(() => {
   emits('pageEvent', {
@@ -69,8 +77,8 @@ const handleCurrentChange = (val: number) => {
 }
 const init = () => {
   if (props.options.showPage) {
-    self.pageNum = props.options.pagination.pageNum || 1;
-    self.pageSize = props.options.pagination.pageSize || 50;
+    self.pageNum = props.options.pagination.pageNum || 1
+    self.pageSize = props.options.pagination.pageSize || 50
   }
 }
 init()
@@ -131,7 +139,7 @@ $n: 48;
     margin-left: 0 !important;
     margin-right: 0 !important;
 
-    >div {
+    > div {
       padding: 8px 24px;
       display: flex;
       align-content: flex-start;
@@ -155,9 +163,7 @@ $n: 48;
         border-bottom: 1px solid rgba(0, 0, 0, 0.86);
       }
     }
-
   }
-
 }
 
 .com-main.has-page {

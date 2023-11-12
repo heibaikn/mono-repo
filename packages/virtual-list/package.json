@@ -1,22 +1,22 @@
 {
-  "private": true,
   "name": "@heibaimono/virtual-list",
-  "version": "1.0.1",
+  "version": "1.0.2",
+  "private": true,
   "description": "",
   "type": "module",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "main": "src/index.ts",
   "scripts": {
     "dev": "vite glup start --watch path",
     "build": "vite"
   },
+  "dependencies": {
+    "ansi-to-html": "^0.7.2"
+  },
   "devDependencies": {
     "vue": "*",
     "vue-tsc": "^0.38.2"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "ansi-to-html": "^0.7.2"
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "eg-react",
+  "version": "1.0.2",
   "private": true,
-  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",

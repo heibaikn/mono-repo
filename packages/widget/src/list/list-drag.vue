@@ -1,47 +1,51 @@
 <template>
   <div class="com-main">
     <el-row class="com-header">
-      <el-col v-for="col in options.fields" :span="col.span" class="col">
+      <el-col v-for="(col, key) in options.fields" :key="key" :span="col.span" class="col">
         {{ col.label }}
       </el-col>
     </el-row>
+    <!-- eslint-disable -->
     <draggable v-model="options.data" v-bind="self.dragOptions">
       <template #item="{ element, index }">
         <div>
-          <slot :element="element" :index="index"></slot>
+          <slot :element="element" :index="index" />
         </div>
       </template>
     </draggable>
+    <!-- eslint-enable -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted } from "vue";
-import draggable from "vuedraggable";
+import { onMounted, reactive } from 'vue'
+import draggable from 'vuedraggable'
 // import OptionsItem from './select-edit-item.vue';
 const props = defineProps({
   options: {
     type: Object,
-    default: {
-      fields: [],
-      data: [],
-      dragOptions: {},
-    },
-  },
-});
+    default: () => {
+      return {
+        fields: [],
+        data: [],
+        dragOptions: {}
+      }
+    }
+  }
+})
 const self = reactive({
   dragOptions: {
     animation: 300,
-    group: "description",
+    group: 'description',
     disabled: false,
-    ghostClass: "ghost",
-    handle: ".drag-move",
-    itemKey: "id",
-  },
-});
+    ghostClass: 'ghost',
+    handle: '.drag-move',
+    itemKey: 'id'
+  }
+})
 onMounted(() => {
-  Object.assign(self.dragOptions, props.options.dragOptions);
-});
+  Object.assign(self.dragOptions, props.options.dragOptions)
+})
 </script>
 
 <style scoped lang="scss">

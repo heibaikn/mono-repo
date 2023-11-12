@@ -1,10 +1,10 @@
 <template>
   <div class="node-wrap audit-node-wrap">
     <div class="node-wrap-box creating-node">
-      <div class="audit-background header-background"></div>
+      <div class="audit-background header-background" />
       <div class="header">
         <p class="node-name">节点名称</p>
-        <el-input v-focus v-model="node.name" placeholder="请输入节点名"></el-input>
+        <el-input v-model="node.name" v-focus placeholder="请输入节点名" />
       </div>
       <div class="content">
         <p class="audit-title">负责人</p>
@@ -22,15 +22,15 @@
 
 <script lang="ts" setup>
 import { inject, provide, reactive, ref } from 'vue'
-import { UserItem } from '#/user'
-import { RoleItem } from '#/role'
-import actions from '@/actions'
 import _ from 'lodash'
-import BlgPopover from '@/components/blgPopover/index.vue'
-import { NodeType } from '../flow'
 import { ElNotification } from 'element-plus'
-// import SharedModule from '@/shared'
 import { useRoute } from 'vue-router'
+import { NodeType } from '../flow'
+import type { UserItem } from '#/user'
+import type { RoleItem } from '#/role'
+import actions from '@/actions'
+import BlgPopover from '@/components/blgPopover/index.vue'
+// import SharedModule from '@/shared'
 const route = useRoute()
 const placement = ref<string>('left-end')
 const userList = ref<UserItem[]>([])
@@ -43,7 +43,7 @@ const node = reactive({
   audit: {
     type: 'OR',
     users: ['用户a', '用户b'],
-    roles: [],
+    roles: []
   }
 })
 const createNode = () => {
@@ -132,7 +132,6 @@ const cancel = () => {
     }
 
     .audit-user-container {
-
       .empty-container,
       .selected-list {
         display: flex;

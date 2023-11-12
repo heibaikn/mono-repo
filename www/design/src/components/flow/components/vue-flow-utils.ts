@@ -9,9 +9,9 @@ class Utils {
   dataMap = new Map()
   // 处理后渲染node集合
   nodeMap = new Map()
-  xGap: number = 150
-  yGap: number = 260
-  maxLen: number = 0
+  xGap = 150
+  yGap = 260
+  maxLen = 0
   constructor(source: FlowItem[]) {
     this.init(source)
   }
@@ -51,7 +51,7 @@ class Utils {
       type,
       source,
       target,
-      data: data
+      data
     }
   }
   generateData() {
@@ -110,7 +110,7 @@ class Utils {
     let prevNodeId = this.getPrevNodeIds(item.prev)
     return {
       id: item.id,
-      prevNodeId: prevNodeId,
+      prevNodeId,
       parentId: item.parent.id,
       name: item.name,
       type: item.type,
@@ -159,7 +159,7 @@ class Utils {
       let { branches } = node
       subArrLen = []
       branches.forEach((branch, index) => {
-        let subMaxLen: number = 0
+        let subMaxLen = 0
         for (let i = 0; i < branch.nodes.length; i++) {
           const item = branch.nodes[i]
           item.seriesIndex = i
@@ -211,19 +211,19 @@ class Utils {
     }
   }
   calcLeafRangeY(source: FlowItem[], rangeY = 0): number {
-    for (let i = 0; i < source.length; i++) {
+    for (const element of source) {
       rangeY++
-      if (!source[i].position) {
-        source[i].position = {
+      if (!element.position) {
+        element.position = {
           x: 0,
           y: rangeY
         }
       }
-      if (source[i].type === 'BRANCH') {
+      if (element.type === 'BRANCH') {
         let temp = rangeY
-        source[i].position.y = rangeY
-        for (let j = 0; source[i].branches.length > j; j++) {
-          let subrangeY = this.calcLeafRangeY(source[i].branches[j].nodes, rangeY - 1)
+        element.position.y = rangeY
+        for (let j = 0; element.branches.length > j; j++) {
+          let subrangeY = this.calcLeafRangeY(element.branches[j].nodes, rangeY - 1)
           subrangeY > temp && (temp = subrangeY)
         }
         rangeY = temp
@@ -277,8 +277,7 @@ class Utils {
     return xpath
   }
   random(n = 6) {
-    return new Array(n)
-      .fill(0)
+    return Array.from({ length: n }, () => 0)
       .map((v) => Math.ceil(Math.random() * 35).toString(36))
       .join('')
   }
@@ -348,14 +347,14 @@ class Utils {
   }
   getFlowSize() {
     let maxLevel = [1, 1]
-    this.nodeMap.forEach(item => {
+    this.nodeMap.forEach((item) => {
       let [x, y] = maxLevel
-      maxLevel[0] = item.position.x > x ? item.position.x : x;
-      maxLevel[1] = item.position.y > y ? item.position.y : y;
+      maxLevel[0] = item.position.x > x ? item.position.x : x
+      maxLevel[1] = item.position.y > y ? item.position.y : y
     })
     return {
       w: (maxLevel[0] + 2) * this.xGap,
-      h: (maxLevel[1] + 1) * this.yGap,
+      h: (maxLevel[1] + 1) * this.yGap
     }
   }
   init(source: FlowItem[]) {

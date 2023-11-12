@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import { Handle, Position } from '@vue-flow/core'
 import type { CSSProperties } from 'vue'
 import type { Connection, Edge, NodeProps } from '@vue-flow/core'
-import { Handle, Position } from '@vue-flow/core'
 const targetHandleStyle: CSSProperties = { background: '#555' }
 </script>
 

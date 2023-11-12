@@ -1,13 +1,13 @@
 // @ts-check
-import minimist from 'minimist'
 import fs from 'node:fs'
 import path from 'node:path'
+import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
+import minimist from 'minimist'
 import pico from 'picocolors'
 import semver from 'semver'
 import enquirer from 'enquirer'
 import { execa } from 'execa'
-import { createRequire } from 'node:module'
-import { fileURLToPath } from 'node:url'
 
 let versionUpdated = false
 
@@ -30,25 +30,22 @@ const skipBuild = args.skipBuild
 const isCanary = args.canary
 const skipPrompts = args.skipPrompts || args.canary
 const skipGit = args.skipGit || args.canary
-let repoName = "heibaikn/mono-repo"
+let repoName = 'heibaikn/mono-repo'
 const packages = fs
   .readdirSync(path.resolve(__dirname, '../packages'))
-  .filter(p => !p.endsWith('.ts') && !p.startsWith('.'))
+  .filter((p) => !p.endsWith('.ts') && !p.startsWith('.'))
 
-const isCorePackage = pkgName => {
+const isCorePackage = (pkgName) => {
   if (!pkgName) return
 
   if (pkgName === 'vue' || pkgName === '@vue/compat') {
     return true
   }
 
-  return (
-    pkgName.startsWith('@vue') &&
-    packages.includes(pkgName.replace(/^@vue\//, ''))
-  )
+  return pkgName.startsWith('@vue') && packages.includes(pkgName.replace(/^@vue\//, ''))
 }
 
-const renamePackageToCanary = pkgName => {
+const renamePackageToCanary = (pkgName) => {
   if (pkgName === 'vue') {
     return '@vue/canary'
   }
@@ -60,7 +57,7 @@ const renamePackageToCanary = pkgName => {
   return pkgName
 }
 
-const keepThePackageName = pkgName => pkgName
+const keepThePackageName = (pkgName) => pkgName
 
 const skippedPackages = []
 
@@ -71,17 +68,15 @@ const versionIncrements = [
   ...(preId ? ['prepatch', 'preminor', 'premajor', 'prerelease'] : [])
 ]
 
-const inc = i => semver.inc(currentVersion, i, preId)
-const run = (bin, args, opts = {}) =>
-  execa(bin, args, { stdio: 'inherit', ...opts })
+const inc = (i) => semver.inc(currentVersion, i, preId)
+const run = (bin, args, opts = {}) => execa(bin, args, { stdio: 'inherit', ...opts })
 const dryRun = (bin, args, opts = {}) =>
   console.log(pico.blue(`[dryrun] ${bin} ${args.join(' ')}`), opts)
 const runIfNotDry = isDryRun ? dryRun : run
-const getPkgRoot = pkg => path.resolve(__dirname, '../packages/' + pkg)
-const step = msg => console.log(pico.cyan(msg))
+const getPkgRoot = (pkg) => path.resolve(__dirname, `../packages/${pkg}`)
+const step = (msg) => console.log(pico.cyan(msg))
 
 async function main() {
-
   if (!(await isInSyncWithRemote())) {
     return
   } else {
@@ -122,9 +117,7 @@ async function main() {
         semver.maxSatisfying(versions, `~${canaryVersion}`)
       )
 
-      canaryVersion = /** @type {string} */ (
-        semver.inc(latestSameDayPatch, 'patch')
-      )
+      canaryVersion = /** @type {string} */ (semver.inc(latestSameDayPatch, 'patch'))
       if (args.tag && args.tag !== 'latest') {
         canaryVersion = /** @type {string} */ (
           semver.inc(latestSameDayPatch, 'prerelease', args.tag)
@@ -148,7 +141,7 @@ async function main() {
       type: 'select',
       name: 'release',
       message: 'Select release type',
-      choices: versionIncrements.map(i => `${i} (${inc(i)})`).concat(['custom'])
+      choices: versionIncrements.map((i) => `${i} (${inc(i)})`).concat(['custom'])
     })
 
     if (release === 'custom') {
@@ -171,9 +164,7 @@ async function main() {
 
   if (skipPrompts) {
     step(
-      isCanary
-        ? `Releasing canary version v${targetVersion}...`
-        : `Releasing v${targetVersion}...`
+      isCanary ? `Releasing canary version v${targetVersion}...` : `Releasing v${targetVersion}...`
     )
   } else {
     // @ts-ignore
@@ -218,10 +209,7 @@ async function main() {
 
   // update all package versions and inter-dependencies
   step('\nUpdating cross dependencies...')
-  updateVersions(
-    targetVersion,
-    isCanary ? renamePackageToCanary : keepThePackageName
-  )
+  updateVersions(targetVersion, isCanary ? renamePackageToCanary : keepThePackageName)
   versionUpdated = true
 
   // build all packages with types
@@ -290,9 +278,7 @@ async function main() {
   if (skippedPackages.length) {
     console.log(
       pico.yellow(
-        `The following packages are skipped and NOT published:\n- ${skippedPackages.join(
-          '\n- '
-        )}`
+        `The following packages are skipped and NOT published:\n- ${skippedPackages.join('\n- ')}`
       )
     )
   }
@@ -312,11 +298,11 @@ async function getCIResult() {
     const { stdout: sha } = await execa('git', ['rev-parse', 'HEAD'])
     const res = await fetch(
       `https://api.github.com/repos/vuejs/core/actions/runs?head_sha=${sha}` +
-      `&status=success&exclude_pull_requests=true`
+        `&status=success&exclude_pull_requests=true`
     )
     const data = await res.json()
     return data.workflow_runs.length > 0
-  } catch (e) {
+  } catch {
     console.error('Failed to get CI status for current commit.')
     return false
   }
@@ -326,20 +312,12 @@ async function isInSyncWithRemote() {
   try {
     await getRepoName()
     const { stdout: sha } = await execa('git', ['rev-parse', 'HEAD'])
-    const { stdout: branch } = await execa('git', [
-      'rev-parse',
-      '--abbrev-ref',
-      'HEAD'
-    ])
-    const res = await fetch(
-      `https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`
-    )
+    const { stdout: branch } = await execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'])
+    const res = await fetch(`https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`)
     const data = await res.json()
     return data.sha === sha
-  } catch (e) {
-    console.error(
-      'Failed to check whether local HEAD is up-to-date with remote.'
-    )
+  } catch {
+    console.error('Failed to check whether local HEAD is up-to-date with remote.')
     return false
   }
 }
@@ -348,9 +326,7 @@ function updateVersions(version, getNewPackageName = keepThePackageName) {
   // 1. update root package.json
   updatePackage(path.resolve(__dirname, '..'), version, getNewPackageName)
   // 2. update all packages
-  packages.forEach(p =>
-    updatePackage(getPkgRoot(p), version, getNewPackageName)
-  )
+  packages.forEach((p) => updatePackage(getPkgRoot(p), version, getNewPackageName))
 }
 
 function updatePackage(pkgRoot, version, getNewPackageName) {
@@ -360,22 +336,20 @@ function updatePackage(pkgRoot, version, getNewPackageName) {
   pkg.version = version
   updateDeps(pkg, 'dependencies', version, getNewPackageName)
   updateDeps(pkg, 'peerDependencies', version, getNewPackageName)
-  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
+  fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
 }
 
 function updateDeps(pkg, depType, version, getNewPackageName) {
   const deps = pkg[depType]
   if (!deps) return
-  Object.keys(deps).forEach(dep => {
+  Object.keys(deps).forEach((dep) => {
     if (deps[dep] === 'workspace:*') {
       return
     }
     if (isCorePackage(dep)) {
       const newName = getNewPackageName(dep)
       const newVersion = newName === dep ? version : `npm:${newName}@${version}`
-      console.log(
-        pico.yellow(`${pkg.name} -> ${depType} -> ${dep}@${newVersion}`)
-      )
+      console.log(pico.yellow(`${pkg.name} -> ${depType} -> ${dep}@${newVersion}`))
       deps[dep] = newVersion
     }
   })
@@ -430,7 +404,7 @@ async function publishPackage(pkgName, version) {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   if (versionUpdated) {
     // revert to current version on failed releases
     updateVersions(currentVersion)

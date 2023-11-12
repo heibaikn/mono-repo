@@ -1,12 +1,11 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
 import qiankun from 'vite-plugin-qiankun'
-const useDevMode = true;
+const useDevMode = true
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     // react(),
-    qiankun('react', { useDevMode }),
+    qiankun('react', { useDevMode })
   ],
   server: {
     host: '0.0.0.0',
@@ -16,5 +15,5 @@ export default defineConfig({
   base: '/child/react',
   build: {
     outDir: '../../dist/child/react' // 设置打包输出目录
-  },
+  }
 })

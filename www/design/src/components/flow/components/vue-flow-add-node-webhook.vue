@@ -1,10 +1,10 @@
 <template>
   <div class="node-wrap audit-node-wrap">
     <div class="node-wrap-box creating-node">
-      <div class="request-background header-background"></div>
+      <div class="request-background header-background" />
       <div class="header">
         <p class="node-name">节点名称</p>
-        <el-input v-focus v-model="node.name" placeholder="请输入节点名"></el-input>
+        <el-input v-model="node.name" v-focus placeholder="请输入节点名" />
       </div>
       <div class="footer">
         <el-button @click="cancel()">取消</el-button>

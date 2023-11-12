@@ -8,11 +8,7 @@ import qiankun from 'vite-plugin-qiankun'
 const useDevMode = true
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    vueJsx(),
-    qiankun('design', { useDevMode }),
-  ],
+  plugins: [vue(), vueJsx(), qiankun('design', { useDevMode })],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -26,5 +22,5 @@ export default defineConfig({
   base: '/child/design',
   build: {
     outDir: '../../dist/child/design' // 设置打包输出目录
-  },
+  }
 })

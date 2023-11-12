@@ -8,13 +8,12 @@
         stroke-miterlimit: 1.5;
         stroke-width: 0;
       "
-      transform="matrix(.07904 0 0 .07904 .137 .389)"
-    />
+      transform="matrix(.07904 0 0 .07904 .137 .389)" />
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Asciidoc',
+  name: 'Asciidoc'
 } as DefineComponent
 </script>

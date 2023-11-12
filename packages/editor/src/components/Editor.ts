@@ -10,13 +10,13 @@ import {
   shallowRef,
   ref,
   watch,
-  h,
+  h
 } from 'vue-demi'
-import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 import { type Nullable, type MonacoEditor } from '../types'
 import { useMonaco, useContainer } from '../hooks'
 import { getOrCreateModel, isUndefined, defaultSlotHelper } from '../utils'
-import Loading from './loading.vue';
+import Loading from './loading.vue'
+import type * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 export interface EditorProps {
   defaultValue?: string
   defaultPath?: string
@@ -40,7 +40,6 @@ export interface EditorProps {
   className?: string
 }
 
-
 export interface VueMonacoEditorEmitsOptions {
   'update:value': (value: string | undefined) => void
   beforeMount: (monaco: MonacoEditor) => void
@@ -54,7 +53,7 @@ const loadingStyle = {
   height: '100%',
   width: '100%',
   justifyContent: 'center',
-  alignItems: 'center',
+  alignItems: 'center'
 }
 
 export default defineComponent({
@@ -62,7 +61,7 @@ export default defineComponent({
   // TODO: vue3 use modelValue, vue2 use value
   model: {
     prop: 'value',
-    event: 'update:value',
+    event: 'update:value'
   },
   props: {
     defaultValue: String,
@@ -76,40 +75,43 @@ export default defineComponent({
 
     theme: {
       type: String,
-      default: 'light',
+      default: 'light'
     },
     line: Number,
     options: {
       type: Object as PropType<monacoEditor.editor.IStandaloneEditorConstructionOptions>,
-      default: () => ({}),
+      default: () => ({})
     },
     overrideServices: {
       type: Object as PropType<monacoEditor.editor.IEditorOverrideServices>,
-      default: () => ({}),
+      default: () => ({})
     },
     saveViewState: {
       type: Boolean,
-      default: true,
+      default: true
     },
 
     /* === */
 
     width: {
       type: [Number, String] as PropType<number | string>,
-      default: '100%',
+      default: '100%'
     },
     height: {
       type: [Number, String] as PropType<number | string>,
-      default: '100%',
+      default: '100%'
     },
-    className: String,
+    className: String
   },
   components: {
     Loading
   },
   emits: ['update:value', 'beforeMount', 'mount', 'change', 'validate'],
   setup(props, ctx: SetupContext<VueMonacoEditorEmitsOptions>) {
-    const viewStates = new Map<string | undefined, Nullable<monacoEditor.editor.ICodeEditorViewState>>()
+    const viewStates = new Map<
+      string | undefined,
+      Nullable<monacoEditor.editor.ICodeEditorViewState>
+    >()
     const containerRef = shallowRef<Nullable<HTMLElement>>(null)
     const { monacoRef, unload } = useMonaco()
     const { editorRef } = useEditor(ctx, props, monacoRef, containerRef)
@@ -135,7 +137,7 @@ export default defineComponent({
           monacoRef.value!,
           props.value || props.defaultValue!,
           props.language || props.defaultLanguage,
-          newPath,
+          newPath
         )
 
         if (model !== editorRef.value!.getModel()) {
@@ -143,56 +145,57 @@ export default defineComponent({
           editorRef.value!.setModel(model)
           props.saveViewState && editorRef.value!.restoreViewState(viewStates.get(newPath)!)
         }
-      },
+      }
     )
 
     // value
     watch(
       () => props.value,
-      newValue => {
-        console.log(props.value);
+      (newValue) => {
+        console.log(props.value)
         if (editorRef.value && editorRef.value.getValue() !== newValue) {
           editorRef.value.setValue(newValue!)
         }
-      },
+      }
     )
 
     // options
     watch(
       () => props.options,
-      options => editorRef.value && editorRef.value.updateOptions(options),
-      { deep: true },
+      (options) => editorRef.value && editorRef.value.updateOptions(options),
+      { deep: true }
     )
 
     // theme
     watch(
       () => props.theme,
-      theme => monacoRef.value && monacoRef.value.editor.setTheme(theme),
+      (theme) => monacoRef.value && monacoRef.value.editor.setTheme(theme)
     )
 
     // language
     watch(
       () => props.language,
-      language =>
-        isEditorReady.value && monacoRef.value!.editor.setModelLanguage(editorRef.value!.getModel()!, language!),
+      (language) =>
+        isEditorReady.value &&
+        monacoRef.value!.editor.setModelLanguage(editorRef.value!.getModel()!, language!)
     )
 
     // line
     watch(
       () => props.line,
-      line => {
+      (line) => {
         // reason for undefined check: https://github.com/suren-atoyan/monaco-react/pull/188
         if (editorRef.value && !isUndefined(line)) {
           editorRef.value.revealLine(line!)
         }
-      },
+      }
     )
 
     return {
       containerRef,
       isEditorReady,
       wrapperStyle,
-      containerStyle,
+      containerStyle
     }
   },
   render() {
@@ -203,39 +206,39 @@ export default defineComponent({
       containerStyle,
 
       // TODO: need remove, add `@deprecated` flag
-      className,
+      className
     } = this
 
     return h(
       'div',
       {
-        style: wrapperStyle,
+        style: wrapperStyle
       },
       [
         !isEditorReady &&
-        h(
-          'div',
-          {
-            style: loadingStyle,
-          },
-          $slots.default ? defaultSlotHelper($slots.default) : h(Loading),
-        ),
+          h(
+            'div',
+            {
+              style: loadingStyle
+            },
+            $slots.default ? defaultSlotHelper($slots.default) : h(Loading)
+          ),
         h('div', {
           ref: 'containerRef',
           key: 'monaco_editor_container',
           style: containerStyle,
-          class: className,
-        }),
-      ],
+          class: className
+        })
+      ]
     )
-  },
+  }
 })
 
 function useEditor(
   { emit }: SetupContext<VueMonacoEditorEmitsOptions>,
   props: EditorProps,
   monacoRef: ShallowRef<Nullable<MonacoEditor>>,
-  containerRef: ShallowRef<Nullable<HTMLElement>>,
+  containerRef: ShallowRef<Nullable<HTMLElement>>
 ) {
   const editorRef = shallowRef<Nullable<monacoEditor.editor.IStandaloneCodeEditor>>(null)
 
@@ -248,7 +251,7 @@ function useEditor(
           createEditor()
         }
       },
-      { immediate: true },
+      { immediate: true }
     )
   })
 
@@ -262,16 +265,17 @@ function useEditor(
     emit('beforeMount', monacoRef.value)
 
     const autoCreatedModelPath = props.path || props.defaultPath
-    console.log(monacoRef.value,
+    console.log(
+      monacoRef.value,
       props.value || props.defaultValue!,
       props.language || props.defaultLanguage,
       autoCreatedModelPath
-    );
+    )
     const defaultModel = getOrCreateModel(
       monacoRef.value,
       props.value || props.defaultValue!,
       props.language || props.defaultLanguage,
-      autoCreatedModelPath,
+      autoCreatedModelPath
     )
 
     editorRef.value = monacoRef.value.editor.create(
@@ -283,11 +287,11 @@ function useEditor(
         autoIndent: 'brackets',
         formatOnPaste: true,
         formatOnType: true,
-        ...props.options,
+        ...props.options
       },
-      props.overrideServices,
+      props.overrideServices
     )
-    editorRef.value?.onDidChangeModelContent(event => {
+    editorRef.value?.onDidChangeModelContent((event) => {
       const value = editorRef.value!.getValue()
       if (value !== props.value) {
         // props['onUpdate:value']?.(value)
@@ -309,20 +313,20 @@ function useValidator(
   { emit }: SetupContext<VueMonacoEditorEmitsOptions>,
   props: EditorProps,
   monacoRef: ShallowRef<Nullable<MonacoEditor>>,
-  editorRef: ShallowRef<Nullable<monacoEditor.editor.IStandaloneCodeEditor>>,
+  editorRef: ShallowRef<Nullable<monacoEditor.editor.IStandaloneCodeEditor>>
 ) {
   const disposeValidator = ref<Nullable<() => void>>(null)
 
   const stop = watch([monacoRef, editorRef], () => {
     if (monacoRef.value && editorRef.value) {
       nextTick(() => stop())
-      const changeMarkersListener = monacoRef.value.editor.onDidChangeMarkers(uris => {
+      const changeMarkersListener = monacoRef.value.editor.onDidChangeMarkers((uris) => {
         const editorUri = editorRef.value?.getModel()?.uri
         if (editorUri) {
-          const currentEditorHasMarkerChanges = uris.find(uri => uri.path === editorUri.path)
+          const currentEditorHasMarkerChanges = uris.find((uri) => uri.path === editorUri.path)
           if (currentEditorHasMarkerChanges) {
             const markers = monacoRef.value!.editor.getModelMarkers({
-              resource: editorUri,
+              resource: editorUri
             })
             // props.onValidate?.(markers)
             emit('validate', markers)

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
+import { Handle, Position } from '@vue-flow/core'
+import Close from '../icon/close.vue'
+import Copy from '../icon/copy.vue'
+import { EventName, NodeType } from '../flow'
 import type { CSSProperties } from 'vue'
 import type { Connection, Edge, NodeProps } from '@vue-flow/core'
-import Close from '../icon/close.vue';
-import Copy from '../icon/copy.vue';
-import { Handle, Position } from '@vue-flow/core'
-import { EventName, NodeType } from '../flow'
 const props = defineProps(['id', 'data'])
 const emits = defineEmits(['itemEvent'])
 const targetHandleStyle: CSSProperties = { background: '#555' }
@@ -49,12 +49,13 @@ export default {
         <span>{{ data.name }}</span>
         <div @click.stop>
           <el-popconfirm
-                         trigger="hover"
-                         confirmButtonText="删除"
-                         cancel-button-text="取消"
-                         @confirm="detele"
-                         width="290px"
-                         title="是否删除该节点">
+            trigger="hover"
+            confirm-button-text="删除"
+            cancel-button-text="取消"
+            width="290px"
+            title="是否删除该节点"
+            @confirm="detele"
+          >
             <template #reference>
               <div title="删除" class="node-operation-img node-operation-close">
                 <Close />
@@ -62,12 +63,13 @@ export default {
             </template>
           </el-popconfirm>
           <el-popconfirm
-                         trigger="hover"
-                         confirmButtonText="复制"
-                         cancel-button-text="取消"
-                         @confirm="copy"
-                         width="290px"
-                         title="是否复制整个分支">
+            trigger="hover"
+            confirm-button-text="复制"
+            cancel-button-text="取消"
+            width="290px"
+            title="是否复制整个分支"
+            @confirm="copy"
+          >
             <template #reference>
               <div title="复制" class="node-operation-img node-operation-copy">
                 <Copy />
@@ -76,13 +78,12 @@ export default {
           </el-popconfirm>
         </div>
       </div>
-      <div class="content" v-if="data.validators && data.validators.length > 0">
+      <div v-if="data.validators && data.validators.length > 0" class="content">
         <ul>
-          <li v-for="(item, index) in data.validators" :key="index">{{ item.fail_msg }}
-          </li>
+          <li v-for="(item, index) in data.validators" :key="index">{{ item.fail_msg }}</li>
         </ul>
       </div>
-      <div class="content" v-else>
+      <div v-else class="content">
         <span>所有数据可进入该分支</span>
       </div>
     </div>

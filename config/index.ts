@@ -1,25 +1,23 @@
-import config from "./config";
+import config from './config'
 // import React from 'react';
 
 export enum Project {
-  "Design" = "design",
-  "React" = "react",
-
+  'Design' = 'design',
+  'React' = 'react'
 }
 
 class GMConfig {
-
   getHostBase(type: Project, mode: string): string {
-    let isDev = mode === "development";
+    let isDev = mode === 'development'
     switch (type) {
       case Project.Design:
-        return isDev ? "http://127.0.0.1:7202/" : config.BASE.Design;
+        return isDev ? 'http://127.0.0.1:7202/' : config.BASE.Design
       case Project.React:
-        return isDev ? "http://127.0.0.1:7203/" : config.BASE.React;
+        return isDev ? 'http://127.0.0.1:7203/' : config.BASE.React
       default:
-        return "/";
+        return '/'
     }
   }
 }
 
-export default new GMConfig();
+export default new GMConfig()

@@ -3,13 +3,12 @@
     <path
       d="M257.08-56.4v-160.62H42.93V-56.4H21.515v21.415h256.99V-56.4zm-85.662 0h-42.831v-10.708h42.831zm64.246-32.123H64.344v-107.08h171.32z"
       style="fill: #039be5; stroke-width: 10.708"
-      transform="translate(0 276)"
-    />
+      transform="translate(0 276)" />
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Virtual',
+  name: 'Virtual'
 } as DefineComponent
 </script>

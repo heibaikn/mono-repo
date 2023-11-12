@@ -7,8 +7,6 @@ type Event<T> = {
 export type FlowEvent = Event<NodeType>
 export type LineEvent = Event<LineType>
 
-
-
 export enum NodeTypeEnum {
   // 节点类型
   APPLICANT = 'APPLICANT', // 申请人节点: first node
@@ -19,7 +17,6 @@ export enum NodeTypeEnum {
   REQUEST = 'REQUEST', // Webhook(或请求)节点
   END = 'END' // 归档(或结束)节点: last node
 }
-
 
 export enum EventName {
   Click = 'click',
@@ -83,8 +80,6 @@ export interface FlowItem {
   }
   branches: FlowBranches[]
 }
-
-
 
 export const PropsLine = {
   id: {

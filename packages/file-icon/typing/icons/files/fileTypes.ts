@@ -1,3 +1,3 @@
-import { FileIcon } from './index';
+import type { FileIcon } from './index'
 
-export type FileIcons = FileIcon[];
+export type FileIcons = FileIcon[]

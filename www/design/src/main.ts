@@ -4,29 +4,27 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import ElementPlus from 'element-plus'
-import { renderWithQiankun, qiankunWindow } from "vite-plugin-qiankun/dist/helper";
+import { renderWithQiankun, qiankunWindow } from 'vite-plugin-qiankun/dist/helper'
+import { Utils } from '@heibaimono/helper'
 import App from './App.vue'
 import routes from './router'
-import { Utils } from '@heibaimono/helper';
-console.log(Utils.random());
-let instance: any;
-let router: any;
-let history: any;
+console.log(Utils.random())
+let instance: any
+let router: any
+let history: any
 
 function render(props: any) {
-  const { container } = props;
+  const { container } = props
   instance = createApp(App)
   instance.use(createPinia())
-  history = createWebHistory(qiankunWindow.__POWERED_BY_QIANKUN__ ? '/design' : '/');
+  history = createWebHistory(qiankunWindow.__POWERED_BY_QIANKUN__ ? '/design' : '/')
   router = createRouter({
     history,
-    routes,
-  });
+    routes
+  })
   instance.use(router)
   instance.use(ElementPlus)
-  const c = container
-    ? container.querySelector("#app")
-    : document.getElementById("app")
+  const c = container ? container.querySelector('#app') : document.querySelector('#app')
   instance.mount(c)
 }
 function storeTest(props: any) {
@@ -40,23 +38,23 @@ function storeTest(props: any) {
 
 renderWithQiankun({
   mount(props) {
-    console.log("vue3sub mount");
-    storeTest(props);
-    render(props);
+    console.log('vue3sub mount')
+    storeTest(props)
+    render(props)
   },
   bootstrap() {
-    console.log("bootstrap");
+    console.log('bootstrap')
   },
   unmount(props: any) {
-    console.log("vue3sub unmount");
-    instance.unmount();
+    console.log('vue3sub unmount')
+    instance.unmount()
   },
   update(props: any) {
-    console.log("vue3sub update");
+    console.log('vue3sub update')
     console.log(props)
-  },
-});
+  }
+})
 
 if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
-  render({});
+  render({})
 }

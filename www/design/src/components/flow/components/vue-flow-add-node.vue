@@ -1,5 +1,5 @@
 <template>
-  <component :is="render()" @cancel="cancel" @submit="submit"></component>
+  <component :is="render()" @cancel="cancel" @submit="submit" />
 </template>
 
 <script setup lang="ts">

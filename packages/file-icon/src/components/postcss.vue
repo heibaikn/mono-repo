@@ -10,8 +10,7 @@
           stroke-width: 4.172;
           stroke: #e53935;
         "
-        transform="translate(1.944 1.919) scale(.9508)"
-      />
+        transform="translate(1.944 1.919) scale(.9508)" />
       <path
         d="M70.177 53.23H8.822L39.499 8.945z"
         style="
@@ -21,8 +20,7 @@
           stroke-width: 4.2421;
           stroke: #e53935;
         "
-        transform="translate(1.944 1.919) scale(.9508)"
-      />
+        transform="translate(1.944 1.919) scale(.9508)" />
       <path
         d="M27.636 27.007h25.962v25.962H27.636z"
         style="
@@ -32,8 +30,7 @@
           stroke-width: 3.5945;
           stroke: #e53935;
         "
-        transform="translate(1.944 1.919) scale(.9508)"
-      />
+        transform="translate(1.944 1.919) scale(.9508)" />
       <path
         d="M51.61 39.43a10.993 10.993 0 0 1-10.993 10.993A10.993 10.993 0 0 1 29.624 39.43a10.993 10.993 0 0 1 10.993-10.993A10.993 10.993 0 0 1 51.61 39.43"
         style="
@@ -43,14 +40,13 @@
           stroke-width: 3.3719;
           stroke: #e53935;
         "
-        transform="translate(1.944 1.919) scale(.9508)"
-      />
+        transform="translate(1.944 1.919) scale(.9508)" />
     </g>
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Postcss',
+  name: 'Postcss'
 } as DefineComponent
 </script>

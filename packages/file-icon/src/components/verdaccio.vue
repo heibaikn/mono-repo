@@ -4,17 +4,15 @@
       d="m18.2 10.237h-4.448l-1.827 3.654-4.812-9.624h-4.448l7.96 15.92h2.6z"
       clip-rule="evenodd"
       fill="#00897b"
-      fill-rule="evenodd"
-    />
+      fill-rule="evenodd" />
     <path
       d="m14.845 3.813v0.7h1.767l-0.416 0.825h-2.773v0.7h2.42l-0.546 1.085h-3.264v0.7h3.526l3.766 0.017 2.01-4.018-1.1-3e-3v-6e-3z"
-      fill="#e57373"
-    />
+      fill="#e57373" />
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Verdaccio',
+  name: 'Verdaccio'
 } as DefineComponent
 </script>

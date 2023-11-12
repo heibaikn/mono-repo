@@ -1,21 +1,16 @@
 <template>
-  <svg
-    data-name="Layer 1"
-    viewBox="0 0 990 990"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg data-name="Layer 1" viewBox="0 0 990 990" xmlns="http://www.w3.org/2000/svg">
     <defs />
     <path
       d="M113.26 876.74V113.27h763.47v763.47zm143.59-620.4v476.18h240.61V355.63h140.21v376.96h95.457V256.34z"
       fill="#e53935"
       stroke-width=".771"
-      style="fill: #cb3837"
-    />
+      style="fill: #cb3837" />
   </svg>
 </template>
 <script lang="ts">
 import type { DefineComponent } from 'vue'
 export default {
-  name: 'Npm',
+  name: 'Npm'
 } as DefineComponent
 </script>

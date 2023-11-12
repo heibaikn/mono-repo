@@ -1,6 +1,6 @@
 .vscode/*
 .DS_Store
-
-
+./temp
+.eslintcache
 **/dist
 **/node_modules

@@ -1,5 +1,6 @@
 import path from 'path'
 import { readFile, writeFile } from 'fs/promises'
+import { exec } from 'child_process'
 import { emptyDir, ensureDir } from 'fs-extra'
 import consola from 'consola'
 import camelcase from 'camelcase'
@@ -10,7 +11,6 @@ import findWorkspaceDir from '@pnpm/find-workspace-dir'
 import findWorkspacePackages from '@pnpm/find-workspace-packages'
 import { pathComponents, pathSvg } from './paths'
 // var child = require('child_process');
-import { exec } from 'child_process';
 
 import type { BuiltInParserName } from 'prettier'
 
@@ -32,7 +32,7 @@ const getName = (file: string) => {
   const componentName = camelcase(filename, { pascalCase: true })
   return {
     filename,
-    componentName,
+    componentName
   }
 }
 
@@ -40,7 +40,7 @@ const formatCode = (code: string, parser: BuiltInParserName = 'typescript') =>
   format(code, {
     parser,
     semi: false,
-    singleQuote: true,
+    singleQuote: true
   })
 
 const transformToVueComponent = async (file: string) => {
@@ -48,7 +48,7 @@ const transformToVueComponent = async (file: string) => {
   const { filename, componentName } = getName(file)
   if (content.includes('<?xml')) {
     let cmd = `mv ${file} ../svg `
-    console.log(cmd);
+    console.log(cmd)
     // exec(cmd)
   }
   const vue = formatCode(
