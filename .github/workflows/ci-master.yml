@@ -1,12 +1,12 @@
-name: auto_tag
+name: ci-master 
 on:
-  push:
+  pull_request:
     branches:
-      - 'release_v_*' # 仅在以 'release_v_' 开头的分支推送时触发
+      - main
   workflow_dispatch:
     inputs:
       workflow_name:
-        description: 'auto_tag'
+        description: 'ci-master'
 
 jobs:
   create_tag:
@@ -22,8 +22,7 @@ jobs:
 
     - name: Execute Tag Creation Script
       run: |
-       pnpm -F action i
-       pnpm run create:tag
+       pnpm run release --patch --git  
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         VERSION: ${{ github.ref }}

@@ -27,7 +27,7 @@ const updateTypeArr = ['major', 'premajor', 'minor', 'preminor', 'patch', 'prepa
 const updateType = updateTypeArr.find((type) => {
   return args[type] && type
 })
-console.log(pico.blue(`updateType:${updateType}`))
+
 const preId = args.preid || semver.prerelease(currentVersion)?.[0]
 const isDryRun = args.dry
 let skipTests = args.skipTests
@@ -35,6 +35,8 @@ const skipBuild = args.skipBuild
 const skipPrompts = args.skipPrompts
 const isCanary = args.canary || !updateType
 const isGit = args.isGit
+console.log(pico.blue(`updateType:${updateType}`))
+console.log(pico.blue(`isGet:${isGit}`))
 const packages = fs
   .readdirSync(path.resolve(__dirname, '../packages'))
   .filter((p) => !p.endsWith('.ts') && !p.startsWith('.'))
@@ -100,32 +102,27 @@ async function main() {
   versionUpdated = true
 
   // build all packages with types
-  step('\nBuilding all packages...')
-  // if (!skipBuild && !isDryRun) {
-  //   await run('pnpm', ['run', 'build', '--withTypes'])
-  //   step('\nTesting built types...')
-  //   await run('pnpm', ['test-dts-only'])
-  // } else {
-  console.log(`(skipped)`)
-  // }
-  if (!isGit) {
+  // step('\nBuilding all packages...')
+
+  if (isGit) {
     // generate changelog
     step('\nGenerating changelog...')
     await run(`pnpm`, ['run', 'changelog'])
 
     const { stdout } = await run('git', ['diff'], { stdio: 'pipe' })
-    if (stdout) {
-      step('\nCommitting changes...')
-      await runIfNotDry('git', ['add', '-A'])
-      await runIfNotDry('git', ['commit', '-m', `release: v${targetVersion}`])
-
-      step('\nPushing to GitHub...')
-      await runIfNotDry('git', ['tag', `v${targetVersion}`])
-      await runIfNotDry('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
-      await runIfNotDry('git', ['push'])
-    } else {
+    if (!stdout) {
       console.log('No changes to commit.')
+      return
     }
+
+    step('\nCommitting changes...')
+    await runIfNotDry('git', ['add', '-A'])
+    await runIfNotDry('git', ['commit', '-m', `release: v${targetVersion}`])
+
+    step('\nPushing to GitHub...')
+    // await runIfNotDry('git', ['tag', `v${targetVersion}`])
+    // await runIfNotDry('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
+    await runIfNotDry('git', ['push'])
   }
 }
 
@@ -161,7 +158,9 @@ async function getRepoName() {
   // @ts-ignore
   return url.match(regex)[1]
 }
-
+async function getTagName() {
+  return (await execa('git', ['tag', '--points-at', 'HEAD'])).stdout
+}
 function updateVersions(version, getNewPackageName = keepThePackageName) {
   // 1. update root package.json
   updatePackage(path.resolve(__dirname, '..'), version, getNewPackageName)

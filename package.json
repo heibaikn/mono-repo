@@ -15,7 +15,7 @@
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish --access=public",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "create:tag": "pnpm -F action create:tag",
+    "ci:branch-release": "node scripts/update-tag-onbranch.js",
     "release": "node scripts/release.js",
     "release1": "pnpm run build && pnpm run changeset:add && pnpm run changeset:version && pnpm run changeset:publish",
     "check": "tsc --incremental --noEmit",
@@ -34,12 +34,13 @@
   "dependencies": {
     "eslint-define-config": "^1.5.1",
     "typesense-docsearch-css": "^0.4.0",
-    "vue": "1.0.1"
+    "vue": "3.3.4"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
     "@heibaimono/eslint-config": "workspace:^",
     "concurrently": "^8.2.0",
+    "minimist": "^1.2.8",
     "conventional-changelog-cli": "^4.1.0",
     "execa": "^8.0.1",
     "lint-staged": "^15.0.2",
