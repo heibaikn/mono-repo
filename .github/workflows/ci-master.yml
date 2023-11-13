@@ -9,7 +9,7 @@ on:
         description: 'ci-master'
 
 jobs:
-  create_tag:
+  ci:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code

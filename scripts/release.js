@@ -69,9 +69,8 @@ const step = (msg) => console.log(pico.cyan(msg))
 async function main() {
   if (!(await isInSyncWithRemote())) {
     return
-  } else {
-    console.log(`${pico.green(`✓`)} commit is up-to-date with rmeote.\n`)
   }
+  console.log(`${pico.green(`✓`)} commit is up-to-date with rmeote.\n`)
 
   let targetVersion = args._[0]
   if (updateType) {
@@ -83,11 +82,10 @@ async function main() {
     // The canary version string format is `3.yyyyMMdd.0` (or `3.yyyyMMdd.0-minor.0` for minor)
     // Use UTC date so that it's consistent across CI and maintainers' machines
     const datestamp = getDatestamp()
-    const major = semver.major(currentVersion)
     let canaryVersion
-    canaryVersion = `${major}.${datestamp}.0`
+    canaryVersion = `${currentVersion}.${datestamp}.0`
     if (args.tag && args.tag !== 'latest') {
-      canaryVersion = `${major}.${datestamp}.0-${args.tag}.0`
+      canaryVersion = `${currentVersion}.${datestamp}.0-${args.tag}.0`
     }
     targetVersion = canaryVersion
   }
@@ -132,8 +130,10 @@ async function isInSyncWithRemote() {
     const branch = await getBranch()
     const res = await fetch(`https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`)
     const data = await res.json()
-    return data.sha === (await getSha())
-  } catch {
+    const sha = await getSha()
+    return data.sha === sha
+  } catch (e) {
+    console.log(e)
     console.error('Failed to check whether local HEAD is up-to-date with remote.')
     return false
   }
