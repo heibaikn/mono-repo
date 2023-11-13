@@ -1,6 +1,6 @@
 {
   "name": "mono-repo",
-  "version": "1.0.7",
+  "version": "1.0.6",
   "private": true,
   "description": "",
   "type": "module",

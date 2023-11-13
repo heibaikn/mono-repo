@@ -1,9 +1,4 @@
-
-
-## 1.0.5 (2023-11-13)
-
-
-## [1.0.4](https://github.com/heibaikn/mono-repo/compare/v1.0.1...v1.0.4) (2023-11-12)
+## [1.0.6](https://github.com/heibaikn/mono-repo/compare/v1.0.1...v1.0.6) (2023-11-13)
 
 
 ### Bug Fixes
@@ -19,8 +14,9 @@
 
 * add githook verify commit ([07d52e6](https://github.com/heibaikn/mono-repo/commit/07d52e6b32d43c6c3972f86d1587c4a80b9feb1f))
 * add script ([0debe83](https://github.com/heibaikn/mono-repo/commit/0debe838d956824066e58a86ad44dd03974c36cd))
+* **ci:** master script ([7b45aa7](https://github.com/heibaikn/mono-repo/commit/7b45aa7aceb28d95bae2948d40cf7020f5cafa4e))
 * prettier vue file ([7bfc1fa](https://github.com/heibaikn/mono-repo/commit/7bfc1fa3532424bf41be63e331787a4ac57c5952))
-
+* rm code ([74564ab](https://github.com/heibaikn/mono-repo/commit/74564ab82c93754206c6655785a402a5c963513f))
 
 
 
@@ -34,8 +30,7 @@
 
 
 
-
-# [1.0.0](https://github.com/heibaikn/mono-repo/compare/v0.0.1...v1.0.0) (2023-10-27)
+## [1.0.2](https://github.com/heibaikn/mono-repo/compare/v0.0.1...v1.0.2) (2023-11-04)
 
 
 
