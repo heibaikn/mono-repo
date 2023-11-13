@@ -69,9 +69,8 @@ const step = (msg) => console.log(pico.cyan(msg))
 async function main() {
   if (!(await isInSyncWithRemote())) {
     return
-  } else {
-    console.log(`${pico.green(`✓`)} commit is up-to-date with rmeote.\n`)
   }
+  console.log(`${pico.green(`✓`)} commit is up-to-date with rmeote.\n`)
 
   let targetVersion = args._[0]
   if (updateType) {
@@ -83,11 +82,10 @@ async function main() {
     // The canary version string format is `3.yyyyMMdd.0` (or `3.yyyyMMdd.0-minor.0` for minor)
     // Use UTC date so that it's consistent across CI and maintainers' machines
     const datestamp = getDatestamp()
-    const major = semver.major(currentVersion)
     let canaryVersion
-    canaryVersion = `${major}.${datestamp}.0`
+    canaryVersion = `${currentVersion}.${datestamp}.0`
     if (args.tag && args.tag !== 'latest') {
-      canaryVersion = `${major}.${datestamp}.0-${args.tag}.0`
+      canaryVersion = `${currentVersion}.${datestamp}.0-${args.tag}.0`
     }
     targetVersion = canaryVersion
   }
@@ -122,18 +120,27 @@ async function main() {
     step('\nPushing to GitHub...')
     // await runIfNotDry('git', ['tag', `v${targetVersion}`])
     // await runIfNotDry('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
-    await runIfNotDry('git', ['push'])
+    // await runIfNotDry('git', ['push'])
   }
 }
 
 async function isInSyncWithRemote() {
   try {
+    console.log('start isInSyncWithRemote')
     const repoName = await getRepoName()
     const branch = await getBranch()
-    const res = await fetch(`https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`)
+    console.log(branch)
+    const url = `https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`
+    const res = await fetch(url)
+    console.log('fetch url', url)
+    console.log(res)
     const data = await res.json()
-    return data.sha === (await getSha())
-  } catch {
+    const sha = await getSha()
+    console.log('sha', sha)
+    console.log('data.sha', data.sha)
+    return data.sha === sha
+  } catch (e) {
+    console.log(e)
     console.error('Failed to check whether local HEAD is up-to-date with remote.')
     return false
   }
@@ -153,14 +160,18 @@ async function getBranch() {
   return (await execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'])).stdout
 }
 async function getRepoName() {
-  const { stdout: url } = await execa('git', ['config', '--get', 'remote.origin.url'])
-  const regex = /:(.*?)\.git/
-  // @ts-ignore
-  return url.match(regex)[1]
+  let { stdout: url } = await execa('git', ['config', '--get', 'remote.origin.url'])
+  if (url.startsWith('https')) {
+    const regex = /github.com\/(.+)/
+    // @ts-ignore
+    return url.match(regex)[1]
+  } else {
+    const regex = /:(.*?)\.git/
+    // @ts-ignore
+    return url.match(regex)[1]
+  }
 }
-async function getTagName() {
-  return (await execa('git', ['tag', '--points-at', 'HEAD'])).stdout
-}
+
 function updateVersions(version, getNewPackageName = keepThePackageName) {
   // 1. update root package.json
   updatePackage(path.resolve(__dirname, '..'), version, getNewPackageName)
