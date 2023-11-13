@@ -153,14 +153,18 @@ async function getBranch() {
   return (await execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'])).stdout
 }
 async function getRepoName() {
-  const { stdout: url } = await execa('git', ['config', '--get', 'remote.origin.url'])
-  const regex = /:(.*?)\.git/
-  // @ts-ignore
-  return url.match(regex)[1]
+  let { stdout: url } = await execa('git', ['config', '--get', 'remote.origin.url'])
+  if (url.startsWith('https')) {
+    const regex = /github.com\/(.+)/
+    // @ts-ignore
+    return url.match(regex)[1]
+  } else {
+    const regex = /:(.*?)\.git/
+    // @ts-ignore
+    return url.match(regex)[1]
+  }
 }
-async function getTagName() {
-  return (await execa('git', ['tag', '--points-at', 'HEAD'])).stdout
-}
+
 function updateVersions(version, getNewPackageName = keepThePackageName) {
   // 1. update root package.json
   updatePackage(path.resolve(__dirname, '..'), version, getNewPackageName)
