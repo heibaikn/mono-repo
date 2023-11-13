@@ -59,8 +59,10 @@ async function getRepoName() {
     return url.match(regex)[1]
   }
 }
+async function fetchTag() {
+  await execa('git', ['fetch', '--all', '--tags'])
+}
 async function checkTag(tag) {
-  // const res = await execa('git', ['tag', '-l', tag])
   const { stdout } = await execa('git', [
     'ls-remote',
     '--tags',
@@ -83,7 +85,7 @@ async function main() {
   console.log('tagName', tagName)
   if (hasTag) {
     step(`\n delete tag:${tagName}`)
-    await runIfNotDry('git', ['tag', '-d', tagName])
+    // await runIfNotDry('git', ['tag', '-d', tagName])
     await runIfNotDry('git', ['push', 'origin', '-d', tagName])
   }
   step(`\n add tag:${tagName}`)
