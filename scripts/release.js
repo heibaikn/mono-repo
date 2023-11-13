@@ -98,7 +98,7 @@ async function main() {
 
   // update all package versions and inter-dependencies
   step('\nUpdating cross dependencies...')
-  // updateVersions(targetVersion, keepThePackageName)
+  updateVersions(targetVersion, keepThePackageName)
   versionUpdated = true
 
   // build all packages with types
@@ -115,24 +115,14 @@ async function main() {
       return
     }
 
-    const tagName = await getTagName()
-    if (tagName) {
-      step('\n delete tag...')
-      await runIfNotDry('git', ['tag', '-d', tagName])
-    }
-
     step('\nCommitting changes...')
     await runIfNotDry('git', ['add', '-A'])
     await runIfNotDry('git', ['commit', '-m', `release: v${targetVersion}`])
 
-    if (tagName) {
-      step('\n delete tag...')
-      await runIfNotDry('git', ['tag', tagName])
-    }
     step('\nPushing to GitHub...')
     // await runIfNotDry('git', ['tag', `v${targetVersion}`])
     // await runIfNotDry('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
-    // await runIfNotDry('git', ['push'])
+    await runIfNotDry('git', ['push'])
   }
 }
 
