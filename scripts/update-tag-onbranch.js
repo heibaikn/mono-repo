@@ -24,6 +24,7 @@ async function isInSyncWithRemote() {
     const res = await fetch(`https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`)
     const data = await res.json()
     const sha = await getSha()
+    console.log('sha', sha)
     return data.sha === sha
   } catch (e) {
     console.log(e)
@@ -70,6 +71,7 @@ async function main() {
 
   const tagName = await getTagNameByBranch()
   const hasTag = await checkTag(tagName)
+  console.log(hasTag, tagName)
   if (hasTag) {
     step(`\n delete tag:${tagName}`)
     await runIfNotDry('git', ['tag', '-d', tagName])
