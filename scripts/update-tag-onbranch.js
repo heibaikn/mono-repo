@@ -60,9 +60,15 @@ async function getRepoName() {
   }
 }
 async function checkTag(tag) {
-  const res = await execa('git', ['tag', '-l', tag])
-  console.log(res)
-  return res.stdout
+  // const res = await execa('git', ['tag', '-l', tag])
+  const { stdout } = await execa('git', [
+    'ls-remote',
+    '--tags',
+    'origin',
+    '| grep',
+    `refs/tags/${tag}`
+  ])
+  return !!stdout
 }
 
 async function main() {
