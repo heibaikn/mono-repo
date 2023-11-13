@@ -129,7 +129,11 @@ async function isInSyncWithRemote() {
     console.log('start isInSyncWithRemote')
     const repoName = await getRepoName()
     const branch = await getBranch()
-    const res = await fetch(`https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`)
+    console.log(branch)
+    const url = `https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`
+    const res = await fetch(url)
+    console.log('fetch url', url)
+    console.log(res)
     const data = await res.json()
     const sha = await getSha()
     console.log('sha', sha)
