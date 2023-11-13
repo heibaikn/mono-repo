@@ -1,4 +1,4 @@
-name: ci-master 
+name: ci-master
 on:
   pull_request:
     branches:
@@ -10,38 +10,33 @@ on:
 
 jobs:
   ci:
+    if: 'github.event.pull_request.head.ref =~ ^release/v_.*$'
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.ref }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
-    - name: Determine Branch Type
-      run: |
-        if [[ "${{ github.event.pull_request.head.ref }}" =~ ^release/v_.*$ ]]; then
-          echo "This is a release branch."
-        else
-          echo "This is a non-release branch. Ending workflow."
-          exit 0  # Exit successfully to end the workflow
-        fi
+      - name: Use pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
-    - name: Use pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 8
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+          # node-version: 'lts/hydrogen'
+      - run: pnpm install
 
-    - name: Install Node.js
-      uses: actions/setup-node@v4
-      with:
-        registry-url: 'https://registry.npmjs.org'
-        cache: 'pnpm'
-        node-version: 'lts/hydrogen'
-    - run: pnpm install
-
-    - name: Execute Tag Creation Script
-      run: |
-       pnpm run release --patch --git  
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        VERSION: ${{ github.ref }}
+      - name: Execute Tag Creation Script
+        run: |
+          git config --global user.email "heibaikn@163.com"
+          git config --global user.name "heibaikn"
+          pnpm run release --patch --git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
