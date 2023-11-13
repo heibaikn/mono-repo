@@ -20,6 +20,7 @@ jobs:
       - name: Determine Branch Type
         run: |
           if [[ "${{ github.event.pull_request.head.ref }}" =~ ^release/v_.*$ ]]; then
+            echo "This is a release branch."
           else
             echo "This is a non-release branch. Ending workflow."
             exit 0  # Exit successfully to end the workflow
