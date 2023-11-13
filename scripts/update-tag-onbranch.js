@@ -60,7 +60,9 @@ async function getRepoName() {
   }
 }
 async function checkTag(tag) {
-  return (await execa('git', ['tag', '-l', tag])).stdout
+  const res = await execa('git', ['tag', '-l', tag])
+  console.log(res)
+  return res.stdout
 }
 
 async function main() {
