@@ -234,7 +234,7 @@ async function main() {
 
   // update all package versions and inter-dependencies
   step('\nUpdating cross dependencies...')
-  updateVersions(targetVersion, keepThePackageName)
+  // updateVersions(targetVersion, keepThePackageName)
   versionUpdated = true
 
   // build all packages with types
@@ -243,7 +243,7 @@ async function main() {
   if (isGit) {
     // generate changelog
     step('\nGenerating changelog...')
-    await run(`pnpm`, ['run', 'changelog'])
+    // await run(`pnpm`, ['run', 'changelog'])
 
     const { stdout } = await run('git', ['diff'], { stdio: 'pipe' })
     if (!stdout) {

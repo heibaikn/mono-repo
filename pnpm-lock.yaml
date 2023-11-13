@@ -380,10 +380,10 @@ importers:
         specifier: workspace:^
         version: link:../../config
       '@heibaimono/helper':
-        specifier: 1.0.5
+        specifier: 1.0.4
         version: link:../../packages/helper
       '@heibaimono/virtual-list':
-        specifier: 1.0.5
+        specifier: 1.0.4
         version: link:../../packages/virtual-list
       '@vue-flow/background':
         specifier: ^1.2.0
