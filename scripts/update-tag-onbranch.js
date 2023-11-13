@@ -71,7 +71,8 @@ async function main() {
 
   const tagName = await getTagNameByBranch()
   const hasTag = await checkTag(tagName)
-  console.log(hasTag, tagName)
+  console.log('hasTag', hasTag)
+  console.log('tagName', tagName)
   if (hasTag) {
     step(`\n delete tag:${tagName}`)
     await runIfNotDry('git', ['tag', '-d', tagName])
