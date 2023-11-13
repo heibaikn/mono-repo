@@ -40,7 +40,7 @@ async function getBranch() {
 }
 async function getTagNameByBranch() {
   const { stdout: branch } = await execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'])
-  const regex = /^release_v_(.+)$/
+  const regex = /^release\/v_(.+)$/
   // @ts-ignore
   const branchVersion = branch.match(regex)[1]
   return branchVersion ? `v${branchVersion}` : ''

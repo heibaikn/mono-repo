@@ -118,9 +118,7 @@ async function main() {
     await runIfNotDry('git', ['commit', '-m', `release: v${targetVersion}`])
 
     step('\nPushing to GitHub...')
-    // await runIfNotDry('git', ['tag', `v${targetVersion}`])
-    // await runIfNotDry('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
-    // await runIfNotDry('git', ['push'])
+    await runIfNotDry('git', ['push'])
   }
 }
 
@@ -210,54 +208,6 @@ function updateDeps(pkg, depType, version, getNewPackageName) {
       deps[dep] = newVersion
     }
   })
-}
-
-async function publishPackage(pkgName, version, additionalFlags) {
-  if (skippedPackages.includes(pkgName)) {
-    return
-  }
-  const pkgRoot = getPkgRoot(pkgName)
-  const pkgPath = path.resolve(pkgRoot, 'package.json')
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
-  if (pkg.private) {
-    return
-  }
-
-  let releaseTag = null
-  if (args.tag) {
-    releaseTag = args.tag
-  } else if (version.includes('alpha')) {
-    releaseTag = 'alpha'
-  } else if (version.includes('beta')) {
-    releaseTag = 'beta'
-  } else if (version.includes('rc')) {
-    releaseTag = 'rc'
-  }
-
-  step(`Publishing ${pkgName}...`)
-  try {
-    await run(
-      'pnpm',
-      [
-        'publish',
-        ...(releaseTag ? ['--tag', releaseTag] : []),
-        '--access',
-        'public',
-        ...additionalFlags
-      ],
-      {
-        cwd: pkgRoot,
-        stdio: 'pipe'
-      }
-    )
-    console.log(pico.green(`Successfully published ${pkgName}@${version}`))
-  } catch (e) {
-    if (e.stderr.match(/previously published/)) {
-      console.log(pico.red(`Skipping already published: ${pkgName}`))
-    } else {
-      throw e
-    }
-  }
 }
 
 main().catch((err) => {

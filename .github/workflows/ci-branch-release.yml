@@ -2,7 +2,7 @@ name: ci-branch-release
 on:
   push:
     branches:
-      - release_v_*
+      - release/v_*
   workflow_dispatch:
     inputs:
       workflow_name:
