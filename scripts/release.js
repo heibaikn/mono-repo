@@ -120,7 +120,7 @@ async function main() {
     step('\nPushing to GitHub...')
     // await runIfNotDry('git', ['tag', `v${targetVersion}`])
     // await runIfNotDry('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
-    await runIfNotDry('git', ['push'])
+    // await runIfNotDry('git', ['push'])
   }
 }
 
