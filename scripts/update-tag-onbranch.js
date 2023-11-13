@@ -20,14 +20,10 @@ async function isInSyncWithRemote() {
   try {
     console.log('start')
     const repoName = await getRepoName()
-    console.log('repoName', repoName)
     const branch = await getBranch()
-    console.log('branch', branch)
     const res = await fetch(`https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`)
     const data = await res.json()
-    console.log('data.sha', data.sha)
     const sha = await getSha()
-    console.log('sha', sha)
     return data.sha === sha
   } catch (e) {
     console.log(e)
@@ -51,20 +47,25 @@ async function getTagNameByBranch() {
   return branchVersion ? `v${branchVersion}` : ''
 }
 async function getRepoName() {
-  const { stdout: url } = await execa('git', ['config', '--get', 'remote.origin.url'])
-  console.log('url', url)
-  const regex = /:(.*?)\.git/
-  // @ts-ignore
-  return url.match(regex)[1]
+  let { stdout: url } = await execa('git', ['config', '--get', 'remote.origin.url'])
+  if (url.startsWith('https')) {
+    const regex = /github.com\/(.+)/
+    // @ts-ignore
+    return url.match(regex)[1]
+  } else {
+    const regex = /:(.*?)\.git/
+    // @ts-ignore
+    return url.match(regex)[1]
+  }
 }
 async function checkTag(tag) {
   return (await execa('git', ['tag', '-l', tag])).stdout
 }
 
 async function main() {
-  // if (!(await isInSyncWithRemote())) {
-  //   return
-  // }
+  if (!(await isInSyncWithRemote())) {
+    return
+  }
   console.log(`${pico.green(`✓`)} commit is up-to-date with rmeote.\n`)
 
   const tagName = await getTagNameByBranch()
