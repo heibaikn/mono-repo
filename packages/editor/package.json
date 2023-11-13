@@ -1,6 +1,6 @@
 {
   "name": "@heibaimono/monaco-editor",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "description": "Monaco Editor for Vue 2&3 - use the monaco-editor in any Vue application without needing to use webpack (or rollup/vite) configuration files / plugins",
   "keywords": [
