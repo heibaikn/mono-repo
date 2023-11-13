@@ -66,62 +66,6 @@ const runIfNotDry = isDryRun ? dryRun : run
 
 const step = (msg) => console.log(pico.cyan(msg))
 
-async function main() {
-  if (!(await isInSyncWithRemote())) {
-    return
-  }
-  console.log(`${pico.green(`✓`)} commit is up-to-date with rmeote.\n`)
-
-  let targetVersion = args._[0]
-  if (updateType) {
-    // @ts-ignore
-    const newVersion = semver.inc(currentVersion, updateType)
-    // @ts-ignore
-    targetVersion = newVersion
-  } else if (isCanary) {
-    // The canary version string format is `3.yyyyMMdd.0` (or `3.yyyyMMdd.0-minor.0` for minor)
-    // Use UTC date so that it's consistent across CI and maintainers' machines
-    const datestamp = getDatestamp()
-    let canaryVersion
-    canaryVersion = `${currentVersion}.${datestamp}.0`
-    if (args.tag && args.tag !== 'latest') {
-      canaryVersion = `${currentVersion}.${datestamp}.0-${args.tag}.0`
-    }
-    targetVersion = canaryVersion
-  }
-
-  step(
-    isCanary ? `Releasing canary version v${targetVersion}...` : `Releasing v${targetVersion}...`
-  )
-
-  // update all package versions and inter-dependencies
-  step('\nUpdating cross dependencies...')
-  updateVersions(targetVersion, keepThePackageName)
-  versionUpdated = true
-
-  // build all packages with types
-  // step('\nBuilding all packages...')
-
-  if (isGit) {
-    // generate changelog
-    step('\nGenerating changelog...')
-    await run(`pnpm`, ['run', 'changelog'])
-
-    const { stdout } = await run('git', ['diff'], { stdio: 'pipe' })
-    if (!stdout) {
-      console.log('No changes to commit.')
-      return
-    }
-
-    step('\nCommitting changes...')
-    await runIfNotDry('git', ['add', '-A'])
-    await runIfNotDry('git', ['commit', '-m', `release: v${targetVersion}`])
-
-    step('\nPushing to GitHub...')
-    await runIfNotDry('git', ['push'])
-  }
-}
-
 async function isInSyncWithRemote() {
   try {
     console.log('start isInSyncWithRemote')
@@ -153,7 +97,30 @@ function getDatestamp() {
 async function getSha() {
   return (await execa('git', ['rev-parse', 'HEAD'])).stdout
 }
-
+async function getVersion() {
+  if (updateType) {
+    const newVersion = await getVersionByBranch()
+    // @ts-ignore
+    return newVersion || semver.inc(currentVersion, updateType)
+  } else if (isCanary) {
+    // The canary version string format is `3.yyyyMMdd.0` (or `3.yyyyMMdd.0-minor.0` for minor)
+    // Use UTC date so that it's consistent across CI and maintainers' machines
+    const datestamp = getDatestamp()
+    let canaryVersion
+    canaryVersion = `${currentVersion}.${datestamp}.0`
+    if (args.tag && args.tag !== 'latest') {
+      canaryVersion = `${currentVersion}.${datestamp}.0-${args.tag}.0`
+    }
+    return canaryVersion
+  }
+}
+async function getVersionByBranch() {
+  const { stdout: branch } = await execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'])
+  const regex = /^release\/v_(.+)$/
+  // @ts-ignore
+  const branchVersion = branch.match(regex)[1]
+  return branchVersion ? `${branchVersion}` : ''
+}
 async function getBranch() {
   return (await execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'])).stdout
 }
@@ -208,6 +175,46 @@ function updateDeps(pkg, depType, version, getNewPackageName) {
       deps[dep] = newVersion
     }
   })
+}
+
+async function main() {
+  if (!(await isInSyncWithRemote())) {
+    return
+  }
+  console.log(`${pico.green(`✓`)} commit is up-to-date with rmeote.\n`)
+
+  let targetVersion = (await getVersion()) || args._[0]
+
+  step(
+    isCanary ? `Releasing canary version v${targetVersion}...` : `Releasing v${targetVersion}...`
+  )
+
+  // update all package versions and inter-dependencies
+  step('\nUpdating cross dependencies...')
+  updateVersions(targetVersion, keepThePackageName)
+  versionUpdated = true
+
+  // build all packages with types
+  // step('\nBuilding all packages...')
+
+  if (isGit) {
+    // generate changelog
+    step('\nGenerating changelog...')
+    await run(`pnpm`, ['run', 'changelog'])
+
+    const { stdout } = await run('git', ['diff'], { stdio: 'pipe' })
+    if (!stdout) {
+      console.log('No changes to commit.')
+      return
+    }
+
+    step('\nCommitting changes...')
+    await runIfNotDry('git', ['add', '-A'])
+    await runIfNotDry('git', ['commit', '-m', `release: v${targetVersion}`])
+
+    step('\nPushing to GitHub...')
+    await runIfNotDry('git', ['push'])
+  }
 }
 
 main().catch((err) => {
