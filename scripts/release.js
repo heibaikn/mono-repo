@@ -8,6 +8,8 @@ import pico from 'picocolors'
 import semver from 'semver'
 import enquirer from 'enquirer'
 import { execa } from 'execa'
+import core from '@actions/core'
+// const core = require()
 
 let versionUpdated = false
 
@@ -35,6 +37,9 @@ const skipBuild = args.skipBuild
 const skipPrompts = args.skipPrompts
 const isCanary = args.canary || !updateType
 const isGit = args.isGit
+console.log('SOURCE_REF', process.env['SOURCE_REF'])
+// const sourceRef = core.getInput('SOURCE_REF', { required: true })
+// console.log("sourceRef",sourceRef);
 console.log(pico.blue(`updateType:${updateType}`))
 console.log(pico.blue(`isGet:${isGit}`))
 const packages = fs
@@ -66,74 +71,13 @@ const runIfNotDry = isDryRun ? dryRun : run
 
 const step = (msg) => console.log(pico.cyan(msg))
 
-async function main() {
-  if (!(await isInSyncWithRemote())) {
-    return
-  }
-  console.log(`${pico.green(`✓`)} commit is up-to-date with rmeote.\n`)
-
-  let targetVersion = args._[0]
-  if (updateType) {
-    // @ts-ignore
-    const newVersion = semver.inc(currentVersion, updateType)
-    // @ts-ignore
-    targetVersion = newVersion
-  } else if (isCanary) {
-    // The canary version string format is `3.yyyyMMdd.0` (or `3.yyyyMMdd.0-minor.0` for minor)
-    // Use UTC date so that it's consistent across CI and maintainers' machines
-    const datestamp = getDatestamp()
-    let canaryVersion
-    canaryVersion = `${currentVersion}.${datestamp}.0`
-    if (args.tag && args.tag !== 'latest') {
-      canaryVersion = `${currentVersion}.${datestamp}.0-${args.tag}.0`
-    }
-    targetVersion = canaryVersion
-  }
-
-  step(
-    isCanary ? `Releasing canary version v${targetVersion}...` : `Releasing v${targetVersion}...`
-  )
-
-  // update all package versions and inter-dependencies
-  step('\nUpdating cross dependencies...')
-  updateVersions(targetVersion, keepThePackageName)
-  versionUpdated = true
-
-  // build all packages with types
-  // step('\nBuilding all packages...')
-
-  if (isGit) {
-    // generate changelog
-    step('\nGenerating changelog...')
-    await run(`pnpm`, ['run', 'changelog'])
-
-    const { stdout } = await run('git', ['diff'], { stdio: 'pipe' })
-    if (!stdout) {
-      console.log('No changes to commit.')
-      return
-    }
-
-    step('\nCommitting changes...')
-    await runIfNotDry('git', ['add', '-A'])
-    await runIfNotDry('git', ['commit', '-m', `release: v${targetVersion}`])
-
-    step('\nPushing to GitHub...')
-    // await runIfNotDry('git', ['tag', `v${targetVersion}`])
-    // await runIfNotDry('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
-    await runIfNotDry('git', ['push'])
-  }
-}
-
 async function isInSyncWithRemote() {
   try {
-    console.log('start isInSyncWithRemote')
     const repoName = await getRepoName()
     const branch = await getBranch()
-    console.log(branch)
     const url = `https://api.github.com/repos/${repoName}/commits/${branch}?per_page=1`
     const res = await fetch(url)
     console.log('fetch url', url)
-    console.log(res)
     const data = await res.json()
     const sha = await getSha()
     console.log('sha', sha)
@@ -257,6 +201,64 @@ async function publishPackage(pkgName, version, additionalFlags) {
     } else {
       throw e
     }
+  }
+}
+
+async function main() {
+  if (!(await isInSyncWithRemote())) {
+    return
+  }
+  console.log(`${pico.green(`✓`)} commit is up-to-date with rmeote.\n`)
+
+  let targetVersion = args._[0]
+  if (updateType) {
+    // @ts-ignore
+    const newVersion = semver.inc(currentVersion, updateType)
+    // @ts-ignore
+    targetVersion = newVersion
+  } else if (isCanary) {
+    // The canary version string format is `3.yyyyMMdd.0` (or `3.yyyyMMdd.0-minor.0` for minor)
+    // Use UTC date so that it's consistent across CI and maintainers' machines
+    const datestamp = getDatestamp()
+    let canaryVersion
+    canaryVersion = `${currentVersion}.${datestamp}.0`
+    if (args.tag && args.tag !== 'latest') {
+      canaryVersion = `${currentVersion}.${datestamp}.0-${args.tag}.0`
+    }
+    targetVersion = canaryVersion
+  }
+
+  step(
+    isCanary ? `Releasing canary version v${targetVersion}...` : `Releasing v${targetVersion}...`
+  )
+
+  // update all package versions and inter-dependencies
+  step('\nUpdating cross dependencies...')
+  updateVersions(targetVersion, keepThePackageName)
+  versionUpdated = true
+
+  // build all packages with types
+  // step('\nBuilding all packages...')
+
+  if (isGit) {
+    // generate changelog
+    step('\nGenerating changelog...')
+    await run(`pnpm`, ['run', 'changelog'])
+
+    const { stdout } = await run('git', ['diff'], { stdio: 'pipe' })
+    if (!stdout) {
+      console.log('No changes to commit.')
+      return
+    }
+
+    step('\nCommitting changes...')
+    await runIfNotDry('git', ['add', '-A'])
+    await runIfNotDry('git', ['commit', '-m', `release: v${targetVersion}`])
+
+    step('\nPushing to GitHub...')
+    // await runIfNotDry('git', ['tag', `v${targetVersion}`])
+    // await runIfNotDry('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
+    // await runIfNotDry('git', ['push'])
   }
 }
 

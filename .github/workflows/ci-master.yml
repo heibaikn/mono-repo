@@ -23,8 +23,6 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Use pnpm
         uses: pnpm/action-setup@v2
@@ -47,3 +45,4 @@ jobs:
           pnpm run release --patch --git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_REF: ${{github.event.pull_request.head.ref}}
