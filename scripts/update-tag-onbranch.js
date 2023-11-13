@@ -62,9 +62,9 @@ async function checkTag(tag) {
 }
 
 async function main() {
-  if (!(await isInSyncWithRemote())) {
-    return
-  }
+  // if (!(await isInSyncWithRemote())) {
+  //   return
+  // }
   console.log(`${pico.green(`✓`)} commit is up-to-date with rmeote.\n`)
 
   const tagName = await getTagNameByBranch()
