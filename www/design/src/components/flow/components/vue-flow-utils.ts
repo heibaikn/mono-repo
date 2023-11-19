@@ -21,8 +21,8 @@ class Utils {
     this.nodeMap = new Map()
   }
   generateWrap(node: FlowItem[], deep = true): FlowItem {
-    let nodes = deep ? JSON.parse(JSON.stringify(node)) : node
-    let data = {
+    const nodes = deep ? JSON.parse(JSON.stringify(node)) : node
+    const data = {
       id: '0',
       type: 'BRANCH',
       position: { x: 0, y: 0 },
@@ -37,11 +37,11 @@ class Utils {
   getLines(source: string, target: string, type = LineType.Base) {
     let data
     if (type === LineType.StepBegin) {
-      let id = this.dataMap.get(target).parent.id
+      const id = this.dataMap.get(target).parent.id
       data = this.sourceMap.get(id)
     }
     if (type === LineType.StepEnd) {
-      let id = this.dataMap.get(source).parent.id
+      const id = this.dataMap.get(source).parent.id
       data = this.sourceMap.get(id)
     }
     return {
@@ -55,7 +55,7 @@ class Utils {
     }
   }
   generateData() {
-    let nodes = [...this.nodeMap.values()]
+    const nodes = [...this.nodeMap.values()]
       .map((item) => {
         return this.transferNode(item)
       })
@@ -64,15 +64,15 @@ class Utils {
         item.position.y = item.position.y * this.yGap
         return item
       })
-    let lines = nodes
+    const lines = nodes
       .filter((item) => item.prevNodeId.length)
       .flatMap((item) => {
         let type = LineType.Base
         if (item.prevNodeId.length > 1) {
           type = LineType.StepEnd
         } else {
-          let parentNode = this.dataMap.get(item.parentId)
-          let selfNode = this.dataMap.get(item.id)
+          const parentNode = this.dataMap.get(item.parentId)
+          const selfNode = this.dataMap.get(item.id)
           if (parentNode.type === NodeType.Branch && selfNode.seriesIndex === 0 && parentNode.id) {
             type = LineType.StepBegin
           }
@@ -84,10 +84,10 @@ class Utils {
     return [...nodes, ...lines]
   }
   getLastLeafNode(node: FlowItem): string[] {
-    let ret: string[] = []
+    const ret: string[] = []
     node.branches.forEach((branch, index) => {
-      let lastId = branch.nodes[branch.nodes.length - 1].id
-      let node = this.dataMap.get(lastId)
+      const lastId = branch.nodes[branch.nodes.length - 1].id
+      const node = this.dataMap.get(lastId)
       if (node.type === NodeType.Branch) {
         ret.push(...this.getLastLeafNode(node))
       } else {
@@ -107,7 +107,7 @@ class Utils {
     }
   }
   transferNode(item: FlowItem) {
-    let prevNodeId = this.getPrevNodeIds(item.prev)
+    const prevNodeId = this.getPrevNodeIds(item.prev)
     return {
       id: item.id,
       prevNodeId,
@@ -146,7 +146,7 @@ class Utils {
 
   calcCenter(items: number[]): number {
     let sum = 0
-    let len = Math.floor((items.length + 1) / 2)
+    const len = Math.floor((items.length + 1) / 2)
     for (let i = 0; i < len; i++) {
       sum += items[i]
     }
@@ -156,7 +156,7 @@ class Utils {
   calcLeafRangeX(node: FlowItem, rangeX = 1): [number, number[]] {
     let subArrLen: number[] = [1]
     if (node.branches && node.branches.length) {
-      let { branches } = node
+      const { branches } = node
       subArrLen = []
       branches.forEach((branch, index) => {
         let subMaxLen = 0
@@ -165,7 +165,7 @@ class Utils {
           item.seriesIndex = i
           item.branchIndex = index
           item.x = rangeX
-          let [len, _] = this.calcLeafRangeX(item, rangeX)
+          const [len, _] = this.calcLeafRangeX(item, rangeX)
           subMaxLen < len && (subMaxLen = len)
         }
         subArrLen.push(subMaxLen)
@@ -177,14 +177,14 @@ class Utils {
   }
 
   calcLeafAxisX(node: FlowItem) {
-    let { size, branches, position } = node
+    const { size, branches, position } = node
     if (branches && branches.length) {
       let sumX = 0
-      let subArrLen: any[] = []
+      const subArrLen: any[] = []
       branches.forEach((branch, branchIndex) => {
         if (branches.length === 1) {
           branch.nodes.forEach((item, idx) => {
-            let [xLen, _] = this.calcLeafRangeX(item)
+            const [xLen, _] = this.calcLeafRangeX(item)
             item.size = xLen
             item.position.x = position.x
             this.calcLeafAxisX(item)
@@ -193,7 +193,7 @@ class Utils {
           let maxXLen = 0,
             positionX = 0
           branch.nodes.forEach((item, idx) => {
-            let [xLen, center] = this.calcLeafRangeX(item)
+            const [xLen, center] = this.calcLeafRangeX(item)
             item.size = xLen
             if (maxXLen < xLen) {
               maxXLen = xLen
@@ -223,7 +223,7 @@ class Utils {
         let temp = rangeY
         element.position.y = rangeY
         for (let j = 0; element.branches.length > j; j++) {
-          let subrangeY = this.calcLeafRangeY(element.branches[j].nodes, rangeY - 1)
+          const subrangeY = this.calcLeafRangeY(element.branches[j].nodes, rangeY - 1)
           subrangeY > temp && (temp = subrangeY)
         }
         rangeY = temp
@@ -263,12 +263,12 @@ class Utils {
     return this.sourceMap.get(id)
   }
   getNodeXpathById(id: string) {
-    let xpath = []
+    const xpath = []
     let node = this.nodeMap.get(id)
     while (node) {
       if (node.prev && ![NodeType.Branch, NodeType.Condition].includes(node.prev.type)) {
         if (node.prev.parent.id === '0') {
-          let sourceNode = this.sourceMap.get(node.prev.id)
+          const sourceNode = this.sourceMap.get(node.prev.id)
           xpath.push(sourceNode)
         }
       }
@@ -282,9 +282,9 @@ class Utils {
       .join('')
   }
   addNodeByPrev(sourceId: string, node: FlowItem, replace = false) {
-    let sourceNode = this.dataMap.get(sourceId)
+    const sourceNode = this.dataMap.get(sourceId)
     // let parentNode = _.cloneDeep(this.sourceMap.get(sourceNode.parent.id));
-    let parentNode = this.sourceMap.get(sourceNode.parent.id)
+    const parentNode = this.sourceMap.get(sourceNode.parent.id)
     parentNode.branches[sourceNode.branchIndex].nodes.splice(
       sourceNode.seriesIndex + 1,
       replace ? 1 : 0,
@@ -296,8 +296,8 @@ class Utils {
     return this.addNodeByPrev(sourceId, node, true)
   }
   modifyNode(node: FlowItem) {
-    let targetNode = this.dataMap.get(node.id)
-    let parentNode = this.sourceMap.get(targetNode.parent.id)
+    const targetNode = this.dataMap.get(node.id)
+    const parentNode = this.sourceMap.get(targetNode.parent.id)
     parentNode.branches[targetNode.branchIndex].nodes.splice(targetNode.seriesIndex, 1, node)
     return this.source
   }
@@ -313,8 +313,8 @@ class Utils {
     return branch
   }
   copyBranch(node: FlowItem) {
-    let targetNode = this.dataMap.get(node.id)
-    let parentNode = this.sourceMap.get(targetNode.parent.id)
+    const targetNode = this.dataMap.get(node.id)
+    const parentNode = this.sourceMap.get(targetNode.parent.id)
     const newBranch = this.removeBranchNodeId(
       _.cloneDeep(parentNode.branches[targetNode.branchIndex])
     )
@@ -322,14 +322,14 @@ class Utils {
     return this.source
   }
   removeNode(id: string) {
-    let sourceNode = this.dataMap.get(id)
-    let parentNode = this.sourceMap.get(sourceNode.parent.id)
+    const sourceNode = this.dataMap.get(id)
+    const parentNode = this.sourceMap.get(sourceNode.parent.id)
     parentNode.branches[sourceNode.branchIndex].nodes.splice(sourceNode.seriesIndex, 1)
     return this.source
   }
   removeBranch(id: string) {
-    let sourceNode = this.dataMap.get(id)
-    let parentNode = this.sourceMap.get(sourceNode.parent.id)
+    const sourceNode = this.dataMap.get(id)
+    const parentNode = this.sourceMap.get(sourceNode.parent.id)
     if (parentNode.branches.length === 2) {
       const pa = this.dataMap.get(sourceNode.parent.id)
       const grandPa = this.sourceMap.get(pa.parent.id)
@@ -346,9 +346,9 @@ class Utils {
     return this.source
   }
   getFlowSize() {
-    let maxLevel = [1, 1]
+    const maxLevel = [1, 1]
     this.nodeMap.forEach((item) => {
-      let [x, y] = maxLevel
+      const [x, y] = maxLevel
       maxLevel[0] = item.position.x > x ? item.position.x : x
       maxLevel[1] = item.position.y > y ? item.position.y : y
     })
@@ -361,9 +361,9 @@ class Utils {
     this.reset()
     this.source = source
     this.cloneSource(this.generateWrap(this.source, false))
-    let data = this.generateWrap(source)
+    const data = this.generateWrap(source)
     this.calcLeafRangeY(data.branches[0].nodes)
-    let [size, rootAxisX] = this.calcLeafRangeX(data)
+    const [size, rootAxisX] = this.calcLeafRangeX(data)
     data.position.x = 0
     data.size = size
     this.calcLeafAxisX(data)

@@ -8,7 +8,7 @@ export enum Project {
 
 class GMConfig {
   getHostBase(type: Project, mode: string): string {
-    let isDev = mode === 'development'
+    const isDev = mode === 'development'
     switch (type) {
       case Project.Design:
         return isDev ? 'http://127.0.0.1:7202/' : config.BASE.Design

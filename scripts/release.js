@@ -30,7 +30,7 @@ const updateType = updateTypeArr.find((type) => {
 
 const preId = args.preid || semver.prerelease(currentVersion)?.[0]
 const isDryRun = args.dry
-let skipTests = args.skipTests
+const skipTests = args.skipTests
 const skipBuild = args.skipBuild
 const skipPrompts = args.skipPrompts
 const isCanary = args.canary || !updateType
@@ -125,7 +125,7 @@ async function getBranch() {
   return (await execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'])).stdout
 }
 async function getRepoName() {
-  let { stdout: url } = await execa('git', ['config', '--get', 'remote.origin.url'])
+  const { stdout: url } = await execa('git', ['config', '--get', 'remote.origin.url'])
   if (url.startsWith('https')) {
     const regex = /github.com\/(.+)/
     // @ts-ignore
@@ -183,7 +183,7 @@ async function main() {
   }
   console.log(`${pico.green(`✓`)} commit is up-to-date with rmeote.\n`)
 
-  let targetVersion = (await getVersion()) || args._[0]
+  const targetVersion = (await getVersion()) || args._[0]
 
   step(
     isCanary ? `Releasing canary version v${targetVersion}...` : `Releasing v${targetVersion}...`

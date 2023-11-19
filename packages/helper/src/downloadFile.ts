@@ -4,13 +4,13 @@ export const downloadFile = function (
   mime = 'application/json',
   bom?: string
 ) {
-  let blobData = typeof bom !== 'undefined' ? [bom, data] : [data]
-  let blob = new Blob(blobData, { type: mime })
-  let blobURL =
+  const blobData = typeof bom !== 'undefined' ? [bom, data] : [data]
+  const blob = new Blob(blobData, { type: mime })
+  const blobURL =
     window.URL && window.URL.createObjectURL
       ? window.URL.createObjectURL(blob)
       : window.webkitURL.createObjectURL(blob)
-  let tempLink = document.createElement('a')
+  const tempLink = document.createElement('a')
   tempLink.style.display = 'none'
   tempLink.href = blobURL
   tempLink.setAttribute('download', filename)
