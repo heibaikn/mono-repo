@@ -1,37 +1,62 @@
 <template>
   <div class="wrap">
-    <div class="sidebar">
-      <ul>
-        <li>
-          <RouterLink to="/">Home</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/about">About</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/design">design-Home</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/react">react-Home</RouterLink>
-        </li>
-      </ul>
-    </div>
+    <SideBar :data="self.data" />
     <div class="main" :class="globalState.env !== 'main' && 'hidden'">
       <RouterView />
     </div>
-
-    <div id="subapp" :class="globalState.env === 'main' && 'hidden'"></div>
+    <div id="subapp" :class="globalState.env === 'main' && 'hidden'" />
   </div>
 </template>
 
 <script setup lang="ts">
-// import { reactive } from 'vue'
+import { reactive } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
-
-// import HelloWorld from './components/HelloWorld.vue'
+import SideBar from './components/sidebar/index.vue'
 import { useGlobalStore } from '@/stores/global'
 const { globalState, changeData } = useGlobalStore()
-// const self = reactive({})
+const self = reactive({
+  data: [
+    {
+      label: '首页',
+      path: '/',
+      children: [
+        {
+          label: '生命钩子',
+          path: '/lifecycle'
+        },
+        {
+          label: '生命钩子-参照组',
+          path: '/lifecycle-toggle'
+        },
+        {
+          label: 'about',
+          path: '/about'
+        }
+      ]
+    },
+    {
+      label: '功能',
+      path: '/design',
+      children: [
+        {
+          label: '虚拟列表',
+          path: '/design/virtual-list'
+        },
+        {
+          label: '工作流',
+          path: '/design/workflow'
+        }
+      ]
+    },
+    {
+      label: 'react',
+      path: '/react'
+      // children: [
+
+      // ]
+    }
+  ]
+})
 setTimeout(() => {
   changeData('markup', 11)
 }, 3000)
@@ -47,10 +72,6 @@ console.log('object', aa)
   display: flex;
   padding: 16px 0 16px 16px;
   height: 100vh;
-
-  .sidebar {
-    width: 200px;
-  }
 
   .main,
   #subapp {

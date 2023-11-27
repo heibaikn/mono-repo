@@ -181,7 +181,7 @@ async function main() {
 
   if (!skipTests) {
     step('Checking CI status for HEAD...')
-    let isCIPassed = await getCIResult()
+    const isCIPassed = await getCIResult()
     skipTests ||= isCIPassed
 
     if (isCIPassed && !skipPrompts) {

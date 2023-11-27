@@ -1990,13 +1990,13 @@ const fileIcons: FileIcons = [
   { name: 'caddy', fileNames: ['Caddyfile'] }
 ]
 // console.log();
-let fileExtensions = fileIcons
+const fileExtensions = fileIcons
   .map((item) => {
     return item.fileExtensions?.map((val) => [val, camelcase(item.name, { pascalCase: true })])
   })
   .filter((item) => item)
   .flat() as [string, string][]
-let fileNames = fileIcons
+const fileNames = fileIcons
   .map((item) => {
     return item.fileNames?.map((val) => [val, camelcase(item.name, { pascalCase: true })])
   })

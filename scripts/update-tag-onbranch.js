@@ -46,7 +46,7 @@ async function getTagNameByBranch() {
   return branchVersion ? `v${branchVersion}` : ''
 }
 async function getRepoName() {
-  let { stdout: url } = await execa('git', ['config', '--get', 'remote.origin.url'])
+  const { stdout: url } = await execa('git', ['config', '--get', 'remote.origin.url'])
   if (url.startsWith('https')) {
     const regex = /github.com\/(.+)/
     // @ts-ignore

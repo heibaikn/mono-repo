@@ -1,20 +1,20 @@
 import {
-  type SetupContext,
   type PropType,
+  type SetupContext,
   type ShallowRef,
+  computed,
   defineComponent,
+  h,
   nextTick,
   onMounted,
   onUnmounted,
-  computed,
-  shallowRef,
   ref,
-  watch,
-  h
+  shallowRef,
+  watch
 } from 'vue-demi'
-import { type Nullable, type MonacoEditor } from '../types'
-import { useMonaco, useContainer } from '../hooks'
-import { getOrCreateModel, isUndefined, defaultSlotHelper } from '../utils'
+import { type MonacoEditor, type Nullable } from '../types'
+import { useContainer, useMonaco } from '../hooks'
+import { defaultSlotHelper, getOrCreateModel, isUndefined } from '../utils'
 import Loading from './loading.vue'
 import type * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api'
 export interface EditorProps {
@@ -58,6 +58,9 @@ const loadingStyle = {
 
 export default defineComponent({
   name: 'VueMonacoEditor',
+  components: {
+    Loading
+  },
   // TODO: vue3 use modelValue, vue2 use value
   model: {
     prop: 'value',
@@ -102,9 +105,6 @@ export default defineComponent({
       default: '100%'
     },
     className: String
-  },
-  components: {
-    Loading
   },
   emits: ['update:value', 'beforeMount', 'mount', 'change', 'validate'],
   setup(props, ctx: SetupContext<VueMonacoEditorEmitsOptions>) {

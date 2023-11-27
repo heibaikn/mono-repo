@@ -1,4 +1,4 @@
-import { computed, type Ref } from 'vue-demi'
+import { type Ref, computed } from 'vue-demi'
 
 type ContainerProps = {
   width: number | string

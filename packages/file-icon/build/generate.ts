@@ -47,7 +47,7 @@ const transformToVueComponent = async (file: string) => {
   const content = await readFile(file, 'utf-8')
   const { filename, componentName } = getName(file)
   if (content.includes('<?xml')) {
-    let cmd = `mv ${file} ../svg `
+    const cmd = `mv ${file} ../svg `
     console.log(cmd)
     // exec(cmd)
   }

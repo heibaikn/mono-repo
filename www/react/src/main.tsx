@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { renderWithQiankun, qiankunWindow } from 'vite-plugin-qiankun/dist/helper'
+import { qiankunWindow, renderWithQiankun } from 'vite-plugin-qiankun/dist/helper'
 import App from './App'
 import type { Root } from 'react-dom/client'
 import './index.css'

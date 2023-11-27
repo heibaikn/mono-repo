@@ -2,10 +2,10 @@ import { parse } from 'node-html-parser'
 class UnityToHtml {
   rgbToHex(rgbStr: string) {
     //十六进制颜色值的正则表达式
-    let reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
+    const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
     // 如果是rgb颜色表示
     if (/^(rgb|RGB)/.test(rgbStr)) {
-      let aColor = rgbStr.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',')
+      const aColor = rgbStr.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',')
       let strHex = '#'
       for (const element of aColor) {
         let hex = Number(element).toString(16)
@@ -19,7 +19,7 @@ class UnityToHtml {
       }
       return strHex
     } else if (reg.test(rgbStr)) {
-      let aNum = rgbStr.replace(/#/, '').split('')
+      const aNum = rgbStr.replace(/#/, '').split('')
       if (aNum.length === 6) {
         return rgbStr
       } else if (aNum.length === 3) {
@@ -96,9 +96,9 @@ class UnityToHtml {
     return str
   }
   convertUnityToHtml(ansiText: string): string | undefined {
-    let colorResult = this.replaceNestedColorTags(ansiText)
-    let sizeResult = this.replaceNestedSizeTags(colorResult)
-    let allResult = this.replaceNestedNTags(sizeResult)
+    const colorResult = this.replaceNestedColorTags(ansiText)
+    const sizeResult = this.replaceNestedSizeTags(colorResult)
+    const allResult = this.replaceNestedNTags(sizeResult)
     return allResult
   }
 }
