@@ -18,6 +18,11 @@ export default [
     component: () => import('../views/workflow/index.vue')
   },
   {
+    path: '/form-v3',
+    name: 'formV3',
+    component: () => import('../views/form-v3/index.vue')
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting

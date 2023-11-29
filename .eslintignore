@@ -5,6 +5,7 @@ coverage
 node_modules/
 dist/
 packages/file-icon/lib/*
+packages/form-v3
 config/node/*
 !.*
 !node_modules/*

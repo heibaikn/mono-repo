@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <SideBar :data="self.data" />
+    <SideBar class="sidebar" :data="self.data" />
     <div class="main" :class="globalState.env !== 'main' && 'hidden'">
       <RouterView />
     </div>
@@ -43,6 +43,10 @@ const self = reactive({
           path: '/design/virtual-list'
         },
         {
+          label: '表单引擎',
+          path: '/design/form-v3'
+        },
+        {
           label: '工作流',
           path: '/design/workflow'
         }
@@ -72,10 +76,18 @@ console.log('object', aa)
   display: flex;
   padding: 16px 0 16px 16px;
   height: 100vh;
+  width: 100vw;
+
+  .sidebar {
+    width: 200px !important;
+    flex-basis: 200px;
+    flex-grow: 0;
+  }
 
   .main,
   #subapp {
-    flex: 1;
+    flex-basis: 800px;
+    flex-grow: 1;
   }
 
   :deep(#subapp) {

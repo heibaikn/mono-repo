@@ -5,10 +5,13 @@ import { createPinia } from 'pinia'
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import ElementPlus from 'element-plus'
 import { qiankunWindow, renderWithQiankun } from 'vite-plugin-qiankun/dist/helper'
-import { Utils } from '@heibaimono/helper'
+import formV3 from '@heibaimono/form-v3'
+import '@heibaimono/form-v3/dist/designer.style.css'
+// import { Utils } from '@heibaimono/helper'
+import { useContainer } from '../../../packages/editor/src/hooks/useContiner'
 import App from './App.vue'
 import routes from './router'
-console.log(Utils.random())
+// console.log(Utils.random())
 let instance: any
 let router: any
 let history: any
@@ -23,8 +26,11 @@ function render(props: any) {
     routes
   })
   instance.use(router)
+  instance.use(formV3)
   instance.use(ElementPlus)
-  const c = container ? container.querySelector('#app') : document.querySelector('#app')
+  const c = container
+    ? container.querySelector('#design-app')
+    : document.querySelector('#design-app')
   instance.mount(c)
 }
 function storeTest(props: any) {

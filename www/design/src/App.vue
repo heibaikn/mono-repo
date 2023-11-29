@@ -5,11 +5,7 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <template>
   <header>
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/virtual-list">虚拟列表</RouterLink>
-      <RouterLink to="/workflow">流程工具</RouterLink>
-    </nav>
+    <nav />
   </header>
   <RouterView class="router-view" />
 </template>
