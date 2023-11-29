@@ -15,8 +15,10 @@
           :list="designer.widgetList"
           item-key="id"
           v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 300 }"
-          tag="transition-group"
-          :component-data="{ name: 'fade' }"
+          :component-data="{
+            name: 'fade',
+            type: 'transition-group'
+          }"
           handle=".drag-handler"
           @end="onDragEnd"
           @add="onDragAdd"

@@ -18,7 +18,7 @@ export function createDesigner(vueInstance) {
     selectedId: null,
     selectedWidget: null,
     selectedWidgetName: null, //选中组件名称（唯一）
-    vueInstance: vueInstance,
+    vueInstance,
 
     formWidget: null, //表单设计容器
 
@@ -55,7 +55,7 @@ export function createDesigner(vueInstance) {
       this.selectedWidget = {} //this.selectedWidget = null
       overwriteObj(this.formConfig, defaultFormConfig) //
 
-      if (!!skipHistoryChange) {
+      if (skipHistoryChange) {
         //什么也不做！！
       } else if (!emptyWidgetListFlag) {
         this.emitHistoryChange()
@@ -117,7 +117,7 @@ export function createDesigner(vueInstance) {
       }
 
       this.selectedWidget = selected
-      if (!!selected.id) {
+      if (selected.id) {
         this.selectedId = selected.id
         this.selectedWidgetName = selected.options.name
       }
@@ -125,7 +125,7 @@ export function createDesigner(vueInstance) {
 
     updateSelectedWidgetNameAndLabel(selectedWidget, newName, newLabel) {
       this.selectedWidgetName = newName
-      if (!!newLabel && Object.keys(selectedWidget.options).indexOf('label') > -1) {
+      if (!!newLabel && Object.keys(selectedWidget.options).includes('label')) {
         selectedWidget.options.label = newLabel
       }
     },
@@ -140,8 +140,8 @@ export function createDesigner(vueInstance) {
       /* Only field widget can be dragged into sub-form */
       if (!!evt.draggedContext && !!evt.draggedContext.element) {
         let wgCategory = evt.draggedContext.element.category
-        let wgType = evt.draggedContext.element.type + ''
-        if (!!evt.to) {
+        let wgType = `${evt.draggedContext.element.type}`
+        if (evt.to) {
           if (evt.to.className === 'sub-form-table' && wgCategory === 'container') {
             //this.$message.info(this.vueInstance.i18nt('designer.hint.onlyFieldWidgetAcceptable'))
             return false
@@ -155,8 +155,8 @@ export function createDesigner(vueInstance) {
     checkFieldMove(evt) {
       if (!!evt.draggedContext && !!evt.draggedContext.element) {
         let wgCategory = evt.draggedContext.element.category
-        let wgType = evt.draggedContext.element.type + ''
-        if (!!evt.to) {
+        let wgType = `${evt.draggedContext.element.type}`
+        if (evt.to) {
           if (evt.to.className === 'sub-form-table' && wgType === 'slot') {
             //this.$message.info(this.vueInstance.i18nt('designer.hint.onlyFieldWidgetAcceptable'))
             return false
@@ -174,10 +174,10 @@ export function createDesigner(vueInstance) {
     appendTableRow(widget) {
       let rowIdx = widget.rows.length //确定插入行位置
       let newRow = deepClone(widget.rows[widget.rows.length - 1])
-      newRow.id = 'table-row-' + generateId()
+      newRow.id = `table-row-${generateId()}`
       newRow.merged = false
       newRow.cols.forEach((col) => {
-        col.id = 'table-cell-' + generateId()
+        col.id = `table-cell-${generateId()}`
         col.options.name = col.id
         col.merged = false
         col.options.colspan = 1
@@ -197,7 +197,7 @@ export function createDesigner(vueInstance) {
       let colIdx = widget.rows[0].cols.length //确定插入列位置
       widget.rows.forEach((row) => {
         let newCol = deepClone(this.getContainerByType('table-cell'))
-        newCol.id = 'table-cell-' + generateId()
+        newCol.id = `table-cell-${generateId()}`
         newCol.options.name = newCol.id
         newCol.merged = false
         newCol.options.colspan = 1
@@ -210,7 +210,7 @@ export function createDesigner(vueInstance) {
     },
 
     insertTableRow(widget, insertPos, cloneRowIdx, curCol, aboveFlag) {
-      let newRowIdx = !!aboveFlag ? insertPos : insertPos + 1 //初步确定插入行位置
+      let newRowIdx = aboveFlag ? insertPos : insertPos + 1 //初步确定插入行位置
       if (!aboveFlag) {
         //继续向下寻找同列第一个未被合并的单元格
         let tmpRowIdx = newRowIdx
@@ -231,10 +231,10 @@ export function createDesigner(vueInstance) {
       }
 
       let newRow = deepClone(widget.rows[cloneRowIdx])
-      newRow.id = 'table-row-' + generateId()
+      newRow.id = `table-row-${generateId()}`
       newRow.merged = false
       newRow.cols.forEach((col) => {
-        col.id = 'table-cell-' + generateId()
+        col.id = `table-cell-${generateId()}`
         col.options.name = col.id
         col.merged = false
         col.options.colspan = 1
@@ -248,7 +248,7 @@ export function createDesigner(vueInstance) {
         //越界判断
         const cellOfNextRow = widget.rows[newRowIdx + 1].cols[colNo]
         const rowMerged = cellOfNextRow.merged //确定插入位置下一行的单元格是否为合并单元格
-        if (!!rowMerged) {
+        if (rowMerged) {
           let rowArray = widget.rows
           let unMergedCell = {}
           let startRowIndex = null
@@ -261,7 +261,7 @@ export function createDesigner(vueInstance) {
             }
           }
 
-          if (!!unMergedCell.options) {
+          if (unMergedCell.options) {
             //如果有符合条件的unMergedCell
             let newRowspan = unMergedCell.options.rowspan + 1
             this.setPropsOfMergedRows(
@@ -285,7 +285,7 @@ export function createDesigner(vueInstance) {
     },
 
     insertTableCol(widget, insertPos, curRow, leftFlag) {
-      let newColIdx = !!leftFlag ? insertPos : insertPos + 1 //初步确定插入列位置
+      let newColIdx = leftFlag ? insertPos : insertPos + 1 //初步确定插入列位置
       if (!leftFlag) {
         //继续向右寻找同行第一个未被合并的单元格
         let tmpColIdx = newColIdx
@@ -307,7 +307,7 @@ export function createDesigner(vueInstance) {
 
       widget.rows.forEach((row) => {
         let newCol = deepClone(this.getContainerByType('table-cell'))
-        newCol.id = 'table-cell-' + generateId()
+        newCol.id = `table-cell-${generateId()}`
         newCol.options.name = newCol.id
         newCol.merged = false
         newCol.options.colspan = 1
@@ -321,7 +321,7 @@ export function createDesigner(vueInstance) {
         //越界判断
         const cellOfNextCol = widget.rows[rowNo].cols[newColIdx + 1]
         const colMerged = cellOfNextCol.merged //确定插入位置右侧列的单元格是否为合并单元格
-        if (!!colMerged) {
+        if (colMerged) {
           let colArray = widget.rows[rowNo].cols
           let unMergedCell = {}
           let startColIndex = null
@@ -334,7 +334,7 @@ export function createDesigner(vueInstance) {
             }
           }
 
-          if (!!unMergedCell.options) {
+          if (unMergedCell.options) {
             //如果有符合条件的unMergedCell
             let newColspan = unMergedCell.options.colspan + 1
             this.setPropsOfMergedCols(
@@ -408,11 +408,11 @@ export function createDesigner(vueInstance) {
     },
 
     mergeTableCol(rowArray, colArray, curRow, curCol, leftFlag, cellWidget) {
-      let mergedColIdx = !!leftFlag ? curCol : curCol + colArray[curCol].options.colspan
+      let mergedColIdx = leftFlag ? curCol : curCol + colArray[curCol].options.colspan
 
       // let remainedColIdx = !!leftFlag ? curCol - colArray[curCol - 1].options.colspan : curCol
-      let remainedColIdx = !!leftFlag ? curCol - 1 : curCol
-      if (!!leftFlag) {
+      let remainedColIdx = leftFlag ? curCol - 1 : curCol
+      if (leftFlag) {
         //继续向左寻找同行未被合并的第一个单元格
         let tmpColIdx = remainedColIdx
         while (tmpColIdx >= 0) {
@@ -491,11 +491,11 @@ export function createDesigner(vueInstance) {
     },
 
     mergeTableRow(rowArray, curRow, curCol, aboveFlag, cellWidget) {
-      let mergedRowIdx = !!aboveFlag ? curRow : curRow + cellWidget.options.rowspan
+      let mergedRowIdx = aboveFlag ? curRow : curRow + cellWidget.options.rowspan
 
       //let remainedRowIdx = !!aboveFlag ? curRow - cellWidget.options.rowspan : curRow
-      let remainedRowIdx = !!aboveFlag ? curRow - 1 : curRow
-      if (!!aboveFlag) {
+      let remainedRowIdx = aboveFlag ? curRow - 1 : curRow
+      if (aboveFlag) {
         //继续向上寻找同列未被合并的第一个单元格
         let tmpRowIdx = remainedRowIdx
         while (tmpRowIdx >= 0) {
@@ -689,7 +689,7 @@ export function createDesigner(vueInstance) {
       let allWidgets = [...containers, ...basicFields, ...advancedFields, ...customFields]
       let foundWidget = null
       allWidgets.forEach((widget) => {
-        if (!!!widget.category && !!widget.type && widget.type === typeName) {
+        if (!widget.category && !!widget.type && widget.type === typeName) {
           foundWidget = widget
         }
       })
@@ -699,7 +699,7 @@ export function createDesigner(vueInstance) {
 
     hasConfig(widget, configName) {
       let originalWidget = null
-      if (!!widget.category) {
+      if (widget.category) {
         originalWidget = this.getContainerByType(widget.type)
       } else {
         originalWidget = this.getFieldWidgetByType(widget.type)
@@ -709,12 +709,12 @@ export function createDesigner(vueInstance) {
         return false
       }
 
-      return Object.keys(originalWidget.options).indexOf(configName) > -1
+      return Object.keys(originalWidget.options).includes(configName)
     },
 
     upgradeWidgetConfig(oldWidget) {
       let newWidget = null
-      if (!!oldWidget.category) {
+      if (oldWidget.category) {
         newWidget = this.getContainerByType(oldWidget.type)
       } else {
         newWidget = this.getFieldWidgetByType(oldWidget.type)
@@ -743,8 +743,8 @@ export function createDesigner(vueInstance) {
       let newGridCol = deepClone(this.getContainerByType('grid-col'))
       newGridCol.options.span = widget.options.span
       let tmpId = generateId()
-      newGridCol.id = 'grid-col-' + tmpId
-      newGridCol.options.name = 'gridCol' + tmpId
+      newGridCol.id = `grid-col-${tmpId}`
+      newGridCol.options.name = `gridCol${tmpId}`
 
       parentWidget.cols.push(newGridCol)
     },
@@ -757,8 +757,8 @@ export function createDesigner(vueInstance) {
         containWidget.cols.forEach((gridCol) => {
           let newGridCol = deepClone(this.getContainerByType('grid-col'))
           let tmpId = generateId()
-          newGridCol.id = 'grid-col-' + tmpId
-          newGridCol.options.name = 'gridCol' + tmpId
+          newGridCol.id = `grid-col-${tmpId}`
+          newGridCol.options.name = `gridCol${tmpId}`
           newGridCol.options.span = gridCol.options.span
           newGrid.cols.push(newGridCol)
         })
@@ -770,9 +770,9 @@ export function createDesigner(vueInstance) {
         newTable.options.name = newTable.id
         containWidget.rows.forEach((tRow) => {
           let newRow = deepClone(tRow)
-          newRow.id = 'table-row-' + generateId()
+          newRow.id = `table-row-${generateId()}`
           newRow.cols.forEach((col) => {
-            col.id = 'table-cell-' + generateId()
+            col.id = `table-cell-${generateId()}`
             col.options.name = col.id
             col.widgetList = [] //清空组件列表
           })
@@ -787,7 +787,7 @@ export function createDesigner(vueInstance) {
     },
 
     moveUpWidget(parentList, indexOfParentList) {
-      if (!!parentList) {
+      if (parentList) {
         if (indexOfParentList === 0) {
           this.vueInstance.$message(this.vueInstance.i18nt('designer.hint.moveUpFirstChildHint'))
           return
@@ -800,7 +800,7 @@ export function createDesigner(vueInstance) {
     },
 
     moveDownWidget(parentList, indexOfParentList) {
-      if (!!parentList) {
+      if (parentList) {
         if (indexOfParentList === parentList.length - 1) {
           this.vueInstance.$message(this.vueInstance.i18nt('designer.hint.moveDownLastChildHint'))
           return
@@ -831,21 +831,21 @@ export function createDesigner(vueInstance) {
       if (newCon.type === 'grid') {
         let newCol = deepClone(this.getContainerByType('grid-col'))
         let tmpId = generateId()
-        newCol.id = 'grid-col-' + tmpId
-        newCol.options.name = 'gridCol' + tmpId
+        newCol.id = `grid-col-${tmpId}`
+        newCol.options.name = `gridCol${tmpId}`
         newCon.cols.push(newCol)
         //
         newCol = deepClone(newCol)
         tmpId = generateId()
-        newCol.id = 'grid-col-' + tmpId
-        newCol.options.name = 'gridCol' + tmpId
+        newCol.id = `grid-col-${tmpId}`
+        newCol.options.name = `gridCol${tmpId}`
         newCon.cols.push(newCol)
       } else if (newCon.type === 'table') {
         let newRow = { cols: [] }
-        newRow.id = 'table-row-' + generateId()
+        newRow.id = `table-row-${generateId()}`
         newRow.merged = false
         let newCell = deepClone(this.getContainerByType('table-cell'))
-        newCell.id = 'table-cell-' + generateId()
+        newCell.id = `table-cell-${generateId()}`
         newCell.options.name = newCell.id
         newCell.merged = false
         newCell.options.colspan = 1
@@ -854,7 +854,7 @@ export function createDesigner(vueInstance) {
         newCon.rows.push(newRow)
       } else if (newCon.type === 'tab') {
         let newTabPane = deepClone(this.getContainerByType('tab-pane'))
-        newTabPane.id = 'tab-pane-' + generateId()
+        newTabPane.id = `tab-pane-${generateId()}`
         newTabPane.options.name = 'tab1'
         newTabPane.options.label = 'tab 1'
         newCon.tabs.push(newTabPane)
@@ -877,7 +877,7 @@ export function createDesigner(vueInstance) {
         //获取当前激活的tabPane
         let activeTab = this.selectedWidget.tabs[0]
         this.selectedWidget.tabs.forEach((tabPane) => {
-          if (!!tabPane.options.active) {
+          if (tabPane.options.active) {
             activeTab = tabPane
           }
         })
@@ -903,8 +903,8 @@ export function createDesigner(vueInstance) {
       const cols = gridWidget.cols
       let newGridCol = deepClone(this.getContainerByType('grid-col'))
       let tmpId = generateId()
-      newGridCol.id = 'grid-col-' + tmpId
-      newGridCol.options.name = 'gridCol' + tmpId
+      newGridCol.id = `grid-col-${tmpId}`
+      newGridCol.options.name = `gridCol${tmpId}`
       if (!!cols && cols.length > 0) {
         let spanSum = 0
         cols.forEach((col) => {
@@ -927,9 +927,9 @@ export function createDesigner(vueInstance) {
     addTabPaneOfTabs(tabsWidget) {
       const tabPanes = tabsWidget.tabs
       let newTabPane = deepClone(this.getContainerByType('tab-pane'))
-      newTabPane.id = 'tab-pane-' + generateId()
+      newTabPane.id = `tab-pane-${generateId()}`
       newTabPane.options.name = newTabPane.id
-      newTabPane.options.label = 'tab ' + (tabPanes.length + 1)
+      newTabPane.options.label = `tab ${tabPanes.length + 1}`
       tabPanes.push(newTabPane)
     },
 
@@ -1029,12 +1029,12 @@ export function createDesigner(vueInstance) {
 
     loadFormContentFromStorage() {
       let widgetListBackup = window.localStorage.getItem('widget__list__backup')
-      if (!!widgetListBackup) {
+      if (widgetListBackup) {
         this.widgetList = JSON.parse(widgetListBackup)
       }
 
       let formConfigBackup = window.localStorage.getItem('form__config__backup')
-      if (!!formConfigBackup) {
+      if (formConfigBackup) {
         //this.formConfig = JSON.parse(formConfigBackup)
         overwriteObj(
           this.formConfig,

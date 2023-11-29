@@ -23,7 +23,7 @@ export default {
 
       set(newValue) {
         //if ((!newValue && (newValue !== 0)) || isNaN(newValue)) {
-        if (newValue === undefined || newValue === null || isNaN(newValue)) {
+        if (newValue === undefined || newValue === null || Number.isNaN(newValue)) {
           this.optionModel.min = null
         } else {
           this.optionModel.min = Number(newValue)

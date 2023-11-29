@@ -9,6 +9,7 @@
     "vue/no-mutating-props": 0,
     "no-prototype-builtins": 0,
     "@typescript-eslint/no-empty-function": 0,
+    "unicorn/prefer-query-selector": 0,
     "no-warning-comments": 1,
     "no-console": "off",
     "no-unused-vars": "off",

@@ -22,7 +22,7 @@
     "msg:check": "node scripts/verifyCommit.js",
     "format": "prettier --write ",
     "lint1": "eslint . --ext  .vue,.js,.ts,.jsx,.tsx --max-warnings 0 --cache --quiet",
-    "lint": "eslint . --ext .vue,.ts,.js,.jsx,.tsx --cache --quiet",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --cache --quiet",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "simple-git-hooks",
     "test": "echo \"Error: no test specified\" && exit 1"

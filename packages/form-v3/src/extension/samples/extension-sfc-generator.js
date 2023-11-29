@@ -4,16 +4,16 @@ export const cardTemplateGenerator = function (cw, formConfig) {
   const wop = cw.options
   //const headerAttr = `header="${wop.label}"`
   const classAttr = buildClassAttr(cw)
-  const styleAttr = !!wop.cardWidth ? `style="{width: ${wop.cardWidth} !important}"` : ''
+  const styleAttr = wop.cardWidth ? `style="{width: ${wop.cardWidth} !important}"` : ''
   const shadowAttr = `shadow="${wop.shadow}"`
-  const vShowAttr = !!wop.hidden ? `v-show="false"` : ''
+  const vShowAttr = wop.hidden ? `v-show="false"` : ''
 
   const cardTemplate = `<div class="card-container">
   <el-card ${classAttr} ${styleAttr} ${shadowAttr} ${vShowAttr}>
     <template #header>
       <div class="clear-fix">
         <span>${wop.label}</span>
-        ${!!wop.showFold ? `<i class="float-right el-icon-arrow-down"></i>` : ''}
+        ${wop.showFold ? `<i class="float-right el-icon-arrow-down"></i>` : ''}
       </div>
     </template>
     ${cw.widgetList
@@ -35,9 +35,9 @@ export const alertTemplateGenerator = function (fw, formConfig) {
   const wop = fw.options
   const titleAttr = `title="${wop.title}"`
   const typeAttr = `type=${wop.type}`
-  const descriptionAttr = !!wop.description ? `description="${wop.description}"` : ''
+  const descriptionAttr = wop.description ? `description="${wop.description}"` : ''
   const closableAttr = `:closable="${wop.closable}"`
-  const closeTextAttr = !!wop.closeText ? `close-text="${wop.closeText}"` : ''
+  const closeTextAttr = wop.closeText ? `close-text="${wop.closeText}"` : ''
   const centerAttr = `:center="${wop.center}"`
   const showIconAttr = `:show-icon="${wop.showIcon}"`
   const effectAttr = `effect="${wop.effect}"`

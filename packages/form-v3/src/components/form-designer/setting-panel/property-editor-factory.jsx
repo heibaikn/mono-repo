@@ -23,7 +23,7 @@ export const createInputNumberEditor = function (propName, propLabelKey) {
     },
     methods: {
       updateValue(newValue) {
-        if (newValue === undefined || newValue === null || isNaN(newValue)) {
+        if (newValue === undefined || newValue === null || Number.isNaN(newValue)) {
           this.optionModel[propName] = null
         } else {
           this.optionModel[propName] = Number(newValue)

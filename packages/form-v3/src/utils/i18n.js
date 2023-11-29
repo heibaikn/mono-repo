@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { createI18n } from './smart-vue-i18n/index'
 
 import enLocale from '@/lang/en-US'

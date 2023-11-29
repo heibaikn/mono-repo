@@ -25,7 +25,7 @@ export default {
         return 'vf-grid-item'
       }
 
-      return con.type + '-item'
+      return `${con.type}-item`
     }
   }
 }

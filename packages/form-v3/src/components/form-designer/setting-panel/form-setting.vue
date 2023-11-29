@@ -321,20 +321,20 @@ export default {
               let caItem = cItem.trim()
               if (caItem.includes('.', 1)) {
                 //查找第二个.位置
-                let newClass = caItem.substring(caItem.indexOf('.') + 1, caItem.indexOf('.', 1)) //仅截取第一、二个.号之间的class
+                let newClass = caItem.slice(caItem.indexOf('.') + 1, caItem.indexOf('.', 1)) //仅截取第一、二个.号之间的class
                 if (newClass) {
                   cssNameArray.push(newClass.trim())
                 }
               } else if (caItem.includes(' ')) {
                 //查找第一个空格位置
-                let newClass = caItem.substring(caItem.indexOf('.') + 1, caItem.indexOf(' ')) //仅截取第一、二个.号之间的class
+                let newClass = caItem.slice(caItem.indexOf('.') + 1, caItem.indexOf(' ')) //仅截取第一、二个.号之间的class
                 if (newClass) {
                   cssNameArray.push(newClass.trim())
                 }
               } else {
                 if (caItem.includes('{')) {
                   //查找第一个{位置
-                  let newClass = caItem.substring(caItem.indexOf('.') + 1, caItem.indexOf('{'))
+                  let newClass = caItem.slice(caItem.indexOf('.') + 1, caItem.indexOf('{'))
                   cssNameArray.push(newClass.trim())
                 } else {
                   let newClass = caItem.slice(Math.max(0, caItem.indexOf('.') + 1))

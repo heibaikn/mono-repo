@@ -1,8 +1,8 @@
+import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import viteSvgIcons from 'vite-plugin-svg-icons'
-import { resolve } from 'path'
 import commonjs from '@rollup/plugin-commonjs'
 import visualizer from 'rollup-plugin-visualizer'
 

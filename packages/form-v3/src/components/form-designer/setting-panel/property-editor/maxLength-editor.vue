@@ -29,7 +29,7 @@ export default {
       },
 
       set(newValue) {
-        if (!newValue || isNaN(newValue)) {
+        if (!newValue || Number.isNaN(newValue)) {
           this.optionModel.maxLength = null
         } else {
           this.optionModel.maxLength = Number(newValue)

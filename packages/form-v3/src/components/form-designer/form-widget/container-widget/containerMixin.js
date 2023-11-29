@@ -18,7 +18,7 @@ export default {
 
     onContainerDragAdd(evt, subList) {
       const newIndex = evt.newIndex
-      if (!!subList[newIndex]) {
+      if (subList[newIndex]) {
         this.designer.setSelected(subList[newIndex])
       }
 
@@ -56,7 +56,7 @@ export default {
     },
 
     cloneContainer(widget) {
-      if (!!this.parentList) {
+      if (this.parentList) {
         let newCon = this.designer.cloneContainer(widget)
         this.parentList.splice(this.indexOfParentList + 1, 0, newCon)
         this.designer.setSelected(newCon)
@@ -66,11 +66,11 @@ export default {
     },
 
     removeWidget() {
-      if (!!this.parentList) {
+      if (this.parentList) {
         const widgetRefName = this.designer.selectedWidgetName
         let nextSelected = null
         if (this.parentList.length === 1) {
-          if (!!this.parentWidget) {
+          if (this.parentWidget) {
             nextSelected = this.parentWidget
           }
         } else if (this.parentList.length === 1 + this.indexOfParentList) {

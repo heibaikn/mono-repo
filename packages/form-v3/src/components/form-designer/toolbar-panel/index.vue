@@ -538,20 +538,20 @@ export default {
 
       curNode.children = []
       if (widget.type === 'grid') {
-        widget.cols.map((col) => {
+        widget.cols.forEach((col) => {
           let colNode = {
             id: col.id,
             label: col.options.name || widget.type,
             children: []
           }
           curNode.children.push(colNode)
-          col.widgetList.map((wChild) => {
+          col.widgetList.forEach((wChild) => {
             this.buildTreeNodeOfWidget(wChild, colNode.children)
           })
         })
       } else if (widget.type === 'table') {
         //TODO: 需要考虑合并单元格！！
-        widget.rows.map((row) => {
+        widget.rows.forEach((row) => {
           let rowNode = {
             id: row.id,
             label: 'table-row',
@@ -560,7 +560,7 @@ export default {
           }
           curNode.children.push(rowNode)
 
-          row.cols.map((cell) => {
+          row.cols.forEach((cell) => {
             if (cell.merged) {
               //跳过合并单元格！！
               return
@@ -574,13 +574,13 @@ export default {
             }
             rowChildren.push(cellNode)
 
-            cell.widgetList.map((wChild) => {
+            cell.widgetList.forEach((wChild) => {
               this.buildTreeNodeOfWidget(wChild, cellNode.children)
             })
           })
         })
       } else if (widget.type === 'tab') {
-        widget.tabs.map((tab) => {
+        widget.tabs.forEach((tab) => {
           let tabNode = {
             id: tab.id,
             label: tab.options.name || widget.type,
@@ -588,17 +588,17 @@ export default {
             children: []
           }
           curNode.children.push(tabNode)
-          tab.widgetList.map((wChild) => {
+          tab.widgetList.forEach((wChild) => {
             this.buildTreeNodeOfWidget(wChild, tabNode.children)
           })
         })
       } else if (widget.type === 'sub-form') {
-        widget.widgetList.map((wChild) => {
+        widget.widgetList.forEach((wChild) => {
           this.buildTreeNodeOfWidget(wChild, curNode.children)
         })
       } else if (widget.category === 'container') {
         //自定义容器
-        widget.widgetList.map((wChild) => {
+        widget.widgetList.forEach((wChild) => {
           this.buildTreeNodeOfWidget(wChild, curNode.children)
         })
       }

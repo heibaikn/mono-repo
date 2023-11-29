@@ -137,8 +137,7 @@
               {{ i18nt('designer.formLib') }}
             </span>
           </template>
-
-          <template v-for="(ft, idx) in formTemplates">
+          <template v-for="(ft, idx) in formTemplates" :key="idx">
             <el-card :bord-style="{ padding: '0' }" shadow="hover" class="ft-card">
               <el-popover placement="right" trigger="hover">
                 <template #reference>
@@ -417,8 +416,10 @@ div.panel-container {
     padding-bottom: 6px;
 
     ul {
-      padding-left: 10px; /* 重置IE11默认样式 */
-      margin: 0; /* 重置IE11默认样式 */
+      padding-left: 10px;
+      /* 重置IE11默认样式 */
+      margin: 0;
+      /* 重置IE11默认样式 */
       margin-block-start: 0;
       margin-block-end: 0.25em;
       padding-inline-start: 10px;

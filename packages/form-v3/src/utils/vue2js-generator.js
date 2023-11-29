@@ -18,16 +18,16 @@ export function buildRulesListFn(formConfig, widgetList, resultList) {
   return function (fieldWidget) {
     const fop = fieldWidget.options
     let fieldRules = []
-    if (!!fop.required) {
+    if (fop.required) {
       fieldRules.push(`{
         required: true,
         message: '${translate('render.hint.fieldRequired')}',
       }`)
     }
 
-    if (!!fop.validation) {
+    if (fop.validation) {
       let vldName = fop.validation
-      if (!!FormValidators[vldName]) {
+      if (FormValidators[vldName]) {
         fieldRules.push(`{
           pattern: ${eval(getRegExp(vldName))},
           trigger: ['blur', 'change'],
@@ -63,9 +63,11 @@ export function buildUploadDataFn(formConfig, widgetList, resultList) {
     const fop = fieldWidget.options
     const ft = fieldWidget.type
     if (ft === 'picture-upload' || ft === 'file-upload') {
-      resultList.push(`${fop.name}FileList: [],`)
-      resultList.push(`${fop.name}UploadHeaders: {},`)
-      resultList.push(`${fop.name}UploadData: {},`)
+      resultList.push(
+        `${fop.name}FileList: [],`,
+        `${fop.name}UploadHeaders: {},`,
+        `${fop.name}UploadData: {},`
+      )
     }
   }
 }

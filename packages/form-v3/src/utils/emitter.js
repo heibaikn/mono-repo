@@ -1,9 +1,9 @@
 function _broadcast(componentName, eventName, params) {
-  this.$children.forEach(function (child) {
+  this.$children.forEach((child) => {
     let name = child.$options.componentName
     if (name === componentName) {
       //child.$emit.apply(child, [eventName].concat(params));
-      if (!!child.emit$) {
+      if (child.emit$) {
         child.emit$.call(child, eventName, params)
       }
     } else {
@@ -61,7 +61,7 @@ export default {
         }
       }
       if (parent) {
-        if (!!parent.emit$) {
+        if (parent.emit$) {
           parent.emit$.call(parent, eventName, params)
 
           if (componentName === 'VFormRender') {
@@ -75,7 +75,7 @@ export default {
       /* Vue3移除了$children属性，_broadcast方法已不能使用！！ */
       //_broadcast.call(this, componentName, eventName, params);
 
-      if (!!this.widgetRefList) {
+      if (this.widgetRefList) {
         //FormRender只需遍历自身的widgetRefList属性
         Object.keys(this.widgetRefList).forEach((refName) => {
           let cmpName = this.widgetRefList[refName].$options.componentName
@@ -86,7 +86,7 @@ export default {
         })
       }
 
-      if (!!this.refList) {
+      if (this.refList) {
         //其他组件遍历inject的refList属性
         Object.keys(this.refList).forEach((refName) => {
           let cmpName = this.refList[refName].$options.componentName

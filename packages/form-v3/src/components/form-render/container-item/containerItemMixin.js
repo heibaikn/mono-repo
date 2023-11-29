@@ -108,9 +108,9 @@ export default {
 
     disableSubFormRow(rowIndex) {
       this.widget.widgetList.forEach((subWidget) => {
-        let swRefName = subWidget.options.name + '@row' + this.rowIdData[rowIndex]
+        let swRefName = `${subWidget.options.name}@row${this.rowIdData[rowIndex]}`
         let foundSW = this.getWidgetRef(swRefName)
-        if (!!foundSW) {
+        if (foundSW) {
           foundSW.setDisabled(true)
         }
       })
@@ -118,9 +118,9 @@ export default {
 
     enableSubFormRow(rowIndex) {
       this.widget.widgetList.forEach((subWidget) => {
-        let swRefName = subWidget.options.name + '@row' + this.rowIdData[rowIndex]
+        let swRefName = `${subWidget.options.name}@row${this.rowIdData[rowIndex]}`
         let foundSW = this.getWidgetRef(swRefName)
-        if (!!foundSW) {
+        if (foundSW) {
           foundSW.setDisabled(false)
         }
       })
@@ -152,7 +152,7 @@ export default {
       //重置subForm数据为空
       if (this.widget.type === 'sub-form') {
         let subFormModel = this.formModel[this.widget.options.name]
-        if (!!subFormModel) {
+        if (subFormModel) {
           subFormModel.splice(0, subFormModel.length)
           this.rowIdData.splice(0, this.rowIdData.length)
         }
@@ -202,7 +202,7 @@ export default {
       }
 
       let foundIdx = -1
-      this.widget.options.customClass.map((cc, idx) => {
+      this.widget.options.customClass.forEach((cc, idx) => {
         if (cc === className) {
           foundIdx = idx
         }

@@ -18,6 +18,7 @@
                   :title="i18nt('designer.setting.commonSetting')">
                   <template v-for="(editorName, propName) in commonProps">
                     <component
+                      :key="propName"
                       v-if="hasPropEditor(propName, editorName)"
                       :is="getPropEditor(propName, editorName)"
                       :designer="designer"
@@ -32,6 +33,7 @@
                   :title="i18nt('designer.setting.advancedSetting')">
                   <template v-for="(editorName, propName) in advProps">
                     <component
+                      :key="propName"
                       v-if="hasPropEditor(propName, editorName)"
                       :is="getPropEditor(propName, editorName)"
                       :designer="designer"
@@ -46,6 +48,7 @@
                   :title="i18nt('designer.setting.eventSetting')">
                   <template v-for="(editorName, propName) in eventProps">
                     <component
+                      :key="propName"
                       v-if="hasPropEditor(propName, editorName)"
                       :is="getPropEditor(propName, editorName)"
                       :designer="designer"
@@ -72,6 +75,7 @@
                   :title="i18nt('designer.setting.commonSetting')">
                   <template v-for="(editorName, propName) in commonProps">
                     <component
+                      :key="propName"
                       v-if="hasPropEditor(propName, editorName)"
                       :is="getPropEditor(propName, editorName)"
                       :designer="designer"
@@ -86,6 +90,7 @@
                   :title="i18nt('designer.setting.advancedSetting')">
                   <template v-for="(editorName, propName) in advProps">
                     <component
+                      :key="propName"
                       v-if="hasPropEditor(propName, editorName)"
                       :is="getPropEditor(propName, editorName)"
                       :designer="designer"
@@ -100,6 +105,7 @@
                   :title="i18nt('designer.setting.eventSetting')">
                   <template v-for="(editorName, propName) in eventProps">
                     <component
+                      :key="propName"
                       v-if="hasPropEditor(propName, editorName)"
                       :is="getPropEditor(propName, editorName)"
                       :designer="designer"
@@ -371,7 +377,8 @@ export default {
 
 .setting-scrollbar {
   :deep(.el-scrollbar__wrap) {
-    overflow-x: hidden; /* IE浏览器隐藏水平滚动条箭头！！ */
+    overflow-x: hidden;
+    /* IE浏览器隐藏水平滚动条箭头！！ */
   }
 }
 

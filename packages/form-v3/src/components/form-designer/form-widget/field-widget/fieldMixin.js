@@ -22,11 +22,11 @@ export default {
     },
 
     subFormName() {
-      return !!this.parentWidget ? this.parentWidget.options.name : ''
+      return this.parentWidget ? this.parentWidget.options.name : ''
     },
 
     subFormItemFlag() {
-      return !!this.parentWidget ? this.parentWidget.type === 'sub-form' : false
+      return this.parentWidget ? this.parentWidget.type === 'sub-form' : false
     },
 
     formModel: {
@@ -41,7 +41,7 @@ export default {
     //--------------------- 组件内部方法 begin ------------------//
     getPropName() {
       if (this.subFormItemFlag && !this.designState) {
-        return this.subFormName + '.' + this.subFormRowIndex + '.' + this.field.options.name + ''
+        return `${this.subFormName}.${this.subFormRowIndex}.${this.field.options.name}`
       } else {
         return this.field.options.name
       }
@@ -112,7 +112,7 @@ export default {
         return
       }
 
-      if (!!this.fieldModel) {
+      if (this.fieldModel) {
         if (Array.isArray(this.fieldModel)) {
           this.fileList = deepClone(this.fieldModel)
         } else {
@@ -130,7 +130,7 @@ export default {
       })
 
       this.on$('field-value-changed', (values) => {
-        if (!!this.subFormItemFlag) {
+        if (this.subFormItemFlag) {
           let subFormData = this.formModel[this.subFormName]
           this.handleOnChangeForSubForm(values[0], values[1], subFormData, this.subFormRowId)
         } else {
@@ -139,21 +139,21 @@ export default {
       })
 
       this.on$('reloadOptionItems', (widgetNames) => {
-        if (widgetNames.length === 0 || widgetNames.indexOf(this.field.options.name) > -1) {
+        if (widgetNames.length === 0 || widgetNames.includes(this.field.options.name)) {
           this.initOptionItems(true)
         }
       })
     },
 
     handleOnCreated() {
-      if (!!this.field.options.onCreated) {
+      if (this.field.options.onCreated) {
         let customFunc = new Function(this.field.options.onCreated)
         customFunc.call(this)
       }
     },
 
     handleOnMounted() {
-      if (!!this.field.options.onMounted) {
+      if (this.field.options.onMounted) {
         let mountFunc = new Function(this.field.options.onMounted)
         mountFunc.call(this)
       }
@@ -163,12 +163,12 @@ export default {
       if (this.refList !== null && !!this.field.options.name) {
         if (this.subFormItemFlag && !this.designState) {
           //处理子表单元素（且非设计状态）
-          if (!!oldRefName) {
-            delete this.refList[oldRefName + '@row' + this.subFormRowId]
+          if (oldRefName) {
+            delete this.refList[`${oldRefName}@row${this.subFormRowId}`]
           }
-          this.refList[this.field.options.name + '@row' + this.subFormRowId] = this
+          this.refList[`${this.field.options.name}@row${this.subFormRowId}`] = this
         } else {
-          if (!!oldRefName) {
+          if (oldRefName) {
             delete this.refList[oldRefName]
           }
           this.refList[this.field.options.name] = this
@@ -182,7 +182,7 @@ export default {
         let oldRefName = this.field.options.name
         if (this.subFormItemFlag && !this.designState) {
           //处理子表单元素（且非设计状态）
-          delete this.refList[oldRefName + '@row' + this.subFormRowId]
+          delete this.refList[`${oldRefName}@row${this.subFormRowId}`]
         } else {
           delete this.refList[oldRefName]
         }
@@ -203,7 +203,7 @@ export default {
         /* 异步更新option-data之后globalOptionData不能获取到最新值，改用provide的getOptionData()方法 */
         const newOptionItems = this.getOptionData()
         if (!!newOptionItems && newOptionItems.hasOwnProperty(this.field.options.name)) {
-          if (!!keepSelected) {
+          if (keepSelected) {
             this.reloadOptions(newOptionItems[this.field.options.name])
           } else {
             this.loadOptions(newOptionItems[this.field.options.name])
@@ -232,7 +232,7 @@ export default {
       }
 
       this.rules.splice(0, this.rules.length) //清空已有
-      if (!!this.field.options.required) {
+      if (this.field.options.required) {
         this.rules.push({
           required: true,
           //trigger: ['blur', 'change'],
@@ -243,9 +243,9 @@ export default {
         })
       }
 
-      if (!!this.field.options.validation) {
+      if (this.field.options.validation) {
         let vldName = this.field.options.validation
-        if (!!FormValidators[vldName]) {
+        if (FormValidators[vldName]) {
           this.rules.push({
             validator: FormValidators[vldName],
             trigger: ['blur', 'change'],
@@ -263,7 +263,7 @@ export default {
         }
       }
 
-      if (!!this.field.options.onValidate) {
+      if (this.field.options.onValidate) {
         let customFn = (rule, value, callback) => {
           let tmpFunc = new Function('rule', 'value', 'callback', this.field.options.onValidate)
           return tmpFunc.call(this, rule, value, callback)
@@ -285,7 +285,7 @@ export default {
       }
 
       this.rules.forEach((rule) => {
-        if (!!rule.trigger) {
+        if (rule.trigger) {
           rule.trigger.splice(0, rule.trigger.length)
         }
       })
@@ -300,9 +300,8 @@ export default {
       }
 
       this.rules.forEach((rule) => {
-        if (!!rule.trigger) {
-          rule.trigger.push('blur')
-          rule.trigger.push('change')
+        if (rule.trigger) {
+          rule.trigger.push('blur', 'change')
         }
       })
     },
@@ -345,14 +344,14 @@ export default {
     },
 
     syncUpdateFormModel(value) {
-      if (!!this.designState) {
+      if (this.designState) {
         return
       }
 
-      if (!!this.subFormItemFlag) {
+      if (this.subFormItemFlag) {
         let subFormData = this.formModel[this.subFormName] || [{}]
         let subFormDataRow = subFormData[this.subFormRowIndex]
-        if (!!subFormDataRow) {
+        if (subFormDataRow) {
           // 重置表单后subFormDataRow为undefined，应跳过！！
           subFormDataRow[this.field.options.name] = value
         }
@@ -375,14 +374,14 @@ export default {
     handleFocusCustomEvent(event) {
       this.oldFieldValue = deepClone(this.fieldModel) //保存修改change之前的值
 
-      if (!!this.field.options.onFocus) {
+      if (this.field.options.onFocus) {
         let customFn = new Function('event', this.field.options.onFocus)
         customFn.call(this, event)
       }
     },
 
     handleBlurCustomEvent(event) {
-      if (!!this.field.options.onBlur) {
+      if (this.field.options.onBlur) {
         let customFn = new Function('event', this.field.options.onBlur)
         customFn.call(this, event)
       }
@@ -394,19 +393,19 @@ export default {
       /* 主动触发表单的单个字段校验，用于清除字段可能存在的校验错误提示 */
       this.dispatch('VFormRender', 'fieldValidation', [this.getPropName()])
 
-      if (!!this.field.options.onInput) {
+      if (this.field.options.onInput) {
         let customFn = new Function('value', this.field.options.onInput)
         customFn.call(this, value)
       }
     },
 
     emitAppendButtonClick() {
-      if (!!this.designState) {
+      if (this.designState) {
         //设计状态不触发点击事件
         return
       }
 
-      if (!!this.field.options.onAppendButtonClick) {
+      if (this.field.options.onAppendButtonClick) {
         let customFn = new Function(this.field.options.onAppendButtonClick)
         customFn.call(this)
       } else {
@@ -417,7 +416,7 @@ export default {
 
     handleOnChange(val, oldVal) {
       //自定义onChange事件
-      if (!!this.field.options.onChange) {
+      if (this.field.options.onChange) {
         let changeFn = new Function('value', 'oldValue', this.field.options.onChange)
         changeFn.call(this, val, oldVal)
       }
@@ -425,7 +424,7 @@ export default {
 
     handleOnChangeForSubForm(val, oldVal, subFormData, rowId) {
       //子表单自定义onChange事件
-      if (!!this.field.options.onChange) {
+      if (this.field.options.onChange) {
         let changeFn = new Function(
           'value',
           'oldValue',
@@ -438,12 +437,12 @@ export default {
     },
 
     handleButtonWidgetClick() {
-      if (!!this.designState) {
+      if (this.designState) {
         //设计状态不触发点击事件
         return
       }
 
-      if (!!this.field.options.onClick) {
+      if (this.field.options.onClick) {
         let changeFn = new Function(this.field.options.onClick)
         changeFn.call(this)
       } else {
@@ -452,7 +451,7 @@ export default {
     },
 
     remoteQuery(keyword) {
-      if (!!this.field.options.onRemoteQuery) {
+      if (this.field.options.onRemoteQuery) {
         let remoteFn = new Function('keyword', this.field.options.onRemoteQuery)
         remoteFn.call(this, keyword)
       }
@@ -488,7 +487,7 @@ export default {
     setValue(newValue) {
       /* if ((this.field.type === 'picture-upload') || (this.field.type === 'file-upload')) {
         this.fileList = newValue
-      } else */ if (!!this.field.formItemFlag) {
+      } else */ if (this.field.formItemFlag) {
         let oldValue = deepClone(this.fieldModel)
         this.fieldModel = newValue
         this.initFileList()
@@ -547,7 +546,7 @@ export default {
     setHidden(flag) {
       this.field.options.hidden = flag
 
-      if (!!flag) {
+      if (flag) {
         //清除组件校验规则
         this.clearFieldRules()
       } else {
@@ -641,7 +640,7 @@ export default {
      * @returns {boolean}
      */
     isSubFormItem() {
-      return !!this.parentWidget ? this.parentWidget.type === 'sub-form' : false
+      return this.parentWidget ? this.parentWidget.type === 'sub-form' : false
     },
 
     /**
@@ -666,7 +665,7 @@ export default {
       }
 
       let foundIdx = -1
-      this.field.options.customClass.map((cc, idx) => {
+      this.field.options.customClass.forEach((cc, idx) => {
         if (cc === className) {
           foundIdx = idx
         }

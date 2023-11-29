@@ -34,7 +34,7 @@ function assignKey(to, from, key) {
   if (!hasOwnProperty.call(to, key) || !isObj(val)) {
     to[key] = val
   } else {
-    to[key] = deepAssign(Object(to[key]), from[key])
+    to[key] = deepAssign(new Object(to[key]), from[key])
   }
 }
 

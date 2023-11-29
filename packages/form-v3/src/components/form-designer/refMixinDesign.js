@@ -17,7 +17,7 @@ export default {
     /* 该方法用于组件重名检查！！ */
     registerToRefList(oldRefName) {
       if (this.refList !== null && !!this.widget.options.name) {
-        if (!!oldRefName) {
+        if (oldRefName) {
           delete this.refList[oldRefName]
         }
         this.refList[this.widget.options.name] = this

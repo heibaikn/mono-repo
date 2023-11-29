@@ -9,8 +9,8 @@ export default {
     },
 
     emitDefaultValueChange() {
-      if (!!this.designer) {
-        if (!!this.designer.formWidget) {
+      if (this.designer) {
+        if (this.designer.formWidget) {
           let fieldWidget = this.designer.formWidget.getWidgetRef(
             this.designer.selectedWidget.options.name
           )
@@ -26,7 +26,7 @@ export default {
     },
 
     onRemoteChange(val) {
-      if (!!val) {
+      if (val) {
         this.optionModel.filterable = true
         this.optionModel.allowCreate = false
       }

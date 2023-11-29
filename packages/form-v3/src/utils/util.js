@@ -40,7 +40,7 @@ export const overwriteObj = function (obj1, obj2) {
 
 /* 用Function对象实现eval函数功能 */
 export const evalFn = function (fn, DSV = null, VFR = null) {
-  let f = new Function('DSV', 'VFR', 'return ' + fn)
+  let f = new Function('DSV', 'VFR', `return ${fn}`)
   return f(DSV, VFR)
 }
 
@@ -57,7 +57,7 @@ export const addWindowResizeHandler = function (handler) {
 }
 
 const createStyleSheet = function () {
-  let head = document.head || document.getElementsByTagName('head')[0]
+  let head = document.head || document.querySelectorAll('head')[0]
   let style = document.createElement('style')
   style.type = 'text/css'
   head.appendChild(style)
@@ -65,23 +65,23 @@ const createStyleSheet = function () {
 }
 
 export const insertCustomCssToHead = function (cssCode, formId = '') {
-  let head = document.getElementsByTagName('head')[0]
-  let oldStyle = document.getElementById('vform-custom-css')
-  if (!!oldStyle) {
+  let head = document.querySelectorAll('head')[0]
+  let oldStyle = document.querySelector('#vform-custom-css')
+  if (oldStyle) {
     head.removeChild(oldStyle) //先清除后插入！！
   }
-  if (!!formId) {
-    oldStyle = document.getElementById('vform-custom-css' + '-' + formId)
+  if (formId) {
+    oldStyle = document.getElementById(`vform-custom-css` + `-${formId}`)
     !!oldStyle && head.removeChild(oldStyle) //先清除后插入！！
   }
 
   let newStyle = document.createElement('style')
   newStyle.type = 'text/css'
   newStyle.rel = 'stylesheet'
-  newStyle.id = !!formId ? 'vform-custom-css' + '-' + formId : 'vform-custom-css'
+  newStyle.id = formId ? `vform-custom-css` + `-${formId}` : 'vform-custom-css'
   try {
     newStyle.appendChild(document.createTextNode(cssCode))
-  } catch (ex) {
+  } catch {
     newStyle.styleSheet.cssText = cssCode
   }
 
@@ -89,16 +89,16 @@ export const insertCustomCssToHead = function (cssCode, formId = '') {
 }
 
 export const insertGlobalFunctionsToHtml = function (functionsCode, formId = '') {
-  let bodyEle = document.getElementsByTagName('body')[0]
-  let oldScriptEle = document.getElementById('v_form_global_functions')
+  let bodyEle = document.querySelectorAll('body')[0]
+  let oldScriptEle = document.querySelector('#v_form_global_functions')
   !!oldScriptEle && bodyEle.removeChild(oldScriptEle) //先清除后插入！！
-  if (!!formId) {
-    oldScriptEle = document.getElementById('v_form_global_functions' + '-' + formId)
+  if (formId) {
+    oldScriptEle = document.getElementById(`v_form_global_functions` + `-${formId}`)
     !!oldScriptEle && bodyEle.removeChild(oldScriptEle) //先清除后插入！！
   }
 
   let newScriptEle = document.createElement('script')
-  newScriptEle.id = !!formId ? 'v_form_global_functions' + '-' + formId : 'v_form_global_functions'
+  newScriptEle.id = formId ? `v_form_global_functions` + `-${formId}` : 'v_form_global_functions'
   newScriptEle.type = 'text/javascript'
   newScriptEle.innerHTML = functionsCode
   bodyEle.appendChild(newScriptEle)
@@ -109,7 +109,7 @@ export const optionExists = function (optionsObj, optionName) {
     return false
   }
 
-  return Object.keys(optionsObj).indexOf(optionName) > -1
+  return Object.keys(optionsObj).includes(optionName)
 }
 
 export const loadRemoteScript = function (srcPath, callback) {
@@ -140,21 +140,21 @@ export function traverseFieldWidgets(widgetList, handler, parent = null) {
     return
   }
 
-  widgetList.map((w) => {
+  widgetList.forEach((w) => {
     if (w.formItemFlag) {
       handler(w, parent)
     } else if (w.type === 'grid') {
-      w.cols.map((col) => {
+      w.cols.forEach((col) => {
         traverseFieldWidgets(col.widgetList, handler, w)
       })
     } else if (w.type === 'table') {
-      w.rows.map((row) => {
-        row.cols.map((cell) => {
+      w.rows.forEach((row) => {
+        row.cols.forEach((cell) => {
           traverseFieldWidgets(cell.widgetList, handler, w)
         })
       })
     } else if (w.type === 'tab') {
-      w.tabs.map((tab) => {
+      w.tabs.forEach((tab) => {
         traverseFieldWidgets(tab.widgetList, handler, w)
       })
     } else if (w.type === 'sub-form') {
@@ -171,23 +171,23 @@ export function traverseContainerWidgets(widgetList, handler) {
     return
   }
 
-  widgetList.map((w) => {
+  widgetList.forEach((w) => {
     if (w.category === 'container') {
       handler(w)
     }
 
     if (w.type === 'grid') {
-      w.cols.map((col) => {
+      w.cols.forEach((col) => {
         traverseContainerWidgets(col.widgetList, handler)
       })
     } else if (w.type === 'table') {
-      w.rows.map((row) => {
-        row.cols.map((cell) => {
+      w.rows.forEach((row) => {
+        row.cols.forEach((cell) => {
           traverseContainerWidgets(cell.widgetList, handler)
         })
       })
     } else if (w.type === 'tab') {
-      w.tabs.map((tab) => {
+      w.tabs.forEach((tab) => {
         traverseContainerWidgets(tab.widgetList, handler)
       })
     } else if (w.type === 'sub-form') {
@@ -204,23 +204,23 @@ export function traverseAllWidgets(widgetList, handler) {
     return
   }
 
-  widgetList.map((w) => {
+  widgetList.forEach((w) => {
     handler(w)
 
     if (w.type === 'grid') {
-      w.cols.map((col) => {
+      w.cols.forEach((col) => {
         handler(col)
         traverseAllWidgets(col.widgetList, handler)
       })
     } else if (w.type === 'table') {
-      w.rows.map((row) => {
-        row.cols.map((cell) => {
+      w.rows.forEach((row) => {
+        row.cols.forEach((cell) => {
           handler(cell)
           traverseAllWidgets(cell.widgetList, handler)
         })
       })
     } else if (w.type === 'tab') {
-      w.tabs.map((tab) => {
+      w.tabs.forEach((tab) => {
         traverseAllWidgets(tab.widgetList, handler)
       })
     } else if (w.type === 'sub-form') {
@@ -233,7 +233,7 @@ export function traverseAllWidgets(widgetList, handler) {
 }
 
 function handleWidgetForTraverse(widget, handler) {
-  if (!!widget.category) {
+  if (widget.category) {
     traverseFieldWidgetsOfContainer(widget, handler)
   } else if (widget.formItemFlag) {
     handler(widget)
@@ -343,10 +343,10 @@ export function copyToClipboard(content, clickEvent, $message, successMsg, error
 }
 
 export function getQueryParam(variable) {
-  let query = window.location.search.substring(1)
+  let query = window.location.search.slice(1)
   let vars = query.split('&')
-  for (let i = 0; i < vars.length; i++) {
-    let pair = vars[i].split('=')
+  for (const var_ of vars) {
+    let pair = var_.split('=')
     if (pair[0] == variable) {
       return pair[1]
     }
