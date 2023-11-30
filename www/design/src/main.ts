@@ -6,7 +6,7 @@ import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router
 import ElementPlus from 'element-plus'
 import { qiankunWindow, renderWithQiankun } from 'vite-plugin-qiankun/dist/helper'
 import formV3 from '@heibaimono/form-v3'
-import '@heibaimono/form-v3/dist/designer.style.css'
+import '@heibaimono/form-v3/lib/designer.style.css'
 // import { Utils } from '@heibaimono/helper'
 import { useContainer } from '../../../packages/editor/src/hooks/useContiner'
 import App from './App.vue'

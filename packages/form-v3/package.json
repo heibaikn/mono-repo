@@ -2,28 +2,28 @@
   "name": "@heibaimono/form-v3",
   "version": "3.0.10",
   "private": false,
-  "main": "./dist/designer.umd.js",
-  "module": "./dist/designer.es.js",
+  "main": "./lib/designer.umd.js",
+  "module": "./lib/designer.es.js",
   "exports": {
     ".": {
-      "import": "./dist/designer.es.js",
-      "browser": "./dist/designer.umd.js"
+      "import": "./lib/designer.es.js",
+      "browser": "./lib/designer.umd.js"
     },
-    "./dist/designer.esm.js": {
-      "import": "./dist/designer.es.js"
+    "./lib/designer.esm.js": {
+      "import": "./lib/designer.es.js"
     },
-    "./dist/designer.style.css": {
-      "import": "./dist/designer.style.css",
-      "require": "./dist/designer.style.css"
+    "./lib/designer.style.css": {
+      "import": "./lib/designer.style.css",
+      "require": "./lib/designer.style.css"
     }
   },
  
-  "style": "dist/designer.style.css",
+  "style": "lib/designer.style.css",
   "scripts": {
     "serve": "vite",
     "build": "vite build",
     "lib": "vite build --config vite-lib.config.js",
-    "lib:dev": "vite build --config vite-lib.config.js --watch",
+    "lib:dev": "vite build --config vite-lib.config.js --watch --sourcemap",
     "lib-render": "vite build --config vite-lib-render.config.js",
     "preview": "vite preview"
   },

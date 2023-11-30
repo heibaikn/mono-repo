@@ -51,6 +51,7 @@ export default defineConfig({
 
   build: {
     //minify: false,
+    outDir: 'lib',
     lib: {
       formats: ['esm', 'es', 'umd'],
       entry: resolve(__dirname, 'install.js'),

@@ -21,6 +21,8 @@
     "check": "tsc --incremental --noEmit",
     "msg:check": "node scripts/verifyCommit.js",
     "format": "prettier --write ",
+    "packages:build:form":"pnpm -C packages/form-v3 lib",
+    "packages:dev:form":"pnpm -C packages/form-v3 lib:dev",
     "lint1": "eslint . --ext  .vue,.js,.ts,.jsx,.tsx --max-warnings 0 --cache --quiet",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --cache --quiet",
     "preinstall": "npx only-allow pnpm",
