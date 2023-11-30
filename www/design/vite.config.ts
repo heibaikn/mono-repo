@@ -12,8 +12,8 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
-    qiankun('design', { useDevMode }),
-    commonjs({ requireReturnsDefault: true })
+    qiankun('design', { useDevMode })
+    // commonjs({ requireReturnsDefault: true })
   ],
   resolve: {
     alias: {
@@ -21,9 +21,9 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    // include: [
-    //   '@heibaimono/form-v3'
-    // ]
+    include: [
+      // 'vuedraggable'
+    ]
   },
   server: {
     host: '0.0.0.0',
@@ -32,6 +32,10 @@ export default defineConfig({
   },
   base: '/child/design',
   build: {
-    outDir: '../../dist/child/design' // 设置打包输出目录
+    outDir: '../../dist/child/design', // 设置打包输出目录
+    commonjsOptions: {
+      // exclude: ['vuedraggable'],
+      // include: []
+    }
   }
 })

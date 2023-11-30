@@ -4,7 +4,7 @@ import { BaseEdge, EdgeLabelRenderer, getBezierPath, useVueFlow } from '@vue-flo
 import { EventName, LineType, NodeType, PropsLine } from '../flow'
 import type { FlowItem } from '../flow'
 import addNode from '@/components/flow/components/vue-flow-add.vue'
-const props = defineProps(PropsLine)
+const props = defineProps(PropsLine) as any
 const emits = defineEmits(['lineEvent'])
 // const { removeEdges } = useVueFlow()
 const path = computed(() => getBezierPath(props))

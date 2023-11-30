@@ -38,7 +38,7 @@ export default defineConfig({
   },
 
   optimizeDeps: {
-    include: ['@/../lib/vuedraggable/dist/vuedraggable.umd.js', 'quill']
+    include: ['vuedraggable', 'quill']
   },
 
   css: {
@@ -53,12 +53,8 @@ export default defineConfig({
   build: {
     //minify: false,
     commonjsOptions: {
-      exclude: [
-        'lib/vuedraggable/dist/vuedraggable.umd.js,' //引号前的逗号不能删，不知何故？？
-        //'vue/dist/*.js'
-      ],
+      exclude: [],
       include: []
-      //requireReturnsDefault: true
     },
     rollupOptions: {
       // 指定生产打包入口文件为index.htm

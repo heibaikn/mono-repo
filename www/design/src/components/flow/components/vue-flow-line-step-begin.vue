@@ -12,7 +12,7 @@ import {
 } from '@vue-flow/core'
 import { EventName, type FlowItem, LineType, NodeType, PropsLine } from '../flow'
 import addNode from '@/components/flow/components/vue-flow-add.vue'
-const props = defineProps(PropsLine)
+const props = defineProps(PropsLine) as any
 const emits = defineEmits(['lineEvent'])
 const path = computed(() => getSmoothStepPath(props))
 // console.log(path, props);

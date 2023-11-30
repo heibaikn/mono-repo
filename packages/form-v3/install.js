@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import * as draggable from 'vuedraggable'
+import draggable from 'vuedraggable'
 import VFormDesigner from '@/components/form-designer/index.vue'
 import VFormRender from '@/components/form-render/index.vue'
 // import draggable from '@/../lib/vuedraggable/dist/vuedraggable.umd.js'

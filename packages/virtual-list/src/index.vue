@@ -20,7 +20,7 @@
         :style="`min-height: ${itemSize}px`">
         <slot
           :item="item"
-          :ansi="(txt) => ansiFunc(txt, item)"
+          :ansi="(txt:string) => ansiFunc(txt, item)"
           :class-name="className"
           :index="item._index" />
       </div>
