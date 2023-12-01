@@ -1,6 +1,6 @@
 {
   "name": "mono-repo",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "private": true,
   "description": "",
   "type": "module",
@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "concurrently \"pnpm -C www/main dev\" \"pnpm -C www/design dev\" \"pnpm -C www/react dev\"",
     "build": "concurrently \"pnpm -C www/main build\" \"pnpm -C www/design build\" \"pnpm -C www/react build\"",
+    "d:build": "pnpm -C www/design build",
     "changeset:add": "changeset add",
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish --access=public",
@@ -21,8 +22,10 @@
     "check": "tsc --incremental --noEmit",
     "msg:check": "node scripts/verifyCommit.js",
     "format": "prettier --write ",
+    "packages:build:form": "pnpm -C packages/form-v3 lib",
+    "packages:dev:form": "pnpm -C packages/form-v3 lib:dev",
     "lint1": "eslint . --ext  .vue,.js,.ts,.jsx,.tsx --max-warnings 0 --cache --quiet",
-    "lint": "eslint . --ext .vue,.ts,.js,.jsx,.tsx --cache --quiet",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --cache --quiet",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "simple-git-hooks",
     "test": "echo \"Error: no test specified\" && exit 1"

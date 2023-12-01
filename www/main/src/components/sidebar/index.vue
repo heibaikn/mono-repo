@@ -30,7 +30,7 @@ const props = defineProps({
 const emit = defineEmits(['event'])
 console.log('props.data', props.data)
 
-const handleItemClick = (item) => {
+const handleItemClick = (item: any) => {
   emit('event', item)
 }
 // export default {

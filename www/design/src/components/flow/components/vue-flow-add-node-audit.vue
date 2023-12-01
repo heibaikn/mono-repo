@@ -26,15 +26,7 @@ import _ from 'lodash'
 import { ElNotification } from 'element-plus'
 import { useRoute } from 'vue-router'
 import { NodeType } from '../flow'
-import type { UserItem } from '#/user'
-import type { RoleItem } from '#/role'
-import actions from '@/actions'
-import BlgPopover from '@/components/blgPopover/index.vue'
 // import SharedModule from '@/shared'
-const route = useRoute()
-const placement = ref<string>('left-end')
-const userList = ref<UserItem[]>([])
-const roleList = ref<RoleItem[]>([])
 const emits = defineEmits(['cancel', 'submit'])
 const node = reactive({
   id: '', // 为空则创建新的node，否则复用之前的node_id（下同）
