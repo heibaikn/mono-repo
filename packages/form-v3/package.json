@@ -1,6 +1,6 @@
 {
   "name": "@heibaimono/form-v3",
-  "version": "3.0.10",
+  "version": "1.0.9",
   "private": false,
   "main": "./lib/designer.umd.js",
   "module": "./lib/designer.es.js",
@@ -17,7 +17,6 @@
       "require": "./lib/designer.style.css"
     }
   },
- 
   "style": "lib/designer.style.css",
   "scripts": {
     "serve": "vite",

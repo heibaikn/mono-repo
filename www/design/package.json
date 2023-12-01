@@ -1,6 +1,6 @@
 {
   "name": "design",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@heibaimono/config": "workspace:^",
-    "@heibaimono/form-v3": "workspace:^",
-    "@heibaimono/helper": "workspace:^",
-    "@heibaimono/virtual-list": "workspace:^",
+    "@heibaimono/form-v3": "1.0.9",
+    "@heibaimono/helper": "1.0.9",
+    "@heibaimono/virtual-list": "1.0.9",
     "@vue-flow/background": "^1.2.0",
     "@vue-flow/controls": "^1.1.0",
     "@vue-flow/core": "^1.23.0",
