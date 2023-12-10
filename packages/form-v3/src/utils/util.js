@@ -382,3 +382,14 @@ export function buildDefaultFormJson() {
     formConfig: deepClone(getDefaultFormConfig())
   }
 }
+
+export function compareISODate(dateStr1, dateStr2) {
+  const date1 = new Date(dateStr1)
+  const date2 = new Date(dateStr2)
+
+  if (date1 >= date2) {
+    return true
+  } else {
+    return false // 日期相等
+  }
+}

@@ -1,35 +1,33 @@
 <template>
   <div id="formV3">
-    <VFormDesigner ref="vfDesignerRef" :global-dsv="globalDsv" />
+    <div>
+      <el-button @click="doTest">切换</el-button>
+    </div>
+    <VFormDesigner ref="vfDesignerRef" v-model="self.data1" :options="self.data" />
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { reactive, ref } from 'vue'
 import VFormDesigner from './components/form-designer/index.vue'
-
-export default {
-  name: 'App',
-  components: {
-    VFormDesigner
-  },
-  data() {
-    return {
-      //全局数据源变量
-      globalDsv: {
-        testApiHost: 'http://www.test.com/api',
-        testPort: 8080
-      }
+import data from './data.js'
+const self = reactive({
+  options: {
+    ...data,
+    ignoreCache: true,
+    globalDsv: {
+      testApiHost: 'http://www.test.com/api',
+      testPort: 8080
     }
   },
-  computed: {
-    //
-  },
-  methods: {
-    doTest() {
-      let fieldList = this.$refs.vfDesignerRef.getFieldWidgets(null, true)
-      console.log('test', fieldList)
-    }
-  }
+  data,
+  data1: {}
+})
+const vfDesignerRef = ref()
+const doTest = () => {
+  let fieldList = vfDesignerRef.value.getFieldWidgets(null, true)
+  console.log('test', fieldList)
+  console.log(self.data1)
 }
 </script>
 

@@ -5,9 +5,12 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import viteSvgIcons from 'vite-plugin-svg-icons'
 import commonjs from '@rollup/plugin-commonjs'
 import visualizer from 'rollup-plugin-visualizer'
-
+import pkg from './package.json'
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    __FORM_VERSION__: JSON.stringify(pkg.version)
+  },
   plugins: [
     vue(),
 

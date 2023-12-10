@@ -5,10 +5,13 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import viteSvgIcons from 'vite-plugin-svg-icons'
 import commonjs from '@rollup/plugin-commonjs'
 import externalGlobals from 'rollup-plugin-external-globals'
-
+import pkg from './package.json'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '',
+  define: {
+    __FORM_VERSION__: JSON.stringify(pkg.version)
+  },
   plugins: [
     vue(),
 

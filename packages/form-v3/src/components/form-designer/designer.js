@@ -1,4 +1,10 @@
-import { deepClone, generateId, getDefaultFormConfig, overwriteObj } from '@/utils/util'
+import {
+  deepClone,
+  generateId,
+  getDefaultFormConfig,
+  overwriteObj,
+  compareISODate
+} from '@/utils/util'
 import {
   containers,
   advancedFields,
@@ -8,9 +14,9 @@ import {
 import { VARIANT_FORM_VERSION } from '@/utils/config'
 import eventBus from '@/utils/event-bus'
 
-export function createDesigner(vueInstance) {
+export function createDesigner(vueInstance, schema) {
   let defaultFormConfig = deepClone(getDefaultFormConfig())
-
+  let originSchema = deepClone(schema)
   return {
     widgetList: [],
     formConfig: { cssCode: '' },
@@ -33,13 +39,12 @@ export function createDesigner(vueInstance) {
     initDesigner(resetFormJson) {
       this.widgetList = []
       this.formConfig = deepClone(defaultFormConfig)
-
       //输出版本信息和语雀链接
+      // https://www.yuque.com/visualdev/vform3,
       console.info(
-        `%cVariantForm %cVer${VARIANT_FORM_VERSION} %chttps://www.yuque.com/visualdev/vform3`,
+        `%cVariantForm %cVer${VARIANT_FORM_VERSION}`,
         'color:#409EFF;font-size: 22px;font-weight:bolder',
-        'color:#999;font-size: 12px',
-        'color:#333'
+        'color:#999;font-size: 12px'
       )
 
       if (!resetFormJson) {
@@ -1023,23 +1028,30 @@ export function createDesigner(vueInstance) {
     },
 
     saveFormContentToStorage() {
-      window.localStorage.setItem('widget__list__backup', JSON.stringify(this.widgetList))
-      window.localStorage.setItem('form__config__backup', JSON.stringify(this.formConfig))
+      console.log('saveFormContentToStorage')
+      window.localStorage.setItem('form_v3_schema_date', JSON.stringify(new Date().toISOString()))
+      window.localStorage.setItem('form_v3_schema_widget_list', JSON.stringify(this.widgetList))
+      window.localStorage.setItem('form_v3_schema_form_config', JSON.stringify(this.formConfig))
     },
 
     loadFormContentFromStorage() {
-      let widgetListBackup = window.localStorage.getItem('widget__list__backup')
-      if (widgetListBackup) {
-        this.widgetList = JSON.parse(widgetListBackup)
-      }
-
-      let formConfigBackup = window.localStorage.getItem('form__config__backup')
-      if (formConfigBackup) {
-        //this.formConfig = JSON.parse(formConfigBackup)
-        overwriteObj(
-          this.formConfig,
-          JSON.parse(formConfigBackup)
-        ) /* 用=赋值，会导致inject依赖注入的formConfig属性变成非响应式 */
+      let schemaDate = window.localStorage.getItem('form_v3_schema_date')
+      if (schemaDate && compareISODate(JSON.parse(schemaDate), originSchema.date)) {
+        let widgetListBackup = window.localStorage.getItem('form_v3_schema_widget_list')
+        if (widgetListBackup) {
+          this.widgetList = JSON.parse(widgetListBackup)
+        }
+        let formConfigBackup = window.localStorage.getItem('form_v3_schema_form_config')
+        if (formConfigBackup) {
+          //this.formConfig = JSON.parse(formConfigBackup)
+          overwriteObj(
+            this.formConfig,
+            JSON.parse(formConfigBackup)
+          ) /* 用=赋值，会导致inject依赖注入的formConfig属性变成非响应式 */
+        }
+      } else {
+        this.widgetList = originSchema.widgetList
+        overwriteObj(this.formConfig, originSchema.formConfig)
       }
     }
   }

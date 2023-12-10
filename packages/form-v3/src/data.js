@@ -1,0 +1,100 @@
+export default {
+  widgetList: [
+    {
+      type: 'static-text',
+      icon: 'static-text',
+      formItemFlag: false,
+      options: {
+        name: 'statictext111193',
+        columnWidth: '200px',
+        hidden: false,
+        textContent: '单列表单',
+        customClass: [],
+        onCreated: '',
+        onMounted: '',
+        label: 'static-text'
+      },
+      id: 'statictext111193'
+    },
+    {
+      type: 'divider',
+      icon: 'divider',
+      formItemFlag: false,
+      options: {
+        name: 'divider102346',
+        label: '',
+        columnWidth: '200px',
+        direction: 'horizontal',
+        contentPosition: 'center',
+        hidden: false,
+        customClass: [],
+        onCreated: '',
+        onMounted: ''
+      },
+      id: 'divider102346'
+    },
+    {
+      type: 'input',
+      icon: 'text-field',
+      formItemFlag: true,
+      options: {
+        name: 'input12931',
+        label: '发件人姓名',
+        labelAlign: '',
+        type: 'text',
+        defaultValue: '',
+        placeholder: '',
+        columnWidth: '200px',
+        size: '',
+        labelWidth: null,
+        labelHidden: false,
+        readonly: false,
+        disabled: false,
+        hidden: false,
+        clearable: true,
+        showPassword: false,
+        required: true,
+        validation: '',
+        validationHint: '',
+        customClass: [],
+        labelIconClass: null,
+        labelIconPosition: 'rear',
+        labelTooltip: null,
+        minLength: null,
+        maxLength: null,
+        showWordLimit: false,
+        prefixIcon: '',
+        suffixIcon: '',
+        appendButton: false,
+        appendButtonDisabled: false,
+        buttonIcon: 'el-icon-search',
+        onCreated: '',
+        onMounted: '',
+        onInput: '',
+        onChange: '',
+        onFocus: '',
+        onBlur: '',
+        onValidate: ''
+      },
+      id: 'input12931'
+    }
+  ],
+  formConfig: {
+    modelName: 'formData',
+    refName: 'vForm',
+    rulesName: 'rules',
+    labelWidth: 150,
+    labelPosition: 'left',
+    size: '',
+    labelAlign: 'label-right-align',
+    cssCode: '',
+    customClass: [],
+    functions: '',
+    layoutType: 'PC',
+    jsonVersion: 3,
+    onFormCreated: '',
+    onFormMounted: '',
+    onFormDataChange: ''
+  },
+  date: '2023-12-01T12:05:41.512Z'
+}

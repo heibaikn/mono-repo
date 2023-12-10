@@ -68,7 +68,7 @@ setTimeout(() => {
 const aa = {
   a: 1
 }
-console.log('object', aa)
+// console.log('object', aa)
 </script>
 
 <style scoped lang="scss">
@@ -77,7 +77,7 @@ console.log('object', aa)
   padding: 16px 0 16px 16px;
   height: 100vh;
   width: 100vw;
-
+  min-width: 1440px;
   .sidebar {
     width: 200px !important;
     flex-basis: 200px;

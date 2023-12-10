@@ -212,7 +212,7 @@ module.exports = defineConfig({
     'import/first': 'error',
     'import/no-duplicates': 'error',
     'import/order': [
-      'error',
+      'warn',
       {
         groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object', 'type'],
 
